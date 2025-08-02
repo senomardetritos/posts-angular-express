@@ -1,0 +1,73 @@
+<div class="container page profile">
+  <div class="row">
+    <h1>Meu Perfil</h1>
+  </div>
+  <div class="row">
+    <div class="divider"></div>
+  </div>
+  <div class="row">
+    <form [formGroup]="formProfile" (submit)="onSubmitProfile()">
+      <div class="form-control">
+        <label for="name">Nome Completo</label>
+        <input
+          formControlName="name"
+          type="text"
+          id="name"
+          placeholder="Digite seu nome"
+        />
+        @if (formProfile.get('name')?.touched &&
+        formProfile.get('name')?.errors?.['required']) {
+        <div class="error">Nome é requerido.</div>
+        }
+      </div>
+      <div class="form-control">
+        <button tyep="submit">SALVAR DADOS PERFIL</button>
+      </div>
+    </form>
+  </div>
+  <div class="row"><br /></div>
+  <div class="row">
+    <h1>Minha Senha</h1>
+  </div>
+  <div class="row">
+    <div class="divider"></div>
+  </div>
+  <div class="row">
+    <form [formGroup]="formPassword" (submit)="onSubmitPassword()">
+      <div class="form-control">
+        <label for="actual_password">Senha Atual</label>
+        <input
+          formControlName="actual_password"
+          type="password"
+          id="password"
+          placeholder="Digite sua senha"
+        />
+        @if (formPassword.get('actual_password')?.touched &&
+        formPassword.get('actual_password')?.errors?.['required']) {
+        <div class="error">Senha Atual é requerida.</div>
+        } @else if (formPassword.get('actual_password')?.errors?.['minlength'])
+        {
+        <div class="error">Senha deve ter no mínimo 6 dígitos</div>
+        }
+      </div>
+      <div class="form-control">
+        <label for="new_password">Nova Senha</label>
+        <input
+          formControlName="new_password"
+          type="password"
+          id="password"
+          placeholder="Digite sua senha"
+        />
+        @if (formPassword.get('new_password')?.touched &&
+        formPassword.get('new_password')?.errors?.['required']) {
+        <div class="error">Nova Senha é requerida.</div>
+        } @else if (formPassword.get('new_password')?.errors?.['minlength']) {
+        <div class="error">Nova Senha deve ter no mínimo 6 dígitos</div>
+        }
+      </div>
+      <div class="form-control">
+        <button tyep="submit">ALTERAR SENHA</button>
+      </div>
+    </form>
+  </div>
+</div>

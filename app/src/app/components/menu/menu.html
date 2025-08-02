@@ -1,0 +1,20 @@
+@if (token) {
+<div class="col">
+  <div class="container menu">
+    <div class="row">
+      <div class="form-control">
+        <button routerLink="/form-postagem">NOVA POSTAGEM</button>
+      </div>
+    </div>
+    <div class="items">
+      <h1>Postagens</h1>
+      <a routerLink="/home">Minhas Postagens</a>
+    </div>
+    <div class="items">
+      <h1>Configurações</h1>
+      <a routerLink="/profile">Meu Perfil</a>
+      <a href="#" (click)="logout()">Sair</a>
+    </div>
+  </div>
+</div>
+}

@@ -1,0 +1,17 @@
+<app-modal [show]="show()">
+  <div class="alert">
+    <div class="alert-header">
+      @if (type() == 'SUCCESS') {
+      <h1>Sucesso!</h1>
+      } @else if (type() == 'ERROR') {
+      <h1>Erro!</h1>
+      } @else if (type() == 'WARNING') {
+      <h1>Atenção!</h1>
+      }
+      <button (click)="onClose()">X</button>
+    </div>
+    <div class="alert-body">
+      <p>{{ message() }}</p>
+    </div>
+  </div>
+</app-modal>

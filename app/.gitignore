@@ -1,0 +1,31 @@
+# Outputs
+dist/
+bazel-*
+test-project-host-*
+
+# Node.js
+node_modules/
+
+# Yarn
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# IDEs
+.idea/
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+
+# Angular Specific
+/.angular/cache
+
+# Logs
+*.log
+
+# Temp
+tmp/

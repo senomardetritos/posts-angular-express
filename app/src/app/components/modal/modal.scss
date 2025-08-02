@@ -1,0 +1,28 @@
+.modal {
+  position: fixed;
+  background: transparent;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .content {
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px -5px #000000;
+  }
+}
+
+.modal::before {
+  content: "";
+  background: #00000033;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+}

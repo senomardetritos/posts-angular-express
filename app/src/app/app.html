@@ -1,0 +1,15 @@
+<main class="main">
+  <app-header></app-header>
+  <div class="content">
+    <div class="row">
+      <app-menu></app-menu>
+      <div class="col"><router-outlet></router-outlet></div>
+    </div>
+  </div>
+  <app-alert
+    [show]="showAlert"
+    [type]="typeAlert"
+    [message]="messageAlert"
+    (close)="closeAlert()"
+  ></app-alert>
+</main>

@@ -1,0 +1,59 @@
+<div class="container page form-postagem">
+  <div class="row">
+    <div class="col form-postagem-header">
+      @if (isNewPost) {
+      <h1>Nova postagem</h1>
+      } @else {
+      <h1>Editar postagem</h1>
+      }
+    </div>
+  </div>
+  <form [formGroup]="formPostagem" (submit)="onSubmit()">
+    <input formControlName="id" type="hidden" id="id" />
+    <input formControlName="date" type="hidden" id="date" />
+    <div class="row">
+      <div class="col form-postagem-body">
+        <div class="form-control">
+          <label for="title">Título</label>
+          <input
+            formControlName="title"
+            type="text"
+            id="title"
+            placeholder="Título da postagem"
+          />
+          @if (formPostagem.get('title')?.touched &&
+          formPostagem.get('title')?.errors?.['required']) {
+          <div class="error">Título é requerido.</div>
+          } @else if (formPostagem.get('title')?.errors?.['minlength']) {
+          <div class="error">Título tem que ter mais de 6 caracteres.</div>
+          }
+        </div>
+        <div class="form-control">
+          <label for="text">Texto</label>
+          <textarea
+            formControlName="text"
+            type="text"
+            id="text"
+            placeholder="Texto da postagem"
+            rows="7"
+          ></textarea>
+          @if (formPostagem.get('text')?.touched &&
+          formPostagem.get('text')?.errors?.['required']) {
+          <div class="error">Texto é requerido.</div>
+          } @else if (formPostagem.get('text')?.errors?.['minlength']) {
+          <div class="error">Texto tem que ter mais de 6 caracteres.</div>
+          }
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col form-postagem-footer">
+        <div class="form-control">
+          <button type="submit">
+            @if (isNewPost) { NOVA POSTAGEM } @else { EDITAR POSTAGEM }
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

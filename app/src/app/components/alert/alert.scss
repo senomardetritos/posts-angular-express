@@ -1,0 +1,20 @@
+.alert {
+  min-width: 300px;
+  &-header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    button {
+      background-color: transparent;
+      border: 0;
+      cursor: pointer;
+    }
+  }
+  &-body {
+    color: var(--gray-700);
+    display: block;
+    font-size: 11pt;
+    font-weight: 400;
+    margin-top: 12px;
+  }
+}

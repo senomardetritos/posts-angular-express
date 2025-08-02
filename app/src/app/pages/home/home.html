@@ -1,0 +1,40 @@
+<div class="container page home">
+  <div class="row">
+    <div class="col home-body">
+      <h1>Minhas Postagens</h1>
+      <div class="divider"></div>
+      @if (!posts) {
+      <p class="no-posts">Você ainda não tem nehuma postagem!</p>
+      } @else {
+      <div class="home-body-items">
+        @for (post of posts; track post.id) {
+        <div class="home-body-items-item">
+          <div class="row">
+            <div class="col left">
+              <h1>{{ post.title }}</h1>
+            </div>
+            <div class="col right">
+              <div class="form-control">
+                <button [routerLink]="`/form-postagem/${post.id}`">
+                  EDITAR
+                </button>
+              </div>
+            </div>
+          </div>
+          <h2>Publicado {{ post.date | date : "dd/MM/yyyy - HH:mm" }}</h2>
+          <p>{{ post.text }}</p>
+        </div>
+        <div class="divider"></div>
+        }
+      </div>
+      }
+    </div>
+  </div>
+  <div class="row">
+    <div class="col home-footer">
+      <div class="form-control">
+        <button routerLink="/form-postagem">NOVA POSTAGEM</button>
+      </div>
+    </div>
+  </div>
+</div>
