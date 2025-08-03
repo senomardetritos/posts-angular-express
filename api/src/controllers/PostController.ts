@@ -39,7 +39,7 @@ export class PostController {
 
 	public async insertPost(router: Router) {
 		router.post('/posts/add', async (req: Request, res: Response) => {
-			const data = { user: res.getHeader('email'), ...req.body };
+			const data = { ...req.body, user: res.getHeader('email') };
 			const post = await DataBase.insert('posts', Date.now().toString(), data);
 			if (post) {
 				res.json({ data: post });
@@ -54,7 +54,7 @@ export class PostController {
 			const post = await DataBase.get('posts', req.params.id);
 			if (post) {
 				if (post.user == res.getHeader('email')) {
-					const data = { user: res.getHeader('email'), ...req.body };
+					const data = { ...req.body, user: res.getHeader('email') };
 					const updated = await DataBase.update('posts', req.params.id, data);
 					if (updated) {
 						res.json({ data: updated });

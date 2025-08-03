@@ -17,6 +17,7 @@ export class Home implements OnInit {
 
   public ngOnInit(): void {
     this.postService.list().subscribe((res) => {
+      console.log(res.data);
       if (res && res.data) {
         this.posts = res.data;
       }

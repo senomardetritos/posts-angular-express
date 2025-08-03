@@ -31,7 +31,17 @@ export class DataBase {
 	public static async find(db_name: string, key: string, value: string) {
 		try {
 			this.setDB(db_name);
-			const data = this.db.data[db_name].filter((data: any) => data[key] === value);
+			const data = this.db.data[db_name].filter((data: any) => data[key] == value);
+			return data;
+		} catch (error) {
+			console.error(error);
+		}
+	}
+
+	public static async all(db_name: string) {
+		try {
+			this.setDB(db_name);
+			const data = this.db.data[db_name];
 			return data;
 		} catch (error) {
 			console.error(error);

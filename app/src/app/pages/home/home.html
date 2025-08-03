@@ -3,7 +3,7 @@
     <div class="col home-body">
       <h1>Minhas Postagens</h1>
       <div class="divider"></div>
-      @if (!posts) {
+      @if (!posts || posts.length === 0) {
       <p class="no-posts">Você ainda não tem nehuma postagem!</p>
       } @else {
       <div class="home-body-items">
