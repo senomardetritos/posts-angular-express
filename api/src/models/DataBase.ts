@@ -38,6 +38,16 @@ export class DataBase {
 		}
 	}
 
+	public static async first(db_name: string, limit: number) {
+		try {
+			this.setDB(db_name);
+			const data = this.db.data[db_name].slice(0, limit);
+			return data;
+		} catch (error) {
+			console.error(error);
+		}
+	}
+
 	public static async all(db_name: string) {
 		try {
 			this.setDB(db_name);
@@ -76,10 +86,15 @@ export class DataBase {
 	}
 
 	public static async delete(db_name: string, key: string) {
-		// try {
-		// 	return await this.db.delete(key);
-		// } catch (error) {
-		// 	console.error(error);
-		// }
+		try {
+			this.setDB(db_name);
+			const data = this.db.data[db_name].filter((data: any) => data.id !== key);
+			this.db.data[db_name] = data;
+			await this.db.write();
+			return true;
+		} catch (error) {
+			console.error(error);
+			return false;
+		}
 	}
 }

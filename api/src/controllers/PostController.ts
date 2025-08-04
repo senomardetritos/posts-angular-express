@@ -6,6 +6,7 @@ export class PostController {
 	constructor(router: Router) {
 		router.use('/posts', UserMiddleware.isLogged);
 		this.listPost(router);
+		this.firstsPost(router);
 		this.getPost(router);
 		this.insertPost(router);
 		this.updatePost(router);
@@ -14,6 +15,17 @@ export class PostController {
 	public async listPost(router: Router) {
 		router.get('/posts', async (req: Request, res: Response) => {
 			const posts = await DataBase.find('posts', 'user', res.getHeader('email') as string);
+			if (posts) {
+				res.json({ data: posts });
+			} else {
+				res.json({ error: 'Erro ao listar post' });
+			}
+		});
+	}
+
+	public async firstsPost(router: Router) {
+		router.get('/posts/firsts', async (req: Request, res: Response) => {
+			const posts = await DataBase.first('posts', 10);
 			if (posts) {
 				res.json({ data: posts });
 			} else {
