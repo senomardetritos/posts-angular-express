@@ -1,16 +1,25 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed } from "@angular/core/testing";
 
-import { LoginService } from './login-service';
+import { LoginService } from "./login-service";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
+import { provideHttpClient } from "@angular/common/http";
 
-describe('LoginService', () => {
+describe("LoginService", () => {
   let service: LoginService;
 
-  beforeEach(() => {
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      providers: [
+        provideHttpClient(), // Provides HttpClient for your component/service
+        provideHttpClientTesting(), // Provides HttpTestingController for mocking
+      ],
+      // ... other imports or declarations for your component/service
+    }).compileComponents();
     TestBed.configureTestingModule({});
     service = TestBed.inject(LoginService);
   });
 
-  it('should be created', () => {
+  it("should be created", () => {
     expect(service).toBeTruthy();
   });
 });
