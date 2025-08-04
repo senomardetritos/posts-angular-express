@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, inject, OnInit } from "@angular/core";
 import { PostInterface } from "../../interfaces/posts-interface";
 import { PostService } from "../../services/post-service";
 import { DatePipe } from "@angular/common";
@@ -13,7 +13,7 @@ import { RouterLink } from "@angular/router";
 export class MinhasPostagens implements OnInit {
   posts!: PostInterface[];
 
-  constructor(private postService: PostService) {}
+  private postService = inject(PostService);
 
   public ngOnInit(): void {
     this.postService.list().subscribe((res) => {

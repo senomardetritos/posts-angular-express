@@ -1,18 +1,19 @@
 import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
 import {
   LoginInterface,
   LoginResponseInterface,
 } from "../interfaces/users-interface";
 import { Observable, tap } from "rxjs";
-import { environment } from "../../environments/environment.development";
 import { TokenService } from "./token-service";
+import { environment } from "../../environments/environment";
 
 @Injectable({
   providedIn: "root",
 })
 export class LoginService {
-  constructor(private http: HttpClient, private tokenService: TokenService) {}
+  private http = inject(HttpClient);
+  private tokenService = inject(TokenService);
 
   public login(data: LoginInterface): Observable<LoginResponseInterface> {
     return this.http

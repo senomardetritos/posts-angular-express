@@ -1,11 +1,11 @@
 <app-modal [show]="show()">
   <div class="alert">
     <div class="alert-header">
-      @if (type() == 'SUCCESS') {
+      @if (type() === 'SUCCESS') {
       <h1>Sucesso!</h1>
-      } @else if (type() == 'ERROR') {
+      } @else if (type() === 'ERROR') {
       <h1>Erro!</h1>
-      } @else if (type() == 'WARNING') {
+      } @else if (type() === 'WARNING') {
       <h1>Atenção!</h1>
       }
       <button (click)="onClose()"><i class="bi bi-x"></i></button>

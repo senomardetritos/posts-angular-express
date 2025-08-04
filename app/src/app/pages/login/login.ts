@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, inject, OnInit } from "@angular/core";
 import { Logo } from "../../components/logo/logo";
 import {
   FormBuilder,
@@ -20,12 +20,10 @@ import { AlertTypes } from "../../interfaces/alert-interface";
 export class Login implements OnInit {
   formLogin!: FormGroup;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private loginService: LoginService,
-    private router: Router,
-    private alertService: AlertService
-  ) {}
+  private formBuilder = inject(FormBuilder);
+  private loginService = inject(LoginService);
+  private router = inject(Router);
+  private alertService = inject(AlertService);
 
   public ngOnInit(): void {
     this.formLogin = this.formBuilder.group({

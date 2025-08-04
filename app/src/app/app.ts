@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, inject, OnInit } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
 import { Header } from "./components/header/header";
 import { Menu } from "./components/menu/menu";
@@ -14,11 +14,11 @@ import { AlertService } from "./services/alert-service";
 })
 export class App implements OnInit {
   protected title = "app";
-  showAlert: boolean = false;
-  messageAlert: string = "";
+  showAlert = false;
+  messageAlert = "";
   typeAlert: string = AlertTypes.SUCCESS;
 
-  constructor(private alertService: AlertService) {}
+  private alertService = inject(AlertService);
 
   public ngOnInit(): void {
     this.alertService.alertEvent$.subscribe((res) => {

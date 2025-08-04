@@ -1,4 +1,4 @@
-import { Component, input, OnInit, output } from "@angular/core";
+import { Component, input, output } from "@angular/core";
 import { Modal } from "../modal/modal";
 
 @Component({
@@ -7,15 +7,13 @@ import { Modal } from "../modal/modal";
   templateUrl: "./alert.html",
   styleUrl: "./alert.scss",
 })
-export class Alert implements OnInit {
+export class Alert {
   show = input();
   message = input("");
   type = input("");
-  close = output();
-
-  public ngOnInit(): void {}
+  closeAlert = output();
 
   public onClose() {
-    this.close.emit();
+    this.closeAlert.emit();
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, inject, OnInit } from "@angular/core";
 import { TokenService } from "../../services/token-service";
 import { RouterLink } from "@angular/router";
 
@@ -9,8 +9,8 @@ import { RouterLink } from "@angular/router";
   styleUrl: "./menu.scss",
 })
 export class Menu implements OnInit {
-  token: string = "";
-  constructor(private tokenService: TokenService) {}
+  token = "";
+  private tokenService = inject(TokenService);
 
   public ngOnInit(): void {
     this.token = this.tokenService.token;

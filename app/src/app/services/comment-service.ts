@@ -1,14 +1,17 @@
 import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { CommentsResponseInterface } from "../interfaces/comment-interface";
+import { inject, Injectable } from "@angular/core";
+import {
+  CommentInterface,
+  CommentsResponseInterface,
+} from "../interfaces/comment-interface";
 import { Observable } from "rxjs";
-import { environment } from "../../environments/environment.development";
+import { environment } from "../../environments/environment";
 
 @Injectable({
   providedIn: "root",
 })
 export class CommentService {
-  constructor(private http: HttpClient) {}
+  private http = inject(HttpClient);
 
   public list(id: string): Observable<CommentsResponseInterface> {
     return this.http.get<CommentsResponseInterface>(
@@ -18,7 +21,7 @@ export class CommentService {
 
   public add(
     id: string,
-    data: CommentsResponseInterface
+    data: CommentInterface
   ): Observable<CommentsResponseInterface> {
     return this.http.post<CommentsResponseInterface>(
       `${environment.api_url}/comments/add/${id}`,

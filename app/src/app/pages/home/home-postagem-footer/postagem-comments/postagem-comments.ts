@@ -1,7 +1,13 @@
-import { Component, computed, input, OnInit, signal } from "@angular/core";
+import {
+  Component,
+  computed,
+  inject,
+  input,
+  OnInit,
+  signal,
+} from "@angular/core";
 import { Modal } from "../../../../components/modal/modal";
 import { CommentService } from "../../../../services/comment-service";
-import { TokenService } from "../../../../services/token-service";
 import { CommentInterface } from "../../../../interfaces/comment-interface";
 import {
   FormBuilder,
@@ -26,12 +32,9 @@ export class PostagemComments implements OnInit {
   showComments = signal(false);
   formComment!: FormGroup;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private commentService: CommentService,
-    private tokenService: TokenService,
-    private alertService: AlertService
-  ) {}
+  private formBuilder = inject(FormBuilder);
+  private commentService = inject(CommentService);
+  private alertService = inject(AlertService);
 
   public ngOnInit(): void {
     this.formComment = this.formBuilder.group({
@@ -43,33 +46,35 @@ export class PostagemComments implements OnInit {
     });
     this.commentService.list(this.id() as string).subscribe((res) => {
       if (res && res.data) {
-        this.list_comments.update((value) => res.data);
+        this.list_comments.update(() => res.data);
       }
     });
   }
   public onSubmit(): void {
     this.formComment.markAllAsTouched();
     if (this.formComment.valid) {
-      const data: any = {
+      const data = {
         comment: this.formComment.get("comment")?.value,
         date: new Date(),
       };
-      this.commentService.add(this.id() as string, data).subscribe((res) => {
-        if (res && res.data) {
-          this.list_comments.update((value) => res.data);
-          this.alertService.show(
-            "Comentário enviado com sucesso",
-            AlertTypes.SUCCESS
-          );
-          this.formComment.get("comment")?.setValue("");
-          this.formComment.get("comment")?.markAsUntouched();
-        } else {
-          this.alertService.show(
-            res.error ?? "Erro ao enviar comentário",
-            AlertTypes.ERROR
-          );
-        }
-      });
+      this.commentService
+        .add(this.id() as string, data as CommentInterface)
+        .subscribe((res) => {
+          if (res && res.data) {
+            this.list_comments.update(() => res.data);
+            this.alertService.show(
+              "Comentário enviado com sucesso",
+              AlertTypes.SUCCESS
+            );
+            this.formComment.get("comment")?.setValue("");
+            this.formComment.get("comment")?.markAsUntouched();
+          } else {
+            this.alertService.show(
+              res.error ?? "Erro ao enviar comentário",
+              AlertTypes.ERROR
+            );
+          }
+        });
     }
   }
 

@@ -1,17 +1,17 @@
 import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
 import {
   LikeInterface,
   LikesResponseInterface,
 } from "../interfaces/like-interface";
 import { Observable } from "rxjs";
-import { environment } from "../../environments/environment.development";
+import { environment } from "../../environments/environment";
 
 @Injectable({
   providedIn: "root",
 })
 export class LikeService {
-  constructor(private http: HttpClient) {}
+  private http = inject(HttpClient);
 
   public list(id: string): Observable<LikesResponseInterface> {
     return this.http.get<LikesResponseInterface>(

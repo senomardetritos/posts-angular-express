@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, inject, OnInit } from "@angular/core";
 import { Logo } from "../../components/logo/logo";
 import {
   FormBuilder,
@@ -17,15 +17,13 @@ import { AlertTypes } from "../../interfaces/alert-interface";
   templateUrl: "./register.html",
   styleUrl: "./register.scss",
 })
-export class Register {
+export class Register implements OnInit {
   formRegister!: FormGroup;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private registerService: RegisterService,
-    private router: Router,
-    private alertService: AlertService
-  ) {}
+  private formBuilder = inject(FormBuilder);
+  private registerService = inject(RegisterService);
+  private router = inject(Router);
+  private alertService = inject(AlertService);
 
   public ngOnInit(): void {
     this.formRegister = this.formBuilder.group({

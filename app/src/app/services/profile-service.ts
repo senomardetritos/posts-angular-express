@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
 import { TokenService } from "./token-service";
 import { Observable, tap } from "rxjs";
 import {
@@ -7,13 +7,14 @@ import {
   ProfileInterface,
   ProfileResponseInterface,
 } from "../interfaces/users-interface";
-import { environment } from "../../environments/environment.development";
+import { environment } from "../../environments/environment";
 
 @Injectable({
   providedIn: "root",
 })
 export class ProfileService {
-  constructor(private http: HttpClient, private tokenService: TokenService) {}
+  private http = inject(HttpClient);
+  private tokenService = inject(TokenService);
 
   public getProfile(): Observable<ProfileResponseInterface> {
     return this.http.get<ProfileResponseInterface>(

@@ -1,4 +1,4 @@
-import { Component, input } from "@angular/core";
+import { Component, inject, OnInit } from "@angular/core";
 import {
   FormBuilder,
   FormGroup,
@@ -16,17 +16,15 @@ import { ActivatedRoute, Router } from "@angular/router";
   templateUrl: "./form-postagem.html",
   styleUrl: "./form-postagem.scss",
 })
-export class FormPostagem {
-  isNewPost: boolean = true;
+export class FormPostagem implements OnInit {
+  isNewPost = true;
   formPostagem!: FormGroup;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private postService: PostService,
-    private alertService: AlertService,
-    private activatedRoute: ActivatedRoute,
-    private router: Router
-  ) {}
+  private formBuilder = inject(FormBuilder);
+  private postService = inject(PostService);
+  private alertService = inject(AlertService);
+  private activatedRoute = inject(ActivatedRoute);
+  private router = inject(Router);
 
   public ngOnInit(): void {
     this.formPostagem = this.formBuilder.group({
@@ -37,6 +35,7 @@ export class FormPostagem {
       date: [""],
     });
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     this.activatedRoute.params.subscribe((param: any) => {
       if (param.id) {
         this.formPostagem.get("id")?.setValue(param.id);

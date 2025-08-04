@@ -1,5 +1,4 @@
-import { Component, OnInit } from "@angular/core";
-import { RouterLink } from "@angular/router";
+import { Component, inject, OnInit } from "@angular/core";
 import { PostService } from "../../services/post-service";
 import { PostInterface } from "../../interfaces/posts-interface";
 import { DatePipe } from "@angular/common";
@@ -14,7 +13,7 @@ import { HomePostagemFooter } from "./home-postagem-footer/home-postagem-footer"
 export class Home implements OnInit {
   posts!: PostInterface[];
 
-  constructor(private postService: PostService) {}
+  private postService = inject(PostService);
 
   public ngOnInit(): void {
     this.postService.firsts().subscribe((res) => {

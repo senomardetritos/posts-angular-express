@@ -1,4 +1,11 @@
-import { Component, computed, input, OnInit, signal } from "@angular/core";
+import {
+  Component,
+  computed,
+  inject,
+  input,
+  OnInit,
+  signal,
+} from "@angular/core";
 import { LikeService } from "../../../../services/like-service";
 import { TokenService } from "../../../../services/token-service";
 import { LikeInterface } from "../../../../interfaces/like-interface";
@@ -22,28 +29,28 @@ export class PostagemLikes implements OnInit {
   );
   showLikes = signal(false);
 
-  constructor(
-    private likeService: LikeService,
-    private tokenService: TokenService
-  ) {}
+  private likeService = inject(LikeService);
+  private tokenService = inject(TokenService);
 
   public ngOnInit(): void {
     this.likeService.list(this.id() as string).subscribe((res) => {
       if (res && res.data) {
-        this.list_likes.update((value) => res.data);
+        this.list_likes.update(() => res.data);
       }
     });
   }
 
   public changeLike(): void {
-    const data: any = {
+    const data = {
       date: new Date(),
     };
-    this.likeService.change(this.id() as string, data).subscribe((res) => {
-      if (res && res.data) {
-        this.list_likes.update((value) => res.data);
-      }
-    });
+    this.likeService
+      .change(this.id() as string, data as LikeInterface)
+      .subscribe((res) => {
+        if (res && res.data) {
+          this.list_likes.update(() => res.data);
+        }
+      });
   }
 
   public modalLikes(): void {

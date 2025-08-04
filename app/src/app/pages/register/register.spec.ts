@@ -3,8 +3,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { Register } from "./register";
 import { provideHttpClient } from "@angular/common/http";
 import { provideHttpClientTesting } from "@angular/common/http/testing";
-import { ActivatedRoute } from "@angular/router";
-import { of } from "rxjs";
+import { RouterModule } from "@angular/router";
 
 describe("Register", () => {
   let component: Register;
@@ -15,15 +14,8 @@ describe("Register", () => {
       providers: [
         provideHttpClient(), // Provides HttpClient for your component/service
         provideHttpClientTesting(), // Provides HttpTestingController for mocking
-        {
-          provide: ActivatedRoute,
-          useValue: {
-            snapshot: { paramMap: { get: (key: string) => "test-id" } },
-            paramMap: of({ get: (key: string) => "test-id" }), // For observable paramMap
-          },
-        },
       ],
-      imports: [Register],
+      imports: [Register, RouterModule.forRoot([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(Register);

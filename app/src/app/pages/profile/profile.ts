@@ -1,14 +1,14 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, computed, inject, OnInit } from "@angular/core";
 import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
-import { Router } from "@angular/router";
 import { ProfileService } from "../../services/profile-service";
 import { AlertService } from "../../services/alert-service";
 import { AlertTypes } from "../../interfaces/alert-interface";
+import { TokenService } from "../../services/token-service";
 
 @Component({
   selector: "app-profile",
@@ -19,12 +19,12 @@ import { AlertTypes } from "../../interfaces/alert-interface";
 export class Profile implements OnInit {
   formProfile!: FormGroup;
   formPassword!: FormGroup;
+  isTesting = computed(() => this.tokenService.email === "teste@email.com");
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private profileService: ProfileService,
-    private alertService: AlertService
-  ) {}
+  private formBuilder = inject(FormBuilder);
+  private profileService = inject(ProfileService);
+  private alertService = inject(AlertService);
+  private tokenService = inject(TokenService);
 
   public ngOnInit(): void {
     this.formProfile = this.formBuilder.group({
