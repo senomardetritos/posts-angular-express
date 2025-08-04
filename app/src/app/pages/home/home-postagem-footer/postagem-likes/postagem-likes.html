@@ -1,0 +1,27 @@
+<div class="likes">
+  @if (is_liked()) {
+  <i class="bi bi-heart-fill text-gradient" (click)="changeLike()"></i>
+  } @else {
+  <i class="bi bi-heart" (click)="changeLike()"></i>
+  }
+  <p class="link" (click)="modalLikes()">{{ likes() }}</p>
+  <p class="link" (click)="modalLikes()">Curtida(s)</p>
+  <app-modal [show]="showLikes()" class="modal">
+    <div class="row modal-header">
+      <div class="col">
+        <h1><span class="text-gradient">Curtidas</span></h1>
+      </div>
+      <div class="col right">
+        <i class="bi bi-x" (click)="modalLikes()"></i>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="row modal-items">
+      <div class="col">
+        @for(like of list_likes(); track like.id) {
+        <p>{{ like.user }}</p>
+        }
+      </div>
+    </div>
+  </app-modal>
+</div>

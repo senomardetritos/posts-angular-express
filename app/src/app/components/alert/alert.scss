@@ -2,12 +2,16 @@
   min-width: 300px;
   &-header {
     display: flex;
+    align-items: center;
     justify-content: space-between;
     width: 100%;
     button {
       background-color: transparent;
       border: 0;
       cursor: pointer;
+      i {
+        font-size: 20pt;
+      }
     }
   }
   &-body {

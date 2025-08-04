@@ -78,7 +78,7 @@ export class FormPostagem {
           "Post adicionado com sucesso",
           AlertTypes.SUCCESS
         );
-        this.router.navigate(["/home"]);
+        this.router.navigate(["/minhas-postagens"]);
       }
     });
   }
@@ -92,7 +92,7 @@ export class FormPostagem {
           "Post atualizado com sucesso",
           AlertTypes.SUCCESS
         );
-        this.router.navigate(["/home"]);
+        this.router.navigate(["/minhas-postagens"]);
       }
     });
   }

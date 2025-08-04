@@ -1,7 +1,7 @@
 <div class="container page home">
   <div class="row">
     <div class="col home-body">
-      <h1>Minhas Postagens</h1>
+      <h1><span class="text-gradient">Postagens</span></h1>
       <div class="divider"></div>
       @if (!posts || posts.length === 0) {
       <p class="no-posts">Você ainda não tem nehuma postagem!</p>
@@ -13,28 +13,22 @@
             <div class="col left">
               <h1>{{ post.title }}</h1>
             </div>
-            <div class="col right">
-              <div class="form-control">
-                <button [routerLink]="`/form-postagem/${post.id}`">
-                  EDITAR
-                </button>
-              </div>
-            </div>
           </div>
-          <h2>Publicado {{ post.date | date : "dd/MM/yyyy - HH:mm" }}</h2>
+          <h2>
+            {{ post.user }} | Publicado
+            {{ post.date | date : "dd/MM/yyyy - HH:mm" }}
+          </h2>
           <p>{{ post.text }}</p>
+        </div>
+        <div class="row">
+          <div class="col">
+            <app-home-postagem-footer [id]="post.id"></app-home-postagem-footer>
+          </div>
         </div>
         <div class="divider"></div>
         }
       </div>
       }
-    </div>
-  </div>
-  <div class="row">
-    <div class="col home-footer">
-      <div class="form-control">
-        <button routerLink="/form-postagem">NOVA POSTAGEM</button>
-      </div>
     </div>
   </div>
 </div>

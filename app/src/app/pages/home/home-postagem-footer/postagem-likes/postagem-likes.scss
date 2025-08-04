@@ -1,0 +1,29 @@
+.likes {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  i {
+    font-size: 16pt;
+    cursor: pointer;
+  }
+  p.link {
+    cursor: pointer;
+  }
+  .modal {
+    &-header {
+      align-items: center;
+      .right {
+        align-items: end;
+        i {
+          font-size: 20pt;
+        }
+      }
+    }
+    &-items {
+      p {
+        margin: 4px 0;
+      }
+    }
+  }
+}

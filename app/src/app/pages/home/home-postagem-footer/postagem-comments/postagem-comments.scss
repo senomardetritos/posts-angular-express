@@ -1,0 +1,59 @@
+.comments {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: end;
+  gap: 8px;
+  i {
+    font-size: 16pt;
+    cursor: pointer;
+  }
+  p.link {
+    cursor: pointer;
+  }
+  .modal {
+    &-header {
+      align-items: center;
+      .right {
+        align-items: end;
+        i {
+          font-size: 20pt;
+        }
+      }
+    }
+    &-form {
+      width: 400px;
+      form {
+        width: 100%;
+        .form-control {
+          margin: 0;
+          padding: 0;
+          button {
+            margin-top: 8px;
+          }
+        }
+      }
+    }
+    &-items {
+      max-width: 400px;
+      max-height: 300px;
+      overflow-y: scroll;
+      .comment {
+        .user {
+          font-size: 10pt;
+          font-weight: 600;
+        }
+        span {
+          display: inline;
+          margin-right: 4px;
+          line-height: 20px;
+        }
+      }
+      .comment-date {
+        font-size: 9pt;
+        font-weight: 600;
+        margin-top: 8px;
+      }
+    }
+  }
+}

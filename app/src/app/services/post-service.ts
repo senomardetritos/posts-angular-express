@@ -26,6 +26,12 @@ export class PostService {
     );
   }
 
+  public firsts(): Observable<PostsResponseInterface> {
+    return this.http.get<PostsResponseInterface>(
+      `${environment.api_url}/posts/firsts`
+    );
+  }
+
   public add(data: PostInterface): Observable<PostResponseInterface> {
     return this.http.post<PostResponseInterface>(
       `${environment.api_url}/posts/add`,

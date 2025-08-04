@@ -1,4 +1,4 @@
-.home {
+.postagens {
   width: 800px;
   &-body {
     p.no-posts {
@@ -26,6 +26,10 @@
             width: 600px;
           }
         }
+        .row .col.right {
+          align-items: end;
+          width: 154px;
+        }
         h1 {
           font-weight: 600;
           font-size: 12pt;
@@ -42,6 +46,14 @@
           text-align: justify;
         }
       }
+    }
+  }
+  &-footer {
+    width: 200px;
+    margin: 0;
+    .form-control {
+      margin: 0;
+      padding: 0;
     }
   }
 }

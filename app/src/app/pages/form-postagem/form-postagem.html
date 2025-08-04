@@ -2,12 +2,13 @@
   <div class="row">
     <div class="col form-postagem-header">
       @if (isNewPost) {
-      <h1>Nova postagem</h1>
+      <h1><span class="text-gradient">Nova postagem</span></h1>
       } @else {
-      <h1>Editar postagem</h1>
+      <h1><span class="text-gradient">Editar postagem</span></h1>
       }
     </div>
   </div>
+  <div class="divider"></div>
   <form [formGroup]="formPostagem" (submit)="onSubmit()">
     <input formControlName="id" type="hidden" id="id" />
     <input formControlName="date" type="hidden" id="date" />

@@ -1,0 +1,50 @@
+<div class="comments">
+  <i class="bi bi-chat" (click)="modalComments()"></i>
+  <p class="link" (click)="modalComments()">{{ comments() }}</p>
+  <p class="link" (click)="modalComments()">Comentário(s)</p>
+  <app-modal [show]="showComments()" class="modal">
+    <div class="row modal-header">
+      <div class="col">
+        <h1><span class="text-gradient">Comentários</span></h1>
+      </div>
+      <div class="col right">
+        <i class="bi bi-x" (click)="modalComments()"></i>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="row modal-form">
+      <form [formGroup]="formComment" (submit)="onSubmit()">
+        <div class="form-control">
+          <input
+            formControlName="comment"
+            type="text"
+            id="comment"
+            placeholder="Digite um comentário"
+          />
+          @if (formComment.get('comment')?.touched &&
+          formComment.get('comment')?.errors?.['required']) {
+          <div class="error">Comentário é requerido.</div>
+          } @else if (formComment.get('comment')?.errors?.['minlength']) {
+          <div class="error">Comentário tem que ter mais de 6 caracteres.</div>
+          }
+        </div>
+        <div class="form-control">
+          <button type="submit">ENVIAR COMENTÁRIO</button>
+        </div>
+      </form>
+    </div>
+    <div class="divider"></div>
+    <div class="modal-items">
+      @for(comment of list_comments(); track comment.id) {
+      <div class="comment">
+        <span class="user">{{ comment.user }}</span>
+        <span>{{ comment.comment }}</span>
+      </div>
+      <div class="comment-date">
+        Publicado em {{ comment.date | date : "dd/MM/yyyy - HH:mm" }}
+      </div>
+      <div class="divider"></div>
+      }
+    </div>
+  </app-modal>
+</div>

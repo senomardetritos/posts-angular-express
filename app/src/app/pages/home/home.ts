@@ -3,10 +3,11 @@ import { RouterLink } from "@angular/router";
 import { PostService } from "../../services/post-service";
 import { PostInterface } from "../../interfaces/posts-interface";
 import { DatePipe } from "@angular/common";
+import { HomePostagemFooter } from "./home-postagem-footer/home-postagem-footer";
 
 @Component({
   selector: "app-home",
-  imports: [RouterLink, DatePipe],
+  imports: [DatePipe, HomePostagemFooter],
   templateUrl: "./home.html",
   styleUrl: "./home.scss",
 })
@@ -16,8 +17,7 @@ export class Home implements OnInit {
   constructor(private postService: PostService) {}
 
   public ngOnInit(): void {
-    this.postService.list().subscribe((res) => {
-      console.log(res.data);
+    this.postService.firsts().subscribe((res) => {
       if (res && res.data) {
         this.posts = res.data;
       }

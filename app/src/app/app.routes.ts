@@ -5,12 +5,18 @@ import { authGuard } from "./guard/auth-guard";
 import { Register } from "./pages/register/register";
 import { Profile } from "./pages/profile/profile";
 import { FormPostagem } from "./pages/form-postagem/form-postagem";
+import { MinhasPostagens } from "./pages/minhas-postagens/minhas-postagens";
 
 export const routes: Routes = [
   { path: "", component: Login },
   { path: "register", component: Register },
   { path: "profile", component: Profile, canActivate: [authGuard] },
   { path: "home", component: Home, canActivate: [authGuard] },
+  {
+    path: "minhas-postagens",
+    component: MinhasPostagens,
+    canActivate: [authGuard],
+  },
   {
     path: "form-postagem",
     component: FormPostagem,
