@@ -6,12 +6,14 @@ import { Register } from "./pages/register/register";
 import { Profile } from "./pages/profile/profile";
 import { FormPostagem } from "./pages/form-postagem/form-postagem";
 import { MinhasPostagens } from "./pages/minhas-postagens/minhas-postagens";
+import { loggedGuard } from "./guard/logged-guard";
 
 export const routes: Routes = [
-  { path: "", component: Login },
-  { path: "register", component: Register },
+  { path: "", component: Login, canActivate: [loggedGuard] },
+  { path: "register", component: Register, canActivate: [loggedGuard] },
   { path: "profile", component: Profile, canActivate: [authGuard] },
   { path: "home", component: Home, canActivate: [authGuard] },
+  { path: "home/:search", component: Home, canActivate: [authGuard] },
   {
     path: "minhas-postagens",
     component: MinhasPostagens,
