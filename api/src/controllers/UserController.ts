@@ -24,6 +24,10 @@ export class UserController {
 	private async updateUser(router: Router) {
 		router.post('/users/update', async (req: Request, res: Response) => {
 			const user = (res.getHeader('user') || {}) as UserInterface;
+			if (user.email == 'teste@email.com') {
+				res.json({ error: 'Usuário de teste não pode ser alterado' });
+				return;
+			}
 			const updated = await DataBase.update('users', user.id.toString(), req.body);
 			if (updated) {
 				res.json({ data: true });
@@ -37,6 +41,10 @@ export class UserController {
 		router.post('/users/change-password', async (req: Request, res: Response) => {
 			const user = (await DataBase.find('users', 'email', res.getHeader('email') as string)) || ([] as UserInterface[]);
 			if (user && user[0] && user[0].email) {
+				if (user[0].email == 'teste@email.com') {
+					res.json({ error: 'Usuário de teste não pode ser alterado' });
+					return;
+				}
 				const privateKey = process.env.API_KEY || '';
 				const password = jwt.verify(user[0].password, privateKey);
 				if (password == req.body.actual_password) {
