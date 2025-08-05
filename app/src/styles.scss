@@ -40,6 +40,11 @@
   font-size: 11pt;
 }
 
+a,
+a:visited {
+  color: var(--bright-blue);
+}
+
 .text-gradient {
   background-image: var(--red-to-pink-to-purple-horizontal-gradient);
   -webkit-background-clip: text;

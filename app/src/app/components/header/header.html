@@ -17,7 +17,17 @@
         ></path>
       </svg>
     </div>
-    <div class="col header-center"></div>
+    <div class="col header-center">
+      <form [formGroup]="formSearch" (submit)="onSubmit()">
+        <input
+          formControlName="search"
+          type="text"
+          id="search"
+          placeholder="Digite algo para pesquisar!"
+        />
+        <button type="submit"><i class="bi bi-search"></i></button>
+      </form>
+    </div>
     <div class="col header-right">
       <div class="row">
         <div class="col auto">

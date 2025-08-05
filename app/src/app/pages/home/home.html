@@ -1,12 +1,35 @@
 <div class="container page home">
   <div class="row">
     <div class="col home-body">
-      <h1><span class="text-gradient">Postagens</span></h1>
+      <h1>
+        <span class="text-gradient">Postagens</span>
+      </h1>
       <div class="divider"></div>
       @if (!posts || posts.length === 0) {
-      <p class="no-posts">Nehuma postagem foi adicionada ainda!</p>
+      <div>
+        @if (search) {
+        <div class="no-posts">
+          <div>
+            Nenhum resultado para: <b>{{ search }}</b>
+          </div>
+          <div>
+            <a routerLink="/home">Limpar pesquisa</a>
+          </div>
+        </div>
+        } @else{
+        <p class="no-posts">Nenhuma postagem foi adicionada ainda!</p>
+        }
+      </div>
       } @else {
       <div class="home-body-items">
+        <div>
+          @if (search) {
+          <div>
+            Resultados para pesquisa: <b>{{ search }}</b>
+            <div class="divider"></div>
+          </div>
+          }
+        </div>
         @for (post of posts; track post.id) {
         <div class="home-body-items-item">
           <div class="row">

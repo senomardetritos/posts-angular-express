@@ -26,9 +26,15 @@ export class PostService {
     );
   }
 
-  public firsts(): Observable<PostsResponseInterface> {
+  public lasts(): Observable<PostsResponseInterface> {
     return this.http.get<PostsResponseInterface>(
-      `${environment.api_url}/posts/firsts`
+      `${environment.api_url}/posts/lasts`
+    );
+  }
+
+  public search(search: string): Observable<PostsResponseInterface> {
+    return this.http.get<PostsResponseInterface>(
+      `${environment.api_url}/posts/search/${search}`
     );
   }
 

@@ -1,8 +1,12 @@
 .home {
   width: 800px;
   &-body {
-    p.no-posts {
+    .no-posts {
       margin-bottom: 24px;
+      a {
+        margin-top: 8px;
+        display: block;
+      }
     }
     &-items {
       &-item {

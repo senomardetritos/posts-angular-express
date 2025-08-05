@@ -8,7 +8,8 @@ export class PostController {
 	constructor(router: Router) {
 		router.use('/posts', UserMiddleware.isLogged);
 		this.listPost(router);
-		this.firstsPost(router);
+		this.lastsPost(router);
+		this.searchPost(router);
 		this.getPost(router);
 		this.insertPost(router);
 		this.updatePost(router);
@@ -26,9 +27,29 @@ export class PostController {
 		});
 	}
 
-	private async firstsPost(router: Router) {
-		router.get('/posts/firsts', async (req: Request, res: Response) => {
-			const posts = (await DataBase.first('posts', 10)) as PostInterface[];
+	private async lastsPost(router: Router) {
+		router.get('/posts/lasts', async (req: Request, res: Response) => {
+			const posts = (await DataBase.last('posts', 10)) as PostInterface[];
+			const new_posts: PostInterface[] = [];
+			for (const post of posts) {
+				const user = await DataBase.get('users', post.user_id.toString());
+				new_posts.push({ ...post, user });
+			}
+			if (new_posts) {
+				res.json({ data: new_posts });
+			} else {
+				res.json({ error: 'Erro ao listar post' });
+			}
+		});
+	}
+
+	private async searchPost(router: Router) {
+		router.get('/posts/search/:search', async (req: Request, res: Response) => {
+			const data = {
+				title: req.params.search,
+				text: req.params.search,
+			};
+			const posts = (await DataBase.like('posts', data)) as PostInterface[];
 			const new_posts: PostInterface[] = [];
 			for (const post of posts) {
 				const user = await DataBase.get('users', post.user_id.toString());
