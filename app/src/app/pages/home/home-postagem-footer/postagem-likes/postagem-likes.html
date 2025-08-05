@@ -21,7 +21,12 @@
     <div class="row modal-items">
       <div class="col">
         @for(like of list_likes(); track like.id) {
-        <p>{{ like.user }}</p>
+        <div class="like-item">
+          <p>{{ like.user.name }}</p>
+          <div class="like-date">
+            {{ like.date | date : "dd/MM/yyyy | HH:mm" }}
+          </div>
+        </div>
         }
       </div>
     </div>

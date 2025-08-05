@@ -1,7 +1,9 @@
+import { UserInterface } from "./users-interface";
+
 export interface LikeInterface {
   id: string;
   post: string;
-  user: string;
+  user: UserInterface;
   date: Date;
 }
 

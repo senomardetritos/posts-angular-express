@@ -10,10 +10,11 @@ import { LikeService } from "../../../../services/like-service";
 import { TokenService } from "../../../../services/token-service";
 import { LikeInterface } from "../../../../interfaces/like-interface";
 import { Modal } from "../../../../components/modal/modal";
+import { DatePipe } from "@angular/common";
 
 @Component({
   selector: "app-postagem-likes",
-  imports: [Modal],
+  imports: [Modal, DatePipe],
   templateUrl: "./postagem-likes.html",
   styleUrl: "./postagem-likes.scss",
 })
@@ -24,7 +25,7 @@ export class PostagemLikes implements OnInit {
   is_liked = computed(
     () =>
       this.list_likes().findIndex(
-        (item) => item.user == this.tokenService.email
+        (item) => item.user.email == this.tokenService.email
       ) !== -1
   );
   showLikes = signal(false);
@@ -41,16 +42,11 @@ export class PostagemLikes implements OnInit {
   }
 
   public changeLike(): void {
-    const data = {
-      date: new Date(),
-    };
-    this.likeService
-      .change(this.id() as string, data as LikeInterface)
-      .subscribe((res) => {
-        if (res && res.data) {
-          this.list_likes.update(() => res.data);
-        }
-      });
+    this.likeService.change(this.id() as string).subscribe((res) => {
+      if (res && res.data) {
+        this.list_likes.update(() => res.data);
+      }
+    });
   }
 
   public modalLikes(): void {

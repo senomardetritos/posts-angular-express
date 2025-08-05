@@ -1,3 +1,9 @@
+export interface UserInterface {
+  id: number;
+  email: string;
+  name: string;
+}
+
 export interface LoginInterface {
   email: string;
   password: string;

@@ -29,7 +29,7 @@ export class FormPostagem implements OnInit {
   public ngOnInit(): void {
     this.formPostagem = this.formBuilder.group({
       id: [""],
-      user: [""],
+      user_id: [""],
       title: ["", [Validators.required, Validators.minLength(6)]],
       text: ["", [Validators.required, Validators.minLength(6)]],
       date: [""],
@@ -68,7 +68,6 @@ export class FormPostagem implements OnInit {
   }
 
   private addPost(): void {
-    this.formPostagem.get("date")?.setValue(new Date());
     this.postService.add(this.formPostagem.value).subscribe((res) => {
       if (res.error) {
         this.alertService.show(res.error, AlertTypes.ERROR);

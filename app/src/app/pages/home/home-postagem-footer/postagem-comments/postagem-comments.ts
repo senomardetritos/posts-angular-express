@@ -55,7 +55,6 @@ export class PostagemComments implements OnInit {
     if (this.formComment.valid) {
       const data = {
         comment: this.formComment.get("comment")?.value,
-        date: new Date(),
       };
       this.commentService
         .add(this.id() as string, data as CommentInterface)

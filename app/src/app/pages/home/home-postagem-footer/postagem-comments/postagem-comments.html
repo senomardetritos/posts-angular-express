@@ -39,7 +39,7 @@
     <div class="modal-items">
       @for(comment of list_comments(); track comment.id) {
       <div class="comment">
-        <span class="user">{{ comment.user }}</span>
+        <span class="user">{{ comment.user.name }}</span>
         <span>{{ comment.comment }}</span>
       </div>
       <div class="comment-date">

@@ -1,6 +1,8 @@
 import { Request, Response, Router } from 'express';
 import { DataBase } from '../models/DataBase';
 import { UserMiddleware } from '../middlewares/UserMiddleware';
+import { LikeInterface } from '../interfaces/like-interface';
+import { UserInterface } from '../interfaces/user-interface';
 
 export class LikeController {
 	constructor(router: Router) {
@@ -9,9 +11,9 @@ export class LikeController {
 		this.changeLike(router);
 	}
 
-	public async listLike(router: Router) {
+	private async listLike(router: Router) {
 		router.get('/likes/:id', async (req: Request, res: Response) => {
-			const likes = await DataBase.find('likes', 'post', req.params.id);
+			const likes = await this.likesWithUser(req.params.id);
 			if (likes) {
 				res.json({ data: likes });
 			} else {
@@ -20,28 +22,39 @@ export class LikeController {
 		});
 	}
 
-	public async changeLike(router: Router) {
+	private async changeLike(router: Router) {
 		router.post('/likes/change/:id', async (req: Request, res: Response) => {
-			const data = { ...req.body, post: req.params.id, user: res.getHeader('email') };
-			const likes = await DataBase.find('likes', 'post', req.params.id);
-			const like = likes.filter((item: any) => item.user == res.getHeader('email'));
+			const user = (res.getHeader('user') || {}) as UserInterface;
+			const data = { post_id: req.params.id, user_id: user.id };
+			const likes = (await DataBase.find('likes', 'post_id', req.params.id)) as LikeInterface[];
+			const like = likes.filter((item: any) => item.user_id == user.id);
 			if (like.length > 0) {
 				const deleted = await DataBase.delete('likes', like[0].id);
 				if (deleted) {
-					const likes = await DataBase.find('likes', 'post', req.params.id);
+					const likes = await this.likesWithUser(req.params.id);
 					res.json({ data: likes });
 				} else {
 					res.json({ error: 'Erro ao criar like' });
 				}
 			} else {
-				const inserted = await DataBase.insert('likes', Date.now().toString(), data);
+				const inserted = await DataBase.insert('likes', data);
 				if (inserted) {
-					const likes = await DataBase.find('likes', 'post', req.params.id);
+					const likes = await this.likesWithUser(req.params.id);
 					res.json({ data: likes });
 				} else {
 					res.json({ error: 'Erro ao criar like' });
 				}
 			}
 		});
+	}
+
+	private async likesWithUser(post_id: string) {
+		const likes = (await DataBase.find('likes', 'post_id', post_id)) as LikeInterface[];
+		const new_likes: LikeInterface[] = [];
+		for (const item of likes) {
+			const user = await DataBase.get('users', item.user_id);
+			new_likes.push({ ...item, user });
+		}
+		return new_likes;
 	}
 }

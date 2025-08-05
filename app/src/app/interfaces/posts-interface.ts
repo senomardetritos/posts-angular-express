@@ -1,6 +1,8 @@
+import { UserInterface } from "./users-interface";
+
 export interface PostInterface {
   id: string;
-  user: string;
+  user: UserInterface;
   title: string;
   text: string;
   date: Date;

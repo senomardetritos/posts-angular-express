@@ -2,7 +2,7 @@ import { Request, Response, Router } from 'express';
 import { DataBase } from '../models/DataBase';
 import * as jwt from 'jsonwebtoken';
 import { UserMiddleware } from '../middlewares/UserMiddleware';
-import { EnvUtil } from '../utils/EnvUtil';
+import { UserInterface } from '../interfaces/user-interface';
 
 export class UserController {
 	constructor(router: Router) {
@@ -15,60 +15,58 @@ export class UserController {
 		this.checkdb(router);
 	}
 
-	public async getUser(router: Router) {
+	private async getUser(router: Router) {
 		router.get('/users/get', async (req: Request, res: Response) => {
-			const user = await DataBase.get('users', `${res.getHeader('email')}`);
-			if (user) {
-				const data_user = Object.assign({}, user);
-				delete data_user.password;
-				res.json({ data: data_user });
-			} else {
-				res.json({ error: 'Usuário não encontrado' });
-			}
+			res.json({ data: res.getHeader('user') });
 		});
 	}
 
-	public async updateUser(router: Router) {
+	private async updateUser(router: Router) {
 		router.post('/users/update', async (req: Request, res: Response) => {
-			const user = await DataBase.update('users', `${res.getHeader('email')}`, req.body);
-			if (user) {
-				res.json({ data: user });
+			const user = (res.getHeader('user') || {}) as UserInterface;
+			const updated = await DataBase.update('users', user.id.toString(), req.body);
+			if (updated) {
+				res.json({ data: true });
 			} else {
 				res.json({ error: 'Erro ao atualizar perfil' });
 			}
 		});
 	}
 
-	public async changePassword(router: Router) {
+	private async changePassword(router: Router) {
 		router.post('/users/change-password', async (req: Request, res: Response) => {
-			const user = await DataBase.get('users', `${res.getHeader('email')}`);
-			const privateKey = EnvUtil.getEnv('API_KEY');
-			const password = jwt.verify(user.password, privateKey);
-			if (password == req.body.actual_password) {
-				const new_data = {
-					password: jwt.sign(req.body.new_password, privateKey),
-				};
-				const user = await DataBase.update('users', `${res.getHeader('email')}`, new_data);
-				if (user) {
-					res.json({ data: user });
+			const user = (await DataBase.find('users', 'email', res.getHeader('email') as string)) || ([] as UserInterface[]);
+			if (user && user[0] && user[0].email) {
+				const privateKey = process.env.API_KEY || '';
+				const password = jwt.verify(user[0].password, privateKey);
+				if (password == req.body.actual_password) {
+					const new_data = {
+						password: jwt.sign(req.body.new_password, privateKey),
+					};
+					const updated = await DataBase.update('users', user[0].id as string, new_data);
+					if (updated) {
+						res.json({ data: true });
+					} else {
+						res.json({ error: 'Erro ao atualizar senha' });
+					}
 				} else {
-					res.json({ error: 'Erro ao atualizar senha' });
+					res.json({ error: 'Senha atual incorreta' });
 				}
 			} else {
-				res.json({ error: 'Senha atual incorreta' });
+				res.json({ error: 'Usuário não encontrado' });
 			}
 		});
 	}
 
-	public async register(router: Router) {
+	private async register(router: Router) {
 		router.post('/register', async (req: Request, res: Response) => {
-			const user = await DataBase.get('users', `${req.body.email}`);
-			if (user && user.email) {
+			const user = (await DataBase.find('users', 'email', `${req.body.email}`)) || ([] as UserInterface[]);
+			if (user && user[0] && user[0].email) {
 				res.json({ error: 'Usuário já cadastrado!' });
 			} else {
-				const privateKey = EnvUtil.getEnv('API_KEY');
+				const privateKey = process.env.API_KEY || '';
 				req.body.password = jwt.sign(req.body.password, privateKey);
-				const data_user = await DataBase.insert('users', `${req.body.email}`, req.body);
+				const data_user = await DataBase.insert('users', req.body);
 				if (data_user) {
 					const { email, name } = req.body;
 					const token = jwt.sign(email, privateKey);
@@ -86,19 +84,19 @@ export class UserController {
 		});
 	}
 
-	public async login(router: Router) {
+	private async login(router: Router) {
 		router.post('/login', async (req: Request, res: Response) => {
-			const user = await DataBase.get('users', `${req.body.email}`);
-			if (user && user.email) {
-				const privateKey = EnvUtil.getEnv('API_KEY');
+			const user = (await DataBase.find('users', 'email', `${req.body.email}`)) || ([] as UserInterface[]);
+			if (user && user[0] && user[0].email) {
+				const privateKey = process.env.API_KEY || '';
 				try {
-					const password = jwt.verify(user.password, privateKey);
+					const password = jwt.verify(user[0].password, privateKey);
 					if (password == req.body.password) {
-						const token = jwt.sign(user.email, privateKey);
+						const token = jwt.sign(user[0].email, privateKey);
 						res.json({
 							data: {
-								email: user.email,
-								name: user.name,
+								email: user[0].email,
+								name: user[0].name,
 								token: token,
 							},
 						});
@@ -114,13 +112,14 @@ export class UserController {
 		});
 	}
 
-	public async checkdb(router: Router) {
+	private async checkdb(router: Router) {
 		router.get('/checkdb', async (req: Request, res: Response) => {
-			const users = await DataBase.all('users');
+			const users = (await DataBase.all('users')) as UserInterface[];
 			const emails: any[] = [];
 			users.map((item: any) => {
 				emails.push(item.email);
 			});
+
 			res.json({ emails });
 		});
 	}
