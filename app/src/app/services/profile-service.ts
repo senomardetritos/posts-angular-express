@@ -32,7 +32,7 @@ export class ProfileService {
       )
       .pipe(
         tap((res) => {
-          if (res) {
+          if (res && res.data) {
             this.tokenService.name = data.name;
           }
         })
