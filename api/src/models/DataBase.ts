@@ -114,16 +114,18 @@ export class DataBase {
 	public static async insert(db_name: string, data: Object) {
 		try {
 			const query: string[] = [];
+			const params: string[] = [];
 			query.push(`insert into ${db_name} (`);
 			query.push(Object.keys(data).join(', '));
 			query.push(') values (');
 			const values: string[] = [];
 			Object.values(data).map((item: any) => {
-				values.push(`'${item}'`);
+				values.push('?');
+				params.push(item);
 			});
 			query.push(values.join(', '));
 			query.push(');');
-			const id = await this.db.insert(query.join(' '));
+			const id = await this.db.insert(query.join(' '), params);
 			return { id, ...data };
 		} catch (error) {
 			console.error(error);
@@ -134,15 +136,17 @@ export class DataBase {
 	public static async update(db_name: string, key: string, data: Object) {
 		try {
 			const query: string[] = [];
+			const params: string[] = [];
 			query.push(`update ${db_name} set`);
 			const values: string[] = [];
 			Object.keys(data).map((key: any) => {
-				values.push(`${key} = '${data[key as keyof Object].toString()}'`);
+				values.push(`${key} = ?`);
+				params.push(data[key as keyof Object].toString());
 			});
 			query.push(values.join(', '));
 			query.push(`where id = ${key}`);
 			query.push(';');
-			await this.db.update(query.join(' '));
+			await this.db.update(query.join(' '), params);
 			return data;
 		} catch (error) {
 			console.error(error);

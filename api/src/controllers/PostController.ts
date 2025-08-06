@@ -75,6 +75,7 @@ export class PostController {
 		router.post('/posts/add', async (req: Request, res: Response) => {
 			const user = (res.getHeader('user') || {}) as UserInterface;
 			delete req.body.id;
+			delete req.body.date;
 			const data = { ...req.body, user_id: user.id };
 			const post = await DataBase.insert('posts', data);
 			if (post) {
@@ -98,7 +99,7 @@ export class PostController {
 					if (updated) {
 						res.json({ data: updated });
 					} else {
-						res.json({ error: 'Erro ao criar post' });
+						res.json({ error: 'Erro ao atualizar post' });
 					}
 				} else {
 					res.json({ error: 'Post não pertence a esse usuário' });

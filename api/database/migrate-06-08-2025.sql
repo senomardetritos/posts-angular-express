@@ -5,4 +5,6 @@
 ALTER TABLE `users` ADD `photo` LONGBLOB NOT NULL AFTER `password`;
 
 SET GLOBAL max_allowed_packet=1073741824;
-SHOW VARIABLES LIKE 'max_allowed_packet'; 
+SHOW VARIABLES LIKE 'max_allowed_packet';
+
+ALTER TABLE `users` CHANGE `photo` `photo` LONGBLOB NULL DEFAULT NULL;
