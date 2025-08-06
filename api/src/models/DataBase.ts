@@ -17,6 +17,16 @@ export class DataBase {
 		}
 	}
 
+	public static async query(sql: string, params: Array<any>) {
+		try {
+			const rows = await this.db.query(sql, params);
+			return rows;
+		} catch (error) {
+			console.error(error);
+			return null;
+		}
+	}
+
 	public static async get(db_name: string, key: string) {
 		try {
 			const rows = await this.db.getall(`select * from ${db_name} where id = '${key}'`);

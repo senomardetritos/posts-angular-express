@@ -5,6 +5,7 @@ import { Router, Request, Response } from 'express';
 import { Routes } from './routes';
 import dotenv from 'dotenv';
 import { DataBase } from './models/DataBase';
+import bodyParser from 'body-parser';
 
 dotenv.config({ path: '.env' });
 
@@ -17,6 +18,7 @@ const options: cors.CorsOptions = {
 DataBase.loadDB();
 
 app.use(cors(options));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(express.json());
 
