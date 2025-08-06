@@ -11,7 +11,7 @@ export class DataBase {
 				user: process.env.DB_USER,
 				password: process.env.DB_PASSWORD,
 				database: process.env.DB_DATABASE,
-				timezone: '+03:00',
+				timezone: process.env.DB_TIME_ZONE ?? '+03:00',
 				skiptzfix: true,
 			});
 		}
