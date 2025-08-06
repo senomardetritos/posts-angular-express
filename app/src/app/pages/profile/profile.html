@@ -27,6 +27,32 @@
   </div>
   <div class="row"><br /></div>
   <div class="row">
+    <h1><span class="text-gradient">Foto de Perfil</span></h1>
+  </div>
+  <div class="row">
+    <div class="divider"></div>
+  </div>
+  <div>
+    <div class="profile-photo">
+      <div class="user-photo-rounded large">
+        <img [src]="img_url()" alt="Foto de Perfil" />
+      </div>
+    </div>
+    <form
+      [formGroup]="formPhoto"
+      (submit)="onSubmitPhoto()"
+      enctype="multipart/form-data"
+    >
+      <div class="form-control">
+        <input type="file" id="photo" (change)="onFileSelected($event)" />
+      </div>
+      <div class="form-control">
+        <button tyep="submit">FAZER UPLOAD DE FOTO</button>
+      </div>
+    </form>
+  </div>
+  <div class="row"><br /></div>
+  <div class="row">
     <h1><span class="text-gradient">Minha Senha</span></h1>
   </div>
   <div class="row">

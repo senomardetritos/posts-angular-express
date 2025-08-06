@@ -22,7 +22,7 @@
       }
     }
     &-form {
-      width: 400px;
+      width: 600px;
       form {
         width: 100%;
         .form-control {
@@ -35,10 +35,12 @@
       }
     }
     &-items {
-      max-width: 400px;
+      max-width: 600px;
       max-height: 300px;
       overflow-y: scroll;
-
+      .user-photo-rounded {
+        margin-right: 12px;
+      }
       &-footer {
         display: flex;
         justify-content: space-between;
@@ -64,6 +66,7 @@
           display: inline;
           margin-right: 4px;
           line-height: 20px;
+          text-align: justify;
         }
       }
     }

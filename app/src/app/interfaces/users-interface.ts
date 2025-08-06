@@ -5,12 +5,14 @@ export interface UserInterface {
 }
 
 export interface LoginInterface {
+  id: string;
   email: string;
   password: string;
 }
 
 export interface LoginResponseInterface {
   data: {
+    id: string;
     email: string;
     name: string;
     token: string;
@@ -38,4 +40,8 @@ export interface ProfileResponseInterface {
 export interface ChangePasswordInterface {
   actual_password: string;
   new_password: string;
+}
+
+export interface UserPhotoInterface {
+  photo: File;
 }

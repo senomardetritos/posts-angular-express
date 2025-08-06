@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from "@angular/core";
+import { Component, computed, inject, OnInit, signal } from "@angular/core";
 import { Logo } from "../logo/logo";
 import { TokenService } from "../../services/token-service";
 import { ActivationEnd, Router, RouterLink } from "@angular/router";
@@ -8,6 +8,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
+import { environment } from "../../../environments/environment";
 
 @Component({
   selector: "app-header",
@@ -23,6 +24,12 @@ export class Header implements OnInit {
   formSearch!: FormGroup;
   name = "";
   token = "";
+  photo_date = signal(Date.now());
+  img_url = computed(() => {
+    return `${environment.api_url}/user-photo/${
+      this.tokenService.id
+    }?date=${this.photo_date()}`;
+  });
 
   public ngOnInit(): void {
     this.formSearch = this.formBuilder.group({
@@ -37,6 +44,10 @@ export class Header implements OnInit {
     this.tokenService.logoutEvent$.subscribe(() => {
       this.name = "";
       this.token = "";
+      this.photo_date.set(Date.now());
+    });
+    this.tokenService.photoUserEvent$.subscribe(() => {
+      this.photo_date.set(Date.now());
     });
     this.router.events.subscribe((event) => {
       if (event instanceof ActivationEnd) {

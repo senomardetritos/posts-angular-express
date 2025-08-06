@@ -6,6 +6,7 @@ import {
   ChangePasswordInterface,
   ProfileInterface,
   ProfileResponseInterface,
+  UserPhotoInterface,
 } from "../interfaces/users-interface";
 import { environment } from "../../environments/environment";
 
@@ -45,6 +46,17 @@ export class ProfileService {
     return this.http.post<ProfileResponseInterface>(
       `${environment.api_url}/users/change-password`,
       data
+    );
+  }
+
+  public uploadPhoto(
+    data: UserPhotoInterface
+  ): Observable<ProfileResponseInterface> {
+    const formData = new FormData();
+    formData.append("photo", data.photo, data.photo.name);
+    return this.http.post<ProfileResponseInterface>(
+      `${environment.api_url}/users/upload`,
+      formData
     );
   }
 }

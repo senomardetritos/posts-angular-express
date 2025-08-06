@@ -11,14 +11,12 @@
     &-items {
       &-item {
         margin-bottom: 16px;
-        .row .col .form-control {
-          margin: 0;
-          padding: 0;
-          width: auto;
-          button {
-            width: 100px;
-            font-size: 9pt;
-          }
+        > .row {
+          justify-content: center;
+          align-items: center;
+        }
+        .user-photo-rounded {
+          margin-right: 12px;
         }
         .row .col.left {
           align-items: start;
@@ -32,13 +30,12 @@
         }
         h1 {
           font-weight: 600;
-          font-size: 12pt;
-          margin-bottom: 8px;
+          font-size: 14pt;
         }
         h2 {
           font-weight: 600;
           font-size: 9pt;
-          margin-bottom: 8px;
+          margin-top: 4px;
         }
         p {
           margin: 16px 0;

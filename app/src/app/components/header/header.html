@@ -31,6 +31,11 @@
     <div class="col header-right">
       <div class="row">
         <div class="col auto">
+          <div class="user-photo-rounded small">
+            <img [src]="img_url()" alt="Foto de Perfil" />
+          </div>
+        </div>
+        <div class="col auto">
           <a routerLink="profile">{{ name }}</a>
         </div>
         <div class="col auto">|</div>

@@ -11,6 +11,7 @@ import { TokenService } from "../../../../services/token-service";
 import { LikeInterface } from "../../../../interfaces/like-interface";
 import { Modal } from "../../../../components/modal/modal";
 import { DatePipe } from "@angular/common";
+import { environment } from "../../../../../environments/environment";
 
 @Component({
   selector: "app-postagem-likes",
@@ -19,6 +20,9 @@ import { DatePipe } from "@angular/common";
   styleUrl: "./postagem-likes.scss",
 })
 export class PostagemLikes implements OnInit {
+  private likeService = inject(LikeService);
+  private tokenService = inject(TokenService);
+
   id = input();
   list_likes = signal<LikeInterface[]>([]);
   likes = computed(() => this.list_likes().length);
@@ -29,9 +33,7 @@ export class PostagemLikes implements OnInit {
       ) !== -1
   );
   showLikes = signal(false);
-
-  private likeService = inject(LikeService);
-  private tokenService = inject(TokenService);
+  img_url = `${environment.api_url}/user-photo/`;
 
   public ngOnInit(): void {
     this.likeService.list(this.id() as string).subscribe((res) => {

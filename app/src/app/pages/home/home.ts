@@ -4,6 +4,7 @@ import { PostInterface } from "../../interfaces/posts-interface";
 import { DatePipe } from "@angular/common";
 import { HomePostagemFooter } from "./home-postagem-footer/home-postagem-footer";
 import { ActivatedRoute, RouterLink } from "@angular/router";
+import { environment } from "../../../environments/environment";
 
 @Component({
   selector: "app-home",
@@ -17,6 +18,7 @@ export class Home implements OnInit {
 
   posts!: PostInterface[];
   search = "";
+  img_url = `${environment.api_url}/user-photo/`;
 
   public ngOnInit(): void {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

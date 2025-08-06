@@ -20,6 +20,7 @@ import { DatePipe } from "@angular/common";
 import { AlertTypes } from "../../../../interfaces/modal-interface";
 import { TokenService } from "../../../../services/token-service";
 import { UserInterface } from "../../../../interfaces/users-interface";
+import { environment } from "../../../../../environments/environment";
 
 @Component({
   selector: "app-postagem-comments",
@@ -28,17 +29,18 @@ import { UserInterface } from "../../../../interfaces/users-interface";
   styleUrl: "./postagem-comments.scss",
 })
 export class PostagemComments implements OnInit {
+  private formBuilder = inject(FormBuilder);
+  private commentService = inject(CommentService);
+  private modalService = inject(ModalService);
+  private tokenService = inject(TokenService);
+
   id = input();
   list_comments = signal<CommentInterface[]>([]);
   comments = computed(() => this.list_comments().length);
   user!: UserInterface;
   showComments = signal(false);
   formComment!: FormGroup;
-
-  private formBuilder = inject(FormBuilder);
-  private commentService = inject(CommentService);
-  private modalService = inject(ModalService);
-  private tokenService = inject(TokenService);
+  img_url = `${environment.api_url}/user-photo/`;
 
   public ngOnInit(): void {
     this.formComment = this.formBuilder.group({

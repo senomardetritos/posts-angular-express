@@ -22,9 +22,19 @@
       <div class="col">
         @for(like of list_likes(); track like.id) {
         <div class="like-item">
-          <p>{{ like.user.name }}</p>
-          <div class="like-date">
-            {{ like.date | date : "dd/MM/yyyy | HH:mm" }}
+          <div class="row">
+            <div class="col auto">
+              <div class="user-photo-rounded small">
+                <img [src]="img_url + like.user.id" alt="Foto de Perfil" />
+              </div>
+            </div>
+            <div class="col">
+              <p>{{ like.user.name }}</p>
+            </div>
+          </div>
+          <div class="col auto like-date">
+            <p>{{ like.date | date : "dd/MM/yyyy" }}</p>
+            <p>{{ like.date | date : "HH:mm" }}</p>
           </div>
         </div>
         <div class="divider"></div>

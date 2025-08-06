@@ -33,14 +33,23 @@
         @for (post of posts; track post.id) {
         <div class="home-body-items-item">
           <div class="row">
-            <div class="col left">
-              <h1>{{ post.title }}</h1>
+            <div class="col auto">
+              <div class="user-photo-rounded medium">
+                <img [src]="img_url + post.user.id" alt="Foto de Perfil" />
+              </div>
+            </div>
+            <div class="col">
+              <div class="row">
+                <div class="col left">
+                  <h1>{{ post.title }}</h1>
+                </div>
+              </div>
+              <h2>
+                {{ post.user.name }} | Publicado em
+                {{ post.date | date : "dd/MM/yyyy - HH:mm" }}
+              </h2>
             </div>
           </div>
-          <h2>
-            {{ post.user.name }} | Publicado em
-            {{ post.date | date : "dd/MM/yyyy - HH:mm" }}
-          </h2>
           <p>{{ post.text }}</p>
         </div>
         <div class="row">
