@@ -1,3 +1,7 @@
+export interface LoadingInterface {
+  show: boolean;
+}
+
 export interface AlertInterface {
   show: boolean;
   message: string;

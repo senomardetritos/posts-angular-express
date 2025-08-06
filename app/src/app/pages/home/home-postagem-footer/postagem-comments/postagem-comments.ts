@@ -15,9 +15,9 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
-import { AlertService } from "../../../../services/alert-service";
+import { ModalService } from "../../../../services/modal-service";
 import { DatePipe } from "@angular/common";
-import { AlertTypes } from "../../../../interfaces/alert-interface";
+import { AlertTypes } from "../../../../interfaces/modal-interface";
 
 @Component({
   selector: "app-postagem-comments",
@@ -34,7 +34,7 @@ export class PostagemComments implements OnInit {
 
   private formBuilder = inject(FormBuilder);
   private commentService = inject(CommentService);
-  private alertService = inject(AlertService);
+  private modalService = inject(ModalService);
 
   public ngOnInit(): void {
     this.formComment = this.formBuilder.group({
@@ -61,14 +61,14 @@ export class PostagemComments implements OnInit {
         .subscribe((res) => {
           if (res && res.data) {
             this.list_comments.update(() => res.data);
-            this.alertService.show(
+            this.modalService.showAlert(
               "Comentário enviado com sucesso",
               AlertTypes.SUCCESS
             );
             this.formComment.get("comment")?.setValue("");
             this.formComment.get("comment")?.markAsUntouched();
           } else {
-            this.alertService.show(
+            this.modalService.showAlert(
               res.error ?? "Erro ao enviar comentário",
               AlertTypes.ERROR
             );

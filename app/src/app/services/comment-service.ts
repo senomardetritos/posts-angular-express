@@ -15,7 +15,8 @@ export class CommentService {
 
   public list(id: string): Observable<CommentsResponseInterface> {
     return this.http.get<CommentsResponseInterface>(
-      `${environment.api_url}/comments/${id}`
+      `${environment.api_url}/comments/${id}`,
+      { headers: { skip: "loading" } }
     );
   }
 
@@ -25,7 +26,8 @@ export class CommentService {
   ): Observable<CommentsResponseInterface> {
     return this.http.post<CommentsResponseInterface>(
       `${environment.api_url}/comments/add/${id}`,
-      data
+      data,
+      { headers: { skip: "loading" } }
     );
   }
 }

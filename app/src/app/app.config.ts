@@ -6,14 +6,24 @@ import {
 import { provideRouter } from "@angular/router";
 
 import { routes } from "./app.routes";
-import { provideHttpClient, withInterceptors } from "@angular/common/http";
+import {
+  HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withInterceptors,
+  withInterceptorsFromDi,
+} from "@angular/common/http";
 import { authInterceptor } from "./interceptors/auth-interceptor";
+import { LoadingInterceptor } from "./interceptors/loading-interceptor";
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(withInterceptors([authInterceptor])),
+    provideHttpClient(
+      withInterceptors([authInterceptor]),
+      withInterceptorsFromDi()
+    ),
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
   ],
 };

@@ -8,8 +8,8 @@ import {
 } from "@angular/forms";
 import { Router, RouterLink } from "@angular/router";
 import { RegisterService } from "../../services/register-service";
-import { AlertService } from "../../services/alert-service";
-import { AlertTypes } from "../../interfaces/alert-interface";
+import { ModalService } from "../../services/modal-service";
+import { AlertTypes } from "../../interfaces/modal-interface";
 
 @Component({
   selector: "app-register",
@@ -23,7 +23,7 @@ export class Register implements OnInit {
   private formBuilder = inject(FormBuilder);
   private registerService = inject(RegisterService);
   private router = inject(Router);
-  private alertService = inject(AlertService);
+  private modalService = inject(ModalService);
 
   public ngOnInit(): void {
     this.formRegister = this.formBuilder.group({
@@ -40,13 +40,13 @@ export class Register implements OnInit {
         .register(this.formRegister.value)
         .subscribe((res) => {
           if (res.error) {
-            this.alertService.show(res.error, AlertTypes.ERROR);
+            this.modalService.showAlert(res.error, AlertTypes.ERROR);
           } else {
             this.router.navigate(["/home"]);
           }
         });
     } else {
-      this.alertService.show(
+      this.modalService.showAlert(
         "Preencher os campos corretamente",
         AlertTypes.ERROR
       );

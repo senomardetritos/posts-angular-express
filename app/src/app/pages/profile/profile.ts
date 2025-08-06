@@ -6,8 +6,8 @@ import {
   Validators,
 } from "@angular/forms";
 import { ProfileService } from "../../services/profile-service";
-import { AlertService } from "../../services/alert-service";
-import { AlertTypes } from "../../interfaces/alert-interface";
+import { ModalService } from "../../services/modal-service";
+import { AlertTypes } from "../../interfaces/modal-interface";
 
 @Component({
   selector: "app-profile",
@@ -21,7 +21,7 @@ export class Profile implements OnInit {
 
   private formBuilder = inject(FormBuilder);
   private profileService = inject(ProfileService);
-  private alertService = inject(AlertService);
+  private modalService = inject(ModalService);
 
   public ngOnInit(): void {
     this.formProfile = this.formBuilder.group({
@@ -45,16 +45,16 @@ export class Profile implements OnInit {
         .updateProfile(this.formProfile.value)
         .subscribe((res) => {
           if (res.error) {
-            this.alertService.show(res.error, AlertTypes.ERROR);
+            this.modalService.showAlert(res.error, AlertTypes.ERROR);
           } else {
-            this.alertService.show(
+            this.modalService.showAlert(
               "Dados alterados com sucesso",
               AlertTypes.SUCCESS
             );
           }
         });
     } else {
-      this.alertService.show(
+      this.modalService.showAlert(
         "Preencher os campos corretamente",
         AlertTypes.ERROR
       );
@@ -68,16 +68,16 @@ export class Profile implements OnInit {
         .changePassword(this.formPassword.value)
         .subscribe((res) => {
           if (res.error) {
-            this.alertService.show(res.error, AlertTypes.ERROR);
+            this.modalService.showAlert(res.error, AlertTypes.ERROR);
           } else {
-            this.alertService.show(
+            this.modalService.showAlert(
               "Senha alterada com sucesso",
               AlertTypes.SUCCESS
             );
           }
         });
     } else {
-      this.alertService.show(
+      this.modalService.showAlert(
         "Preencher os campos corretamente",
         AlertTypes.ERROR
       );

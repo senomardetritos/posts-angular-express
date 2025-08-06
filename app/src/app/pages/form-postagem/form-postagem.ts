@@ -5,8 +5,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
-import { AlertService } from "../../services/alert-service";
-import { AlertTypes } from "../../interfaces/alert-interface";
+import { ModalService } from "../../services/modal-service";
+import { AlertTypes } from "../../interfaces/modal-interface";
 import { PostService } from "../../services/post-service";
 import { ActivatedRoute, Router } from "@angular/router";
 
@@ -22,7 +22,7 @@ export class FormPostagem implements OnInit {
 
   private formBuilder = inject(FormBuilder);
   private postService = inject(PostService);
-  private alertService = inject(AlertService);
+  private modalService = inject(ModalService);
   private activatedRoute = inject(ActivatedRoute);
   private router = inject(Router);
 
@@ -41,7 +41,7 @@ export class FormPostagem implements OnInit {
         this.formPostagem.get("id")?.setValue(param.id);
         this.postService.get(param.id).subscribe((res) => {
           if (res.error) {
-            this.alertService.show(res.error, AlertTypes.ERROR);
+            this.modalService.showAlert(res.error, AlertTypes.ERROR);
           } else {
             this.formPostagem.setValue(res.data);
             this.isNewPost = false;
@@ -60,7 +60,7 @@ export class FormPostagem implements OnInit {
         this.updatePost();
       }
     } else {
-      this.alertService.show(
+      this.modalService.showAlert(
         "Preencher os campos corretamente",
         AlertTypes.ERROR
       );
@@ -70,9 +70,9 @@ export class FormPostagem implements OnInit {
   private addPost(): void {
     this.postService.add(this.formPostagem.value).subscribe((res) => {
       if (res.error) {
-        this.alertService.show(res.error, AlertTypes.ERROR);
+        this.modalService.showAlert(res.error, AlertTypes.ERROR);
       } else {
-        this.alertService.show(
+        this.modalService.showAlert(
           "Post adicionado com sucesso",
           AlertTypes.SUCCESS
         );
@@ -84,9 +84,9 @@ export class FormPostagem implements OnInit {
   private updatePost(): void {
     this.postService.update(this.formPostagem.value).subscribe((res) => {
       if (res.error) {
-        this.alertService.show(res.error, AlertTypes.ERROR);
+        this.modalService.showAlert(res.error, AlertTypes.ERROR);
       } else {
-        this.alertService.show(
+        this.modalService.showAlert(
           "Post atualizado com sucesso",
           AlertTypes.SUCCESS
         );

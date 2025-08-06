@@ -1,10 +1,10 @@
 import { TestBed } from "@angular/core/testing";
-import { AlertService } from "./alert-service";
 import { provideHttpClient } from "@angular/common/http";
 import { provideHttpClientTesting } from "@angular/common/http/testing";
+import { ModalService } from "./modal-service";
 
-describe("AlertService", () => {
-  let service: AlertService;
+describe("ModalService", () => {
+  let service: ModalService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -15,7 +15,7 @@ describe("AlertService", () => {
       // ... other imports or declarations for your component/service
     }).compileComponents();
     TestBed.configureTestingModule({});
-    service = TestBed.inject(AlertService);
+    service = TestBed.inject(ModalService);
   });
 
   it("should be created", () => {

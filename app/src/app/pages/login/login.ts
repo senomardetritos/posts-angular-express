@@ -8,8 +8,8 @@ import {
 } from "@angular/forms";
 import { LoginService } from "../../services/login-service";
 import { Router, RouterLink } from "@angular/router";
-import { AlertService } from "../../services/alert-service";
-import { AlertTypes } from "../../interfaces/alert-interface";
+import { ModalService } from "../../services/modal-service";
+import { AlertTypes } from "../../interfaces/modal-interface";
 
 @Component({
   selector: "app-login",
@@ -23,7 +23,7 @@ export class Login implements OnInit {
   private formBuilder = inject(FormBuilder);
   private loginService = inject(LoginService);
   private router = inject(Router);
-  private alertService = inject(AlertService);
+  private modalService = inject(ModalService);
 
   public ngOnInit(): void {
     this.formLogin = this.formBuilder.group({
@@ -37,13 +37,13 @@ export class Login implements OnInit {
     if (this.formLogin.valid) {
       this.loginService.login(this.formLogin.value).subscribe((res) => {
         if (res.error) {
-          this.alertService.show(res.error, AlertTypes.ERROR);
+          this.modalService.showAlert(res.error, AlertTypes.ERROR);
         } else {
           this.router.navigate(["/home"]);
         }
       });
     } else {
-      this.alertService.show(
+      this.modalService.showAlert(
         "Preencher os campos corretamente",
         AlertTypes.ERROR
       );

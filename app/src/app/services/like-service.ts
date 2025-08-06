@@ -12,14 +12,16 @@ export class LikeService {
 
   public list(id: string): Observable<LikesResponseInterface> {
     return this.http.get<LikesResponseInterface>(
-      `${environment.api_url}/likes/${id}`
+      `${environment.api_url}/likes/${id}`,
+      { headers: { skip: "loading" } }
     );
   }
 
   public change(id: string): Observable<LikesResponseInterface> {
     return this.http.post<LikesResponseInterface>(
       `${environment.api_url}/likes/change/${id}`,
-      {}
+      {},
+      { headers: { skip: "loading" } }
     );
   }
 }
