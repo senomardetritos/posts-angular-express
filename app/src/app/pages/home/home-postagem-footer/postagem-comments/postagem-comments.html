@@ -37,13 +37,24 @@
     </div>
     <div class="divider"></div>
     <div class="modal-items">
-      @for(comment of list_comments(); track comment.id) {
+      @for (comment of list_comments(); track comment.id) {
       <div class="comment">
         <span class="user">{{ comment.user.name }}</span>
         <span>{{ comment.comment }}</span>
       </div>
-      <div class="comment-date">
-        Publicado em {{ comment.date | date : "dd/MM/yyyy - HH:mm" }}
+      <div class="modal-items-footer">
+        @if (comment.date) {
+        <div class="comment-date">
+          Publicado em {{ comment.date | date : "dd/MM/yyyy - HH:mm" }}
+        </div>
+        <div>
+          @if (comment.user.email === user.email) {
+          <a (click)="deleteComment(comment.id)">Excluir</a>
+          }
+        </div>
+        } @else {
+        <div class="comment-date">Publicando comentário</div>
+        }
       </div>
       <div class="divider"></div>
       }

@@ -18,6 +18,8 @@ import {
 import { ModalService } from "../../../../services/modal-service";
 import { DatePipe } from "@angular/common";
 import { AlertTypes } from "../../../../interfaces/modal-interface";
+import { TokenService } from "../../../../services/token-service";
+import { UserInterface } from "../../../../interfaces/users-interface";
 
 @Component({
   selector: "app-postagem-comments",
@@ -29,12 +31,14 @@ export class PostagemComments implements OnInit {
   id = input();
   list_comments = signal<CommentInterface[]>([]);
   comments = computed(() => this.list_comments().length);
+  user!: UserInterface;
   showComments = signal(false);
   formComment!: FormGroup;
 
   private formBuilder = inject(FormBuilder);
   private commentService = inject(CommentService);
   private modalService = inject(ModalService);
+  private tokenService = inject(TokenService);
 
   public ngOnInit(): void {
     this.formComment = this.formBuilder.group({
@@ -49,6 +53,7 @@ export class PostagemComments implements OnInit {
         this.list_comments.update(() => res.data);
       }
     });
+    this.user = this.tokenService.user;
   }
   public onSubmit(): void {
     this.formComment.markAllAsTouched();
@@ -56,6 +61,10 @@ export class PostagemComments implements OnInit {
       const data = {
         comment: this.formComment.get("comment")?.value,
       };
+      this.list_comments.update(() => [
+        ...this.list_comments(),
+        { ...data, user: this.tokenService.user } as CommentInterface,
+      ]);
       this.commentService
         .add(this.id() as string, data as CommentInterface)
         .subscribe((res) => {
@@ -75,6 +84,23 @@ export class PostagemComments implements OnInit {
           }
         });
     }
+  }
+
+  public deleteComment(id: string) {
+    this.commentService.delete(id).subscribe((res) => {
+      if (res && res.data) {
+        this.list_comments.update(() => res.data);
+        this.modalService.showAlert(
+          "Comentário excluido com sucesso",
+          AlertTypes.SUCCESS
+        );
+      } else {
+        this.modalService.showAlert(
+          res.error ?? "Erro ao excluir comentário",
+          AlertTypes.ERROR
+        );
+      }
+    });
   }
 
   public modalComments(): void {

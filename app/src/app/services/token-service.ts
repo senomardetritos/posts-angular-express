@@ -1,5 +1,8 @@
 import { EventEmitter, Injectable } from "@angular/core";
-import { LoginResponseInterface } from "../interfaces/users-interface";
+import {
+  LoginResponseInterface,
+  UserInterface,
+} from "../interfaces/users-interface";
 
 @Injectable({
   providedIn: "root",
@@ -38,6 +41,9 @@ export class TokenService {
       error: "",
     };
   }
+  get id(): string {
+    return localStorage.getItem("id") ?? "";
+  }
   get email(): string {
     return localStorage.getItem("email") ?? "";
   }
@@ -50,5 +56,12 @@ export class TokenService {
   }
   get token(): string {
     return localStorage.getItem("token") ?? "";
+  }
+  get user(): UserInterface {
+    return {
+      id: parseInt(this.id),
+      email: this.email,
+      name: this.name,
+    };
   }
 }

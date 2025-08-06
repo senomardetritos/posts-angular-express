@@ -42,6 +42,7 @@ export class PostagemLikes implements OnInit {
   }
 
   public changeLike(): void {
+    this.setClickLike();
     this.likeService.change(this.id() as string).subscribe((res) => {
       if (res && res.data) {
         this.list_likes.update(() => res.data);
@@ -51,5 +52,23 @@ export class PostagemLikes implements OnInit {
 
   public modalLikes(): void {
     this.showLikes.update((value) => !value);
+  }
+
+  private setClickLike(): void {
+    const index = this.list_likes().findIndex(
+      (item) => item.user.email == this.tokenService.email
+    );
+    if (index === -1) {
+      this.list_likes.update(() => [
+        ...this.list_likes(),
+        { user: this.tokenService.user } as LikeInterface,
+      ]);
+    } else {
+      this.list_likes.update(() =>
+        this.list_likes().filter(
+          (item) => item.user.email !== this.tokenService.email
+        )
+      );
+    }
   }
 }

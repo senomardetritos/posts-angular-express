@@ -30,4 +30,11 @@ export class CommentService {
       { headers: { skip: "loading" } }
     );
   }
+
+  public delete(id: string): Observable<CommentsResponseInterface> {
+    return this.http.post<CommentsResponseInterface>(
+      `${environment.api_url}/comments/delete/${id}`,
+      {}
+    );
+  }
 }
