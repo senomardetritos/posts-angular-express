@@ -33,8 +33,7 @@ export class UserController {
 					const token = jwt.sign(email, privateKey);
 					res.json({
 						data: {
-							email: email,
-							name: name,
+							...data_user,
 							token: token,
 						},
 					});
