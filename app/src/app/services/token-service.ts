@@ -22,15 +22,18 @@ export class TokenService {
     localStorage.setItem("token", user.data.token);
     this.loginEvent$.emit(user);
   }
+
   public logout(): void {
     localStorage.removeItem("email");
     localStorage.removeItem("name");
     localStorage.removeItem("token");
     this.logoutEvent$.emit();
   }
+
   public isLogged(): boolean {
     return !!localStorage.getItem("token");
   }
+
   public getUser(): LoginResponseInterface {
     return {
       data: {
@@ -41,22 +44,28 @@ export class TokenService {
       error: "",
     };
   }
+
   get id(): string {
     return localStorage.getItem("id") ?? "";
   }
+
   get email(): string {
     return localStorage.getItem("email") ?? "";
   }
+
   get name(): string {
     return localStorage.getItem("name") ?? "";
   }
+
   set name(value: string) {
     localStorage.setItem("name", value);
     this.loginEvent$.emit(this.getUser());
   }
+
   get token(): string {
     return localStorage.getItem("token") ?? "";
   }
+
   get user(): UserInterface {
     return {
       id: parseInt(this.id),

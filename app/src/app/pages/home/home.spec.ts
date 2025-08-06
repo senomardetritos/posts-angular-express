@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { Home } from "./home";
 import { provideHttpClient } from "@angular/common/http";
 import { provideHttpClientTesting } from "@angular/common/http/testing";
+import { RouterModule } from "@angular/router";
 
 describe("Home", () => {
   let component: Home;
@@ -14,7 +15,7 @@ describe("Home", () => {
         provideHttpClient(), // Provides HttpClient for your component/service
         provideHttpClientTesting(), // Provides HttpTestingController for mocking
       ],
-      imports: [Home],
+      imports: [Home, RouterModule.forRoot([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(Home);
