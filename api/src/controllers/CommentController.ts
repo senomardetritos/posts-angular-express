@@ -9,6 +9,7 @@ export class CommentController {
 		router.use('/comments', UserMiddleware.isLogged);
 		this.listComment(router);
 		this.addComment(router);
+		this.deleteComment(router);
 	}
 
 	private async listComment(router: Router) {
@@ -17,7 +18,7 @@ export class CommentController {
 			if (comments) {
 				res.json({ data: comments });
 			} else {
-				res.json({ error: 'Erro ao listar comments' });
+				res.json({ error: 'Erro ao listar Comentário' });
 			}
 		});
 	}
@@ -31,7 +32,29 @@ export class CommentController {
 				const comments = await this.commentsWithUser(req.params.id);
 				res.json({ data: comments });
 			} else {
-				res.json({ error: 'Erro ao criar comments' });
+				res.json({ error: 'Erro ao criar Comentário' });
+			}
+		});
+	}
+
+	private async deleteComment(router: Router) {
+		router.post('/comments/delete/:id', async (req: Request, res: Response) => {
+			const user = (res.getHeader('user') || {}) as UserInterface;
+			const comment = (await DataBase.get('comments', req.params.id)) as CommentInterface;
+			if (comment) {
+				if (comment.user_id == user.id.toString()) {
+					const deleted = await DataBase.delete('comments', req.params.id);
+					if (deleted) {
+						const comments = await this.commentsWithUser(comment.post_id);
+						res.json({ data: comments });
+					} else {
+						res.json({ error: 'Erro ao deletar Comentário' });
+					}
+				} else {
+					res.json({ error: 'Comentário não pertence a esse usuário' });
+				}
+			} else {
+				res.json({ error: 'Comentário não encontrado' });
 			}
 		});
 	}

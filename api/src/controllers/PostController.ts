@@ -30,11 +30,7 @@ export class PostController {
 	private async lastsPost(router: Router) {
 		router.get('/posts/lasts', async (req: Request, res: Response) => {
 			const posts = (await DataBase.last('posts', 10)) as PostInterface[];
-			const new_posts: PostInterface[] = [];
-			for (const post of posts) {
-				const user = await DataBase.get('users', post.user_id.toString());
-				new_posts.push({ ...post, user });
-			}
+			const new_posts = await this.postsWithUser(posts);
 			if (new_posts) {
 				res.json({ data: new_posts });
 			} else {
@@ -50,11 +46,7 @@ export class PostController {
 				text: req.params.search,
 			};
 			const posts = (await DataBase.like('posts', data)) as PostInterface[];
-			const new_posts: PostInterface[] = [];
-			for (const post of posts) {
-				const user = await DataBase.get('users', post.user_id.toString());
-				new_posts.push({ ...post, user });
-			}
+			const new_posts = await this.postsWithUser(posts);
 			if (new_posts) {
 				res.json({ data: new_posts });
 			} else {
@@ -115,5 +107,14 @@ export class PostController {
 				res.json({ error: 'Post não encontrado' });
 			}
 		});
+	}
+
+	private async postsWithUser(posts: PostInterface[]) {
+		const new_posts: PostInterface[] = [];
+		for (const post of posts) {
+			const user = await DataBase.get('users', post.user_id.toString());
+			new_posts.push({ ...post, user });
+		}
+		return new_posts;
 	}
 }
