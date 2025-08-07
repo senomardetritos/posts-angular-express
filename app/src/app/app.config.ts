@@ -14,6 +14,7 @@ import {
 } from "@angular/common/http";
 import { authInterceptor } from "./interceptors/auth-interceptor";
 import { LoadingInterceptor } from "./interceptors/loading-interceptor";
+import { HashLocationStrategy, LocationStrategy } from "@angular/common";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -24,6 +25,7 @@ export const appConfig: ApplicationConfig = {
       withInterceptors([authInterceptor]),
       withInterceptorsFromDi()
     ),
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
   ],
 };
