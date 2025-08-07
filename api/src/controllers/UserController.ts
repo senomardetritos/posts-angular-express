@@ -3,8 +3,10 @@ import { DataBase } from '../models/DataBase';
 import * as jwt from 'jsonwebtoken';
 import { UserMiddleware } from '../middlewares/UserMiddleware';
 import { UserInterface } from '../interfaces/user-interface';
-import multer from 'multer';
 import { readFileSync } from 'fs';
+import sharp from 'sharp';
+import { MulterUtil } from '../utils/multer-util';
+import { SharpUtil } from '../utils/sharp-util';
 
 export class UserController {
 	constructor(router: Router) {
@@ -125,9 +127,7 @@ export class UserController {
 	}
 
 	private async uploadPhoto(router: Router) {
-		const storage = multer.memoryStorage(); // Stores the file in memory as a Buffer
-		const upload = multer({ storage: storage });
-		// const upload = multer({ dest: 'uploads/' });
+		const upload = MulterUtil.createStorageImageFilename('user-photo.jpg');
 		router.post('/users/upload', upload.single('photo'), async (req: Request, res: Response) => {
 			const user = (res.getHeader('user') || {}) as UserInterface;
 			if (user.email == 'teste@email.com') {
@@ -135,8 +135,14 @@ export class UserController {
 				return;
 			}
 			if (req.file) {
-				DataBase.query('update users set photo = ? where id = ?', [req.file.buffer, user.id]);
-				res.json({ data: true });
+				SharpUtil.resizeImage('', 200, (data: any) => {
+					if (data && !data.error) {
+						DataBase.query('update users set photo = ? where id = ?', [data, user.id]);
+						res.json({ data: true });
+					} else {
+						res.json({ error: data.error });
+					}
+				});
 			} else {
 				res.json({ error: 'Arquivo não passado para a requisição' });
 			}
