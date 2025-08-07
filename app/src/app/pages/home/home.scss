@@ -11,7 +11,13 @@
     .divider {
       margin-bottom: 0;
     }
+    .no-posts {
+      margin-top: 16px;
+    }
     &-items {
+      .results {
+        margin-top: 16px;
+      }
       .divider {
         margin-top: 18px;
       }

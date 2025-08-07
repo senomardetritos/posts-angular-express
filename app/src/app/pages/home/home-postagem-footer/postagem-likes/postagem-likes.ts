@@ -34,6 +34,7 @@ export class PostagemLikes implements OnInit {
   );
   showLikes = signal(false);
   img_url = `${environment.api_url}/user-photo/`;
+  now = Date.now();
 
   public ngOnInit(): void {
     this.likeService.list(this.id() as string).subscribe((res) => {

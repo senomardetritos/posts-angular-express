@@ -41,6 +41,7 @@ export class PostagemComments implements OnInit {
   showComments = signal(false);
   formComment!: FormGroup;
   img_url = `${environment.api_url}/user-photo/`;
+  now = Date.now();
 
   public ngOnInit(): void {
     this.formComment = this.formBuilder.group({

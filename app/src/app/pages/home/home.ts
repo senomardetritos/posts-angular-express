@@ -19,6 +19,7 @@ export class Home implements OnInit {
   posts!: PostInterface[];
   search = "";
   img_url = `${environment.api_url}/user-photo/`;
+  now = Date.now();
 
   public ngOnInit(): void {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
