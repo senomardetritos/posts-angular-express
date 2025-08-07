@@ -29,7 +29,7 @@ export class DataBase {
 
 	public static async get(db_name: string, key: string) {
 		try {
-			const rows = await this.db.getall(`select * from ${db_name} where id = '${key}'`);
+			const rows = await this.db.getall(`select * from ${db_name} where id = ?`, [key]);
 			return rows[0];
 		} catch (error) {
 			console.error(error);
@@ -39,7 +39,7 @@ export class DataBase {
 
 	public static async find(db_name: string, key: string, value: string) {
 		try {
-			const rows = await this.db.getall(`select * from ${db_name} where ${key} = '${value}'`);
+			const rows = await this.db.getall(`select * from ${db_name} where ${key} = ?`, [value]);
 			return rows;
 		} catch (error) {
 			console.error(error);
@@ -50,13 +50,15 @@ export class DataBase {
 	public static async where(db_name: string, data: Object) {
 		try {
 			const query: string[] = [];
+			const params: string[] = [];
 			query.push(`select * from ${db_name} where `);
 			const values: string[] = [];
 			Object.keys(data).map((key: any) => {
-				values.push(`${key} = '${data[key as keyof Object].toString()}'`);
+				values.push(`${key} = ?`);
+				params.push(data[key as keyof Object].toString());
 			});
 			query.push(values.join(' and '));
-			const rows = await this.db.getall(query.join(' '));
+			const rows = await this.db.getall(query.join(' '), params);
 			return rows;
 		} catch (error) {
 			console.error(error);
@@ -67,13 +69,15 @@ export class DataBase {
 	public static async like(db_name: string, data: Object) {
 		try {
 			const query: string[] = [];
+			const params: string[] = [];
 			query.push(`select * from ${db_name} where `);
 			const values: string[] = [];
 			Object.keys(data).map((key: any) => {
-				values.push(`${key} like '%${data[key as keyof Object].toString()}%'`);
+				values.push(`${key} like ?`);
+				params.push(`%${data[key as keyof Object].toString()}%`);
 			});
 			query.push(values.join(' or '));
-			const rows = await this.db.getall(query.join(' '));
+			const rows = await this.db.getall(query.join(' '), params);
 			return rows;
 		} catch (error) {
 			console.error(error);
@@ -159,9 +163,9 @@ export class DataBase {
 			const query: string[] = [];
 			query.push(`delete from ${db_name}`);
 			const values: string[] = [];
-			query.push(`where id = ${key}`);
+			query.push(`where id = ?`);
 			query.push(';');
-			await this.db.delete(query.join(' '));
+			await this.db.delete(query.join(' '), [key]);
 			return true;
 		} catch (error) {
 			console.error(error);
