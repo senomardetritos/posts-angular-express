@@ -8,9 +8,15 @@
         display: block;
       }
     }
+    .divider {
+      margin-bottom: 0;
+    }
     &-items {
+      .divider {
+        margin-top: 18px;
+      }
       &-item {
-        margin-bottom: 16px;
+        margin: 16px 0;
         > .row {
           justify-content: center;
           align-items: center;

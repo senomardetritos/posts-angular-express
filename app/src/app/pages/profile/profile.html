@@ -44,7 +44,12 @@
       enctype="multipart/form-data"
     >
       <div class="form-control">
-        <input type="file" id="photo" (change)="onFileSelected($event)" />
+        <input
+          type="file"
+          id="photo"
+          (change)="onFileSelected($event)"
+          accept="image/png, image/jpg, image/jpeg"
+        />
       </div>
       <div class="form-control">
         <button tyep="submit">FAZER UPLOAD DE FOTO</button>
