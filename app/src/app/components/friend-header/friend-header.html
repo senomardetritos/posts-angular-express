@@ -2,15 +2,32 @@
 <div class="friend">
   <div class="row friend-header">
     <div class="col auto">
+      @if (clicked()) {
+      <div
+        class="user-photo-rounded large pointer"
+        [routerLink]="'/user/' + friend().user.id"
+      >
+        <img [src]="img_url" alt="Perfil" />
+      </div>
+      } @else {
       <div class="user-photo-rounded large">
         <img [src]="img_url" alt="Perfil" />
       </div>
+      }
     </div>
     <div class="col">
       <div class="row">
         <div class="col friend-header-data">
           <h1>
+            @if (clicked()) {
+            <span
+              class="text-gradient pointer"
+              [routerLink]="'/user/' + friend().user.id"
+              >{{ friend().user.name }}</span
+            >
+            } @else {
             <span class="text-gradient">{{ friend().user.name }}</span>
+            }
           </h1>
           <div class="row">
             <div class="col friend-header-data-numbers">

@@ -5,6 +5,7 @@ import { environment } from "../../environments/environment";
 import {
   FollowResponseInterface,
   FriendResponseInterface,
+  FriendsResponseInterface,
 } from "../interfaces/friend-interface";
 
 @Injectable({
@@ -22,6 +23,12 @@ export class FriendService {
   public get(id: string): Observable<FriendResponseInterface> {
     return this.http.get<FriendResponseInterface>(
       `${environment.api_url}/friends/${id}`
+    );
+  }
+
+  public search(search: string): Observable<FriendsResponseInterface> {
+    return this.http.get<FriendsResponseInterface>(
+      `${environment.api_url}/friends/search/${search}`
     );
   }
 

@@ -16,6 +16,7 @@ export class FriendHeader implements OnChanges {
   private tokenService = inject(TokenService);
 
   friend = input<FriendInterface>({} as FriendInterface);
+  clicked = input(false);
   logged = parseInt(this.tokenService.id);
   img_url = `${environment.api_url}/user-photo/0`;
 

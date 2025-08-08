@@ -8,6 +8,7 @@ import { FormPostagem } from "./pages/form-postagem/form-postagem";
 import { MinhasPostagens } from "./pages/minhas-postagens/minhas-postagens";
 import { loggedGuard } from "./guard/logged-guard";
 import { User } from "./pages/user/user";
+import { SearchUser } from "./pages/search-user/search-user";
 
 export const routes: Routes = [
   { path: "", component: Login, canActivate: [loggedGuard] },
@@ -17,6 +18,7 @@ export const routes: Routes = [
   { path: "home/:search", component: Home, canActivate: [authGuard] },
   { path: "user", component: User, canActivate: [authGuard] },
   { path: "user/:user", component: User, canActivate: [authGuard] },
+  { path: "search-user", component: SearchUser, canActivate: [authGuard] },
   {
     path: "minhas-postagens",
     component: MinhasPostagens,

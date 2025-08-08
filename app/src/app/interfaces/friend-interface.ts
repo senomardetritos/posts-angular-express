@@ -13,6 +13,11 @@ export interface FriendResponseInterface {
   error: string;
 }
 
+export interface FriendsResponseInterface {
+  data: FriendInterface[];
+  error: string;
+}
+
 export interface FollowResponseInterface {
   data: boolean;
 }

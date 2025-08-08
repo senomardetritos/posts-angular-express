@@ -1,0 +1,32 @@
+<div class="container page search-user">
+  <div class="row">
+    <div class="col input-search">
+      <form [formGroup]="formSearch" (submit)="onSubmit()">
+        <input
+          formControlName="search"
+          type="text"
+          id="search"
+          placeholder="Pesquisar por nome ou email!"
+        />
+        <button type="submit"><i class="bi bi-search"></i></button>
+      </form>
+    </div>
+  </div>
+  @if (friends) {
+  <div>
+    @for(friend of friends; track friend.user.id) {
+    <div class="friend-item">
+      <app-friend-header [friend]="friend" [clicked]="true"></app-friend-header>
+    </div>
+    <div class="divider"></div>
+    }
+  </div>
+  <diV>
+    @if (friends.length === 0) {
+    <div class="friend-item">
+      Nenhum resultado para: <b>{{ formSearch.get("search")?.value }}</b>
+    </div>
+    }
+  </diV>
+  }
+</div>
