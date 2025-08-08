@@ -6,16 +6,17 @@ import {
   OnInit,
   signal,
 } from "@angular/core";
-import { LikeService } from "../../../../services/like-service";
-import { TokenService } from "../../../../services/token-service";
-import { LikeInterface } from "../../../../interfaces/like-interface";
-import { Modal } from "../../../../components/modal/modal";
 import { DatePipe } from "@angular/common";
-import { environment } from "../../../../../environments/environment";
+import { Modal } from "../modal/modal";
+import { LikeService } from "../../services/like-service";
+import { TokenService } from "../../services/token-service";
+import { LikeInterface } from "../../interfaces/like-interface";
+import { environment } from "../../../environments/environment";
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: "app-postagem-likes",
-  imports: [Modal, DatePipe],
+  imports: [Modal, DatePipe, RouterLink],
   templateUrl: "./postagem-likes.html",
   styleUrl: "./postagem-likes.scss",
 })

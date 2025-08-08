@@ -76,6 +76,6 @@ export class TokenService {
       id: parseInt(this.id),
       email: this.email,
       name: this.name,
-    };
+    } as UserInterface;
   }
 }

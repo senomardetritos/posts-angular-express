@@ -1,5 +1,5 @@
 .home {
-  width: 800px;
+  width: 100%;
   &-body {
     .no-posts {
       margin-bottom: 24px;
@@ -37,7 +37,6 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            width: 600px;
           }
         }
         h1 {

@@ -1,0 +1,25 @@
+@if (token) {
+<div class="right">
+  <div class="row">
+    <div class="col">
+      <div class="form-control">
+        <button routerLink="/search-user">BUSCAR PESSOAS</button>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <h1><span class="text-gradient">Seguindo</span></h1>
+      <div class="divider"></div>
+      <app-list-user [users]="following" title="Seguindo"></app-list-user>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <h1><span class="text-gradient">Seguidores</span></h1>
+      <div class="divider"></div>
+      <app-list-user [users]="followers" title="Seguidores"></app-list-user>
+    </div>
+  </div>
+</div>
+}

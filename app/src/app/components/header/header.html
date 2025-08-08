@@ -31,12 +31,15 @@
     <div class="col header-right">
       <div class="row">
         <div class="col auto">
-          <div class="user-photo-rounded small">
+          <div
+            class="user-photo-rounded small pointer"
+            routerLink="/user/{{ id }}"
+          >
             <img [src]="img_url()" alt="Foto de Perfil" />
           </div>
         </div>
         <div class="col auto">
-          <a routerLink="profile">{{ name }}</a>
+          <a routerLink="/user/{{ id }}">{{ name }}</a>
         </div>
         <div class="col auto">|</div>
         <div class="col auto"><a href="#" (click)="logout()">SAIR</a></div>

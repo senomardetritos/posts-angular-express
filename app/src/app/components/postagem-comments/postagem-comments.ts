@@ -6,25 +6,26 @@ import {
   OnInit,
   signal,
 } from "@angular/core";
-import { Modal } from "../../../../components/modal/modal";
-import { CommentService } from "../../../../services/comment-service";
-import { CommentInterface } from "../../../../interfaces/comment-interface";
 import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
-import { ModalService } from "../../../../services/modal-service";
 import { DatePipe } from "@angular/common";
-import { AlertTypes } from "../../../../interfaces/modal-interface";
-import { TokenService } from "../../../../services/token-service";
-import { UserInterface } from "../../../../interfaces/users-interface";
-import { environment } from "../../../../../environments/environment";
+import { Modal } from "../modal/modal";
+import { CommentService } from "../../services/comment-service";
+import { ModalService } from "../../services/modal-service";
+import { TokenService } from "../../services/token-service";
+import { CommentInterface } from "../../interfaces/comment-interface";
+import { UserInterface } from "../../interfaces/users-interface";
+import { environment } from "../../../environments/environment";
+import { AlertTypes } from "../../interfaces/modal-interface";
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: "app-postagem-comments",
-  imports: [Modal, ReactiveFormsModule, DatePipe],
+  imports: [Modal, ReactiveFormsModule, DatePipe, RouterLink],
   templateUrl: "./postagem-comments.html",
   styleUrl: "./postagem-comments.scss",
 })

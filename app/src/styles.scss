@@ -45,6 +45,10 @@ a:visited {
   color: var(--bright-blue);
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 .text-gradient {
   background-image: var(--red-to-pink-to-purple-horizontal-gradient);
   -webkit-background-clip: text;
@@ -119,6 +123,11 @@ a:visited {
     cursor: pointer;
     background-image: var(--red-to-pink-to-purple-horizontal-gradient);
     color: white;
+  }
+  button.secondary {
+    background-color: #eeeeee;
+    background-image: none;
+    color: var(--gray-700);
   }
   .error {
     color: var(--orange-red);

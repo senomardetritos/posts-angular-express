@@ -24,7 +24,10 @@
         <div class="like-item">
           <div class="row">
             <div class="col auto">
-              <div class="user-photo-rounded small">
+              <div
+                class="user-photo-rounded small pointer"
+                routerLink="/user/{{ like.user.id }}"
+              >
                 <img
                   [src]="img_url + like.user.id + '?date=' + now"
                   alt="Foto de Perfil"
@@ -32,7 +35,9 @@
               </div>
             </div>
             <div class="col">
-              <p>{{ like.user.name }}</p>
+              <p class="pointer" routerLink="/user/{{ like.user.id }}">
+                {{ like.user.name }}
+              </p>
             </div>
           </div>
           <div class="col auto like-date">

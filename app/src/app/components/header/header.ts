@@ -22,6 +22,7 @@ export class Header implements OnInit {
   private router = inject(Router);
 
   formSearch!: FormGroup;
+  id = this.tokenService.id;
   name = "";
   token = "";
   photo_date = signal(Date.now());

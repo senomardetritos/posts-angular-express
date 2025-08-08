@@ -1,0 +1,74 @@
+<div class="list-user">
+  @if (users() && users().length === 0) {
+  <p>Ainda não segue ninguém!</p>
+  } @else {
+  <div>
+    @for (user of filter_users(); track user.id) {
+    <div class="row list-user-items">
+      <div class="col auto">
+        <div
+          class="user-photo-rounded medium pointer"
+          routerLink="/user/{{ user.id }}"
+        >
+          <img
+            [src]="img_url + user.id + '?date=' + now"
+            alt="Foto de Perfil"
+          />
+        </div>
+      </div>
+      <div class="col">
+        <h1 class="right pointer" routerLink="/user/{{ user.id }}">
+          {{ user.name }}
+        </h1>
+        <h2>
+          {{ user.meet | date : "dd/MM/yyyy" }}
+        </h2>
+      </div>
+    </div>
+    }
+    <div class="row">
+      @if (see_more()) {
+      <div class="col link-all">
+        <button class="pointer" (click)="onShowModal()">Ver todos</button>
+      </div>
+      }
+    </div>
+    <app-modal [show]="showModal()">
+      <div class="modal">
+        <div class="modal-header">
+          <h1>
+            <span class="text-gradient">{{ title() }}</span>
+          </h1>
+          <button (click)="onCloseModal()"><i class="bi bi-x"></i></button>
+        </div>
+        <div class="divider"></div>
+        <div class="modal-body">
+          @for (user of users(); track user.id) {
+          <div class="row list-user-items">
+            <div class="col auto">
+              <div
+                class="user-photo-rounded medium pointer"
+                routerLink="/user/{{ user.id }}"
+              >
+                <img
+                  [src]="img_url + user.id + '?date=' + now"
+                  alt="Foto de Perfil"
+                />
+              </div>
+            </div>
+            <div class="col">
+              <h1 class="modal pointer" routerLink="/user/{{ user.id }}">
+                {{ user.name }}
+              </h1>
+              <h2>
+                {{ user.meet | date : "dd/MM/yyyy" }}
+              </h2>
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+    </app-modal>
+  </div>
+  }
+</div>

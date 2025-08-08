@@ -1,6 +1,6 @@
 import { Component, input } from "@angular/core";
-import { PostagemLikes } from "./postagem-likes/postagem-likes";
-import { PostagemComments } from "./postagem-comments/postagem-comments";
+import { PostagemLikes } from "../../../components/postagem-likes/postagem-likes";
+import { PostagemComments } from "../../../components/postagem-comments/postagem-comments";
 
 @Component({
   selector: "app-home-postagem-footer",

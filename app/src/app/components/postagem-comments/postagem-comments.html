@@ -40,7 +40,10 @@
       @for (comment of list_comments(); track comment.id) {
       <div class="row">
         <div class="col auto">
-          <div class="user-photo-rounded medium">
+          <div
+            class="user-photo-rounded medium pointer"
+            routerLink="/user/{{ comment.user.id }}"
+          >
             <img
               [src]="img_url + comment.user.id + '?date=' + now"
               alt="Foto de Perfil"
@@ -49,7 +52,11 @@
         </div>
         <div class="col">
           <div class="comment">
-            <span class="user">{{ comment.user.name }}</span>
+            <span
+              class="user pointer"
+              routerLink="/user/{{ comment.user.id }}"
+              >{{ comment.user.name }}</span
+            >
             <span>{{ comment.comment }}</span>
           </div>
 
