@@ -1,0 +1,26 @@
+.friend {
+  &-header {
+    margin-bottom: 24px;
+    &-data {
+      padding: 20px 24px;
+      h1 span {
+        margin-bottom: 12px;
+        font-size: 16pt;
+        display: inline-block;
+      }
+      h2 {
+        margin-top: 16px;
+        font-size: 8pt;
+      }
+      &-numbers {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 4px;
+      }
+    }
+    .btn-editar {
+      width: 200px;
+    }
+  }
+}

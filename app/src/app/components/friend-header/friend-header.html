@@ -1,0 +1,45 @@
+@if (friend()) {
+<div class="friend">
+  <div class="row friend-header">
+    <div class="col auto">
+      <div class="user-photo-rounded large">
+        <img [src]="img_url" alt="Perfil" />
+      </div>
+    </div>
+    <div class="col">
+      <div class="row">
+        <div class="col friend-header-data">
+          <h1>
+            <span class="text-gradient">{{ friend().user.name }}</span>
+          </h1>
+          <div class="row">
+            <div class="col friend-header-data-numbers">
+              <b>{{ friend().posts.length }}</b>
+              @if (friend().posts.length>1) { postagens } @else { postagem }
+            </div>
+            <div class="col friend-header-data-numbers">
+              <b>{{ friend().following.length }}</b>
+              seguindo
+            </div>
+            <div class="col friend-header-data-numbers">
+              <b>{{ friend().followers.length }}</b>
+              @if (friend().followers.length>1) { seguidores } @else { seguidor
+              }
+            </div>
+          </div>
+          <h2>Desde {{ friend().user.date | date : "dd/MM/yyyy" }}</h2>
+        </div>
+        <div class="col btn-editar">
+          @if (friend().user.id === logged) {
+          <div class="form-control">
+            <button routerLink="/profile">EDITAR</button>
+          </div>
+          } @else {
+          <app-follow [id]="friend().user.id"></app-follow>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+}

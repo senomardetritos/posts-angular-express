@@ -1,26 +1,4 @@
 .user {
-  &-header {
-    margin-bottom: 24px;
-    &-data {
-      padding: 20px 24px;
-      h1 {
-        margin-bottom: 16px;
-      }
-      h2 {
-        margin-top: 16px;
-        font-size: 8pt;
-      }
-      &-numbers {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 4px;
-      }
-    }
-    .btn-editar {
-      width: 200px;
-    }
-  }
   .user-items {
     &-item {
       margin: 8px 0;

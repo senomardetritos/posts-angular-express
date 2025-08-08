@@ -1,45 +1,6 @@
 <div class="container page user">
-  @if (user) {
-  <div class="row user-header">
-    <div class="col auto">
-      <div class="user-photo-rounded large">
-        <img [src]="img_url" alt="Perfil" />
-      </div>
-    </div>
-    <div class="col">
-      <div class="row">
-        <div class="col user-header-data">
-          <h1>
-            <span class="text-gradient">{{ user.name }}</span>
-          </h1>
-          <div class="row">
-            <div class="col user-header-data-numbers">
-              <b>{{ posts.length }}</b>
-              @if (posts.length>1) { postagens } @else { postagem }
-            </div>
-            <div class="col user-header-data-numbers">
-              <b>{{ following.length }}</b>
-              seguindo
-            </div>
-            <div class="col user-header-data-numbers">
-              <b>{{ followers.length }}</b>
-              @if (followers.length>1) { seguidores } @else { seguidor }
-            </div>
-          </div>
-          <h2>Desde {{ user.date | date : "dd/MM/yyyy" }}</h2>
-        </div>
-        <div class="col btn-editar">
-          @if (user.id === logged) {
-          <div class="form-control">
-            <button routerLink="/profile">EDITAR</button>
-          </div>
-          } @else {
-          <app-follow [id]="user.id"></app-follow>
-          }
-        </div>
-      </div>
-    </div>
-  </div>
+  @if (friend) {
+  <app-friend-header [friend]="friend"></app-friend-header>
   <div class="row">
     <div class="col auto">
       <h1 class="text-gradient">Postagens</h1>
@@ -48,7 +9,7 @@
   <div class="divider"></div>
   <div class="row">
     <div class="col user-items">
-      @for (post of posts; track post.id) {
+      @for (post of friend.posts; track post.id) {
       <div class="user-items-item">
         <div class="row">
           <div class="col">
