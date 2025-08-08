@@ -9,6 +9,7 @@ export class FriendController {
 	constructor(router: Router) {
 		router.use('/friends', UserMiddleware.isLogged);
 		this.getFriend(router);
+		this.searchFriend(router);
 		this.getFollow(router);
 		this.changeFollow(router);
 	}
@@ -19,7 +20,27 @@ export class FriendController {
 			if (friend) {
 				res.json({ data: { ...friend } });
 			} else {
-				res.json({ error: 'Erro ao listar likes' });
+				res.json({ error: 'Erro ao buscar friend' });
+			}
+		});
+	}
+
+	private async searchFriend(router: Router) {
+		router.get('/friends/search/:search', async (req: Request, res: Response) => {
+			const data = {
+				email: req.params.search,
+				name: req.params.search,
+			};
+			const users = (await DataBase.like('users', data)) as UserInterface[];
+			const friends: FriendInterface[] = [];
+			for (const user of users) {
+				const friend = await this.getFriendData(user.id.toString());
+				friends.push(friend);
+			}
+			if (friends) {
+				res.json({ data: friends });
+			} else {
+				res.json({ error: 'Erro ao pesquisar friends' });
 			}
 		});
 	}
