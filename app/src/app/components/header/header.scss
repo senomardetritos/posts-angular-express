@@ -20,31 +20,6 @@
       font-size: medium;
     }
   }
-  &-center {
-    align-items: center;
-    justify-content: center;
-    form {
-      width: 100%;
-      position: relative;
-      input {
-        padding: 10px 12px;
-        width: 100%;
-        background: #f9f9f9;
-        border: 1px solid #eeeeee;
-        border-radius: 8px;
-        outline: none;
-      }
-      button {
-        position: absolute;
-        right: 0;
-        top: 0;
-        background: transparent;
-        border: 0;
-        padding: 10px;
-        cursor: pointer;
-      }
-    }
-  }
   &-right {
     align-items: end;
     .row {

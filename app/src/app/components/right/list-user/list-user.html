@@ -1,6 +1,6 @@
 <div class="list-user">
   @if (users() && users().length === 0) {
-  <p>Ainda não segue ninguém!</p>
+  <p>Ninguém por aqui ainda!</p>
   } @else {
   <div>
     @for (user of filter_users(); track user.id) {
