@@ -2,14 +2,20 @@ import { TestBed } from "@angular/core/testing";
 
 import { TokenService } from "./token-service";
 import { LoginResponseInterface } from "../interfaces/users-interface";
+import { provideHttpClient } from "@angular/common/http";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 
 describe("TokenService", () => {
   let service: TokenService;
   let user: LoginResponseInterface;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({}).compileComponents();
-    TestBed.configureTestingModule({});
+    await TestBed.configureTestingModule({
+      providers: [
+        provideHttpClient(), // Provides HttpClient for your component/service
+        provideHttpClientTesting(), // Provides HttpTestingController for mocking
+      ],
+    }).compileComponents();
     service = TestBed.inject(TokenService);
     user = {
       data: {
@@ -45,5 +51,11 @@ describe("TokenService", () => {
     service.login(user);
     const res = service.getUser();
     expect(res.data.email).toEqual(user.data.email);
+  });
+
+  it("Ao setar name deveria chamar emit do loginEvent$", () => {
+    const loginEventSpy = jest.spyOn(service["loginEvent$"], "emit");
+    service.name = "teste";
+    expect(loginEventSpy).toHaveBeenCalled();
   });
 });
