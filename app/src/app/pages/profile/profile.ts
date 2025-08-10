@@ -47,6 +47,11 @@ export class Profile implements OnInit {
     this.profileService.getProfile().subscribe((res) => {
       if (res && res.data) {
         this.formProfile.get("name")?.setValue(res.data.name);
+      } else {
+        this.modalService.showAlert(
+          "Erro ao carregar o perfil",
+          AlertTypes.ERROR
+        );
       }
     });
   }
@@ -86,10 +91,7 @@ export class Profile implements OnInit {
             AlertTypes.SUCCESS
           );
         }
-        setTimeout(() => {
-          this.photo_date.set(Date.now());
-          this.tokenService.photoUserEvent$.emit();
-        }, 1000);
+        this.getImage();
       });
     } else {
       this.modalService.showAlert(
@@ -99,11 +101,23 @@ export class Profile implements OnInit {
     }
   }
 
+  public getImage() {
+    this.photo_date.set(Date.now());
+    this.tokenService.photoUserEvent$.emit();
+    return `${environment.api_url}/user-photo/${
+      this.tokenService.id
+    }?date=${this.photo_date()}`;
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public onFileSelected(event: any): void {
     if (event.target.files.length > 0) {
       this.formPhoto.patchValue({
         photo: event.target.files[0], // Update the form control value
+      });
+    } else {
+      this.formPhoto.patchValue({
+        photo: null,
       });
     }
   }

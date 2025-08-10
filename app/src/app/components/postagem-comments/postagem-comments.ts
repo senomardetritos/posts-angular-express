@@ -55,10 +55,16 @@ export class PostagemComments implements OnInit {
     this.commentService.list(this.id() as string).subscribe((res) => {
       if (res && res.data) {
         this.list_comments.update(() => res.data);
+      } else {
+        this.modalService.showAlert(
+          "Erro ao listar comentários",
+          AlertTypes.ERROR
+        );
       }
     });
     this.user = this.tokenService.user;
   }
+
   public onSubmit(): void {
     this.formComment.markAllAsTouched();
     if (this.formComment.valid) {

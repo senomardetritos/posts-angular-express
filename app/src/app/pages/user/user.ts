@@ -33,11 +33,13 @@ export class User implements OnInit {
     });
   }
 
-  private loadUser() {
+  public loadUser() {
     const user_id = this.id ? this.id : this.tokenService.id;
     this.friendService.get(user_id).subscribe((res) => {
       if (res && res.data && res.data.user) {
         this.friend = res.data;
+      } else {
+        this.friend = {} as FriendInterface;
       }
     });
   }

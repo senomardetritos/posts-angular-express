@@ -41,6 +41,8 @@ export class PostagemLikes implements OnInit {
     this.likeService.list(this.id() as string).subscribe((res) => {
       if (res && res.data) {
         this.list_likes.update(() => res.data);
+      } else {
+        this.list_likes.update(() => []);
       }
     });
   }
@@ -50,15 +52,13 @@ export class PostagemLikes implements OnInit {
     this.likeService.change(this.id() as string).subscribe((res) => {
       if (res && res.data) {
         this.list_likes.update(() => res.data);
+      } else {
+        this.list_likes.update(() => []);
       }
     });
   }
 
-  public modalLikes(): void {
-    this.showLikes.update((value) => !value);
-  }
-
-  private setClickLike(): void {
+  public setClickLike(): void {
     const index = this.list_likes().findIndex(
       (item) => item.user.email == this.tokenService.email
     );
@@ -74,5 +74,9 @@ export class PostagemLikes implements OnInit {
         )
       );
     }
+  }
+
+  public modalLikes(): void {
+    this.showLikes.update((value) => !value);
   }
 }

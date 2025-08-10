@@ -15,7 +15,13 @@ import { environment } from "../../../environments/environment";
 export class FriendHeader implements OnChanges {
   private tokenService = inject(TokenService);
 
-  friend = input<FriendInterface>({} as FriendInterface);
+  friend = input<FriendInterface>({
+    user: {},
+    following: [],
+    followers: [],
+    posts: [],
+  } as unknown as FriendInterface);
+
   clicked = input(false);
   logged = parseInt(this.tokenService.id);
   img_url = `${environment.api_url}/user-photo/0`;
@@ -25,6 +31,8 @@ export class FriendHeader implements OnChanges {
       this.img_url = `${environment.api_url}/user-photo/${
         this.friend().user.id
       }?date=${Date.now}`;
+    } else {
+      this.img_url = `${environment.api_url}/user-photo/0?date=${Date.now}`;
     }
   }
 }

@@ -19,6 +19,8 @@ export class MinhasPostagens implements OnInit {
     this.postService.list().subscribe((res) => {
       if (res && res.data) {
         this.posts = res.data;
+      } else {
+        this.posts = [];
       }
     });
   }

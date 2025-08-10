@@ -35,10 +35,14 @@ var __awaiter =
 Object.defineProperty(exports, "__esModule", { value: true });
 const testing_1 = require("@angular/core/testing");
 const app_1 = require("./app");
+const { provideHttpClient } = require("@angular/common/http");
 describe("App", () => {
   beforeEach(() =>
     __awaiter(void 0, void 0, void 0, function* () {
       yield testing_1.TestBed.configureTestingModule({
+        providers: [
+          provideHttpClient(), // Provides HttpClient for your component/service
+        ],
         imports: [app_1.App],
       }).compileComponents();
     })

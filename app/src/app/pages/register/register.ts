@@ -39,7 +39,7 @@ export class Register implements OnInit {
       this.registerService
         .register(this.formRegister.value)
         .subscribe((res) => {
-          if (res.error) {
+          if (res && res.error) {
             this.modalService.showAlert(res.error, AlertTypes.ERROR);
           } else {
             this.router.navigate(["/home"]);

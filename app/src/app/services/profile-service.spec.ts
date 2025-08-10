@@ -35,7 +35,7 @@ describe("ProfileService", () => {
     expect(service).toBeTruthy();
   });
 
-  it("Deveria chamar updateProfile", () => {
+  it("Deveria chamar updateProfile com data", () => {
     service.updateProfile({} as ProfileInterface).subscribe((res) => {
       expect(res).toBeDefined();
       expect(res).toBeInstanceOf(profileResponse);
@@ -43,6 +43,17 @@ describe("ProfileService", () => {
     const req = httpTesting.expectOne(`${environment.api_url}/users/update`);
     expect(req.request.method).toEqual("POST");
     req.flush({ data: true });
+    httpTesting.verify();
+  });
+
+  it("Deveria chamar updateProfile sem data", () => {
+    service.updateProfile({} as ProfileInterface).subscribe((res) => {
+      expect(res).toBeDefined();
+      expect(res).toBeInstanceOf(profileResponse);
+    });
+    const req = httpTesting.expectOne(`${environment.api_url}/users/update`);
+    expect(req.request.method).toEqual("POST");
+    req.flush({});
     httpTesting.verify();
   });
 
@@ -58,7 +69,7 @@ describe("ProfileService", () => {
     httpTesting.verify();
   });
 
-  it("Deveria chamar uploadPhoto", () => {
+  it("Deveria chamar uploadPhoto com data", () => {
     const photo = new Blob(["mock content"], { type: "image/png" });
     service
       .uploadPhoto({ photo: photo } as UserPhotoInterface)

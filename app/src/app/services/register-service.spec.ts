@@ -33,7 +33,7 @@ describe("RegisterService", () => {
     expect(service).toBeTruthy();
   });
 
-  it("Deveria chamar register e retornar LoginResponseInterface", () => {
+  it("Deveria chamar register e retornar LoginResponseInterface com data", () => {
     service.register({} as RegisterInterface).subscribe((res) => {
       expect(res).toBeDefined();
       expect(res).toBeInstanceOf(loginResponse);
@@ -41,6 +41,17 @@ describe("RegisterService", () => {
     const req = httpTesting.expectOne(`${environment.api_url}/register`);
     expect(req.request.method).toEqual("POST");
     req.flush({ data: true });
+    httpTesting.verify();
+  });
+
+  it("Deveria chamar register e retornar LoginResponseInterface sem data", () => {
+    service.register({} as RegisterInterface).subscribe((res) => {
+      expect(res).toBeDefined();
+      expect(res).toBeInstanceOf(loginResponse);
+    });
+    const req = httpTesting.expectOne(`${environment.api_url}/register`);
+    expect(req.request.method).toEqual("POST");
+    req.flush({});
     httpTesting.verify();
   });
 });

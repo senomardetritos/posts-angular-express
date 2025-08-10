@@ -27,7 +27,7 @@ export class Follow implements OnInit, OnChanges {
     });
   }
 
-  private getFollow() {
+  public getFollow() {
     if (this.id() > 0) {
       this.friendService.follow(this.id().toString()).subscribe((res) => {
         this.follow = res.data;

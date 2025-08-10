@@ -42,7 +42,7 @@ describe("LoginService", () => {
     httpTesting.verify();
   });
 
-  it("Deveria chamar Login e chamar o TokenService com tap", () => {
+  it("Deveria chamar Login e chamar o TokenService com tap com data", () => {
     const tokenServiceLoginSpy = jest.spyOn(service["tokenService"], "login");
     service.login({} as LoginInterface).subscribe(() => {
       expect(tokenServiceLoginSpy).toHaveBeenCalled();
@@ -50,6 +50,17 @@ describe("LoginService", () => {
     const req = httpTesting.expectOne(`${environment.api_url}/login`);
     expect(req.request.method).toEqual("POST");
     req.flush({ data: true });
+    httpTesting.verify();
+  });
+
+  it("Deveria chamar Login e chamar o TokenService com tap sem data", () => {
+    const tokenServiceLoginSpy = jest.spyOn(service["tokenService"], "login");
+    service.login({} as LoginInterface).subscribe(() => {
+      expect(tokenServiceLoginSpy).toHaveBeenCalled();
+    });
+    const req = httpTesting.expectOne(`${environment.api_url}/login`);
+    expect(req.request.method).toEqual("POST");
+    req.flush({});
     httpTesting.verify();
   });
 });

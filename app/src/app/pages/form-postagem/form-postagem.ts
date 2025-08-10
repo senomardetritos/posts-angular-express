@@ -17,7 +17,6 @@ import { ActivatedRoute, Router } from "@angular/router";
   styleUrl: "./form-postagem.scss",
 })
 export class FormPostagem implements OnInit {
-  isNewPost = true;
   formPostagem!: FormGroup;
 
   private formBuilder = inject(FormBuilder);
@@ -44,9 +43,10 @@ export class FormPostagem implements OnInit {
             this.modalService.showAlert(res.error, AlertTypes.ERROR);
           } else {
             this.formPostagem.setValue(res.data);
-            this.isNewPost = false;
           }
         });
+      } else {
+        this.formPostagem.reset();
       }
     });
   }
@@ -54,10 +54,10 @@ export class FormPostagem implements OnInit {
   public onSubmit(): void {
     this.formPostagem.markAllAsTouched();
     if (this.formPostagem.valid) {
-      if (this.isNewPost) {
-        this.addPost();
-      } else {
+      if (this.formPostagem.get("id")?.value) {
         this.updatePost();
+      } else {
+        this.addPost();
       }
     } else {
       this.modalService.showAlert(
@@ -67,7 +67,7 @@ export class FormPostagem implements OnInit {
     }
   }
 
-  private addPost(): void {
+  public addPost(): void {
     this.postService.add(this.formPostagem.value).subscribe((res) => {
       if (res.error) {
         this.modalService.showAlert(res.error, AlertTypes.ERROR);
@@ -81,7 +81,7 @@ export class FormPostagem implements OnInit {
     });
   }
 
-  private updatePost(): void {
+  public updatePost(): void {
     this.postService.update(this.formPostagem.value).subscribe((res) => {
       if (res.error) {
         this.modalService.showAlert(res.error, AlertTypes.ERROR);

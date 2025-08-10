@@ -29,12 +29,16 @@ export class Home implements OnInit {
         this.postService.search(param.search).subscribe((res) => {
           if (res && res.data) {
             this.posts = res.data;
+          } else {
+            this.posts = [];
           }
         });
       } else {
         this.postService.lasts().subscribe((res) => {
           if (res && res.data) {
             this.posts = res.data;
+          } else {
+            this.posts = [];
           }
         });
       }

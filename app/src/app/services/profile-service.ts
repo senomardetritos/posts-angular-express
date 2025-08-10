@@ -35,6 +35,8 @@ export class ProfileService {
         tap((res) => {
           if (res && res.data) {
             this.tokenService.name = data.name;
+          } else {
+            this.tokenService.name = "";
           }
         })
       );

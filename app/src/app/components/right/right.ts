@@ -31,17 +31,20 @@ export class Right implements OnInit {
     this.tokenService.logoutEvent$.subscribe(() => {
       this.token = "";
     });
-    this.loadUser();
     this.friendService.changeFollowEvent$.subscribe(() => {
       this.loadUser();
     });
+    this.loadUser();
   }
 
-  private loadUser() {
+  public loadUser() {
     this.friendService.get(this.tokenService.id).subscribe((res) => {
-      if (res && res.data && res.data.user) {
+      if (res && res.data && res.data.following && res.data.followers) {
         this.following = res.data.following;
         this.followers = res.data.followers;
+      } else {
+        this.following = [];
+        this.followers = [];
       }
     });
   }
