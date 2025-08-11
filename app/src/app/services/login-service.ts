@@ -15,14 +15,23 @@ export class LoginService {
   private http = inject(HttpClient);
   private tokenService = inject(TokenService);
 
+  /**
+   * Realiza o login do usuário enviando credenciais para o endpoint de autenticação
+   * e processa a resposta para gerenciar a sessão do usuário.
+   **/
   public login(data: LoginInterface): Observable<LoginResponseInterface> {
+    // Envia requisição POST para o endpoint /login com as credenciais
     return this.http
       .post<LoginResponseInterface>(`${environment.api_url}/login`, data)
       .pipe(
+        // Processa a resposta usando operadores RxJS pipe/tap:
         tap((res) => {
+          // Em caso de sucesso (res.data existe)
           if (res.data) {
+            // Armazena os tokens de autenticação via TokenService
             this.tokenService.login(res);
           } else {
+            // Limpa a sessão existente passando um objeto vazio para TokenService
             this.tokenService.login({} as LoginResponseInterface);
           }
         })

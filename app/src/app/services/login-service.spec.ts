@@ -42,14 +42,24 @@ describe("LoginService", () => {
     httpTesting.verify();
   });
 
+  /**
+   * Teste unitário para verificar o comportamento do método login()
+   * quando recebe uma resposta com dados válidos
+   */
   it("Deveria chamar Login e chamar o TokenService com tap com data", () => {
+    // Prepara o teste - Espiona o método login do TokenService
     const tokenServiceLoginSpy = jest.spyOn(service["tokenService"], "login");
+    // Executa a ação - Chama o método login() do serviço
     service.login({} as LoginInterface).subscribe(() => {
-      expect(tokenServiceLoginSpy).toHaveBeenCalled();
+      expect(tokenServiceLoginSpy).toHaveBeenCalled(); // Confirma que o TokenService.login foi chamado
     });
+    // Simula a resposta HTTP - Captura a requisição feita
     const req = httpTesting.expectOne(`${environment.api_url}/login`);
+    // Verifica se a requisição foi do tipo POST
     expect(req.request.method).toEqual("POST");
+    // Completa a requisição simulada com uma resposta de sucesso
     req.flush({ data: true });
+    // Verifica se não há requisições pendentes
     httpTesting.verify();
   });
 
