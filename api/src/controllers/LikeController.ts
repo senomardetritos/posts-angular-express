@@ -3,6 +3,10 @@ import { DataBase } from '../models/DataBase';
 import { UserMiddleware } from '../middlewares/UserMiddleware';
 import { LikeInterface } from '../interfaces/like-interface';
 import { UserInterface } from '../interfaces/user-interface';
+import { RabbitController } from './RabbitController';
+import { MailerController } from './MailerController';
+import { TemplateUtil } from '../utils/template-util';
+import { PostInterface } from '../interfaces/post-interface';
 
 export class LikeController {
 	constructor(router: Router) {
@@ -28,11 +32,18 @@ export class LikeController {
 			const data = { post_id: req.params.id, user_id: user.id };
 			const likes = (await DataBase.find('likes', 'post_id', req.params.id)) as LikeInterface[];
 			const like = likes.filter((item: any) => item.user_id == user.id);
+			const post = (await DataBase.get('posts', req.params.id)) as PostInterface;
+			const post_user = (await DataBase.get('users', post.user_id.toString())) as UserInterface;
 			if (like.length > 0) {
 				const deleted = await DataBase.delete('likes', like[0].id);
 				if (deleted) {
 					const likes = await this.likesWithUser(req.params.id);
 					res.json({ data: likes });
+					RabbitController.sendObject('email', {
+						to: post_user.email,
+						subject: 'Perdeu uma curtida em sua postagem',
+						html: TemplateUtil.template('emails/lost-like.html', { title: post.title, likes: likes.length }),
+					});
 				} else {
 					res.json({ error: 'Erro ao criar like' });
 				}
@@ -41,6 +52,11 @@ export class LikeController {
 				if (inserted) {
 					const likes = await this.likesWithUser(req.params.id);
 					res.json({ data: likes });
+					RabbitController.sendObject('email', {
+						to: post_user.email,
+						subject: 'Nova Curtida em sua postagem',
+						html: TemplateUtil.template('emails/received-like.html', { title: post.title, likes: likes.length }),
+					});
 				} else {
 					res.json({ error: 'Erro ao criar like' });
 				}

@@ -3,6 +3,9 @@ import { DataBase } from '../models/DataBase';
 import { UserMiddleware } from '../middlewares/UserMiddleware';
 import { UserInterface } from '../interfaces/user-interface';
 import { CommentInterface } from '../interfaces/comment-interface';
+import { RabbitController } from './RabbitController';
+import { PostInterface } from '../interfaces/post-interface';
+import { TemplateUtil } from '../utils/template-util';
 
 export class CommentController {
 	constructor(router: Router) {
@@ -27,9 +30,20 @@ export class CommentController {
 		router.post('/comments/add/:id', async (req: Request, res: Response) => {
 			const user = (res.getHeader('user') || {}) as UserInterface;
 			const data = { ...req.body, post_id: req.params.id, user_id: user.id };
+			const post = (await DataBase.get('posts', req.params.id)) as PostInterface;
+			const post_user = (await DataBase.get('users', post.user_id.toString())) as UserInterface;
 			const inserted = await DataBase.insert('comments', data);
 			if (inserted) {
 				const comments = await this.commentsWithUser(req.params.id);
+				RabbitController.sendObject('email', {
+					to: post_user.email,
+					subject: 'Nova comentário em sua postagem',
+					html: TemplateUtil.template('emails/received-comment.html', {
+						title: post.title,
+						user: user.name,
+						comment: data.comment,
+					}),
+				});
 				res.json({ data: comments });
 			} else {
 				res.json({ error: 'Erro ao criar Comentário' });
