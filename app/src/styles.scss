@@ -57,6 +57,26 @@ a:visited {
   color: transparent;
 }
 
+.divider {
+  height: 1px;
+  width: 100%;
+  background: var(--red-to-pink-to-purple-horizontal-gradient);
+  margin: 12px 0;
+}
+
+.line-or {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  gap: 16px;
+  &-line {
+    width: 50%;
+  }
+  &-or {
+    font-weight: 600;
+  }
+}
+
 .row {
   display: flex;
   flex-direction: row;
@@ -80,13 +100,6 @@ a:visited {
 
 .container.page {
   padding: 36px;
-}
-
-.divider {
-  height: 1px;
-  width: 100%;
-  background: var(--red-to-pink-to-purple-horizontal-gradient);
-  margin: 12px 0;
 }
 
 .input-search {

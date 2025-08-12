@@ -44,6 +44,15 @@ export interface ChangePasswordInterface {
   new_password: string;
 }
 
+export interface ForgotPasswordInterface {
+  email: string;
+}
+
+export interface OTPPasswordInterface {
+  email: string;
+  otp: string;
+}
+
 export interface UserPhotoInterface {
   photo: File;
 }

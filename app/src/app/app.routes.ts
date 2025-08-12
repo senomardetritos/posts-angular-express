@@ -9,10 +9,16 @@ import { MinhasPostagens } from "./pages/minhas-postagens/minhas-postagens";
 import { loggedGuard } from "./guard/logged-guard";
 import { User } from "./pages/user/user";
 import { SearchUser } from "./pages/search-user/search-user";
+import { ForgotPassword } from "./pages/forgot-password/forgot-password";
 
 export const routes: Routes = [
   { path: "", component: Login, canActivate: [loggedGuard] },
   { path: "register", component: Register, canActivate: [loggedGuard] },
+  {
+    path: "fotgot-password",
+    component: ForgotPassword,
+    canActivate: [loggedGuard],
+  },
   { path: "profile", component: Profile, canActivate: [authGuard] },
   { path: "home", component: Home, canActivate: [authGuard] },
   { path: "home/:search", component: Home, canActivate: [authGuard] },
