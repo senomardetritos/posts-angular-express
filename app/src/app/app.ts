@@ -7,10 +7,11 @@ import { AlertTypes } from "./interfaces/modal-interface";
 import { ModalService } from "./services/modal-service";
 import { Loading } from "./components/loading/loading";
 import { Right } from "./components/right/right";
+import { Messages } from "./components/messages/messages";
 
 @Component({
   selector: "app-root",
-  imports: [Header, Menu, Right, Alert, Loading, RouterOutlet],
+  imports: [Header, Menu, Right, Messages, Alert, Loading, RouterOutlet],
   templateUrl: "./app.html",
   styleUrl: "./app.scss",
 })

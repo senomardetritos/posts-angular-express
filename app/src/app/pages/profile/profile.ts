@@ -47,6 +47,7 @@ export class Profile implements OnInit {
     this.profileService.getProfile().subscribe((res) => {
       if (res && res.data) {
         this.formProfile.get("name")?.setValue(res.data.name);
+        this.getImage();
       } else {
         this.modalService.showAlert(
           "Erro ao carregar o perfil",

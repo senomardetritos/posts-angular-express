@@ -1,0 +1,39 @@
+.list-chat {
+  display: block;
+  height: 330px;
+  overflow: scroll;
+  margin-bottom: 16px;
+  &-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    min-height: 330px;
+    > div {
+      > div {
+        display: inline-block;
+        padding: 8px;
+        background-color: #f9f9f9;
+        border-radius: 12px;
+        position: relative;
+        margin: 4px 0;
+        max-width: 90%;
+        p {
+          padding-right: 34px;
+        }
+        span {
+          position: absolute;
+          right: 8px;
+          bottom: 4px;
+          font-size: 8pt;
+        }
+      }
+    }
+    .right {
+      display: flex;
+      justify-content: end;
+      > div {
+        background-color: #b4e1d5;
+      }
+    }
+  }
+}

@@ -1,0 +1,83 @@
+@if (token) {
+<div class="messages">
+  <div class="messages-card">
+    <div class="messages-card-header">
+      @if (selected_user().name) {
+      <div class="without-close">
+        <button (click)="backToMessages()">
+          <i class="bi bi-chevron-left"></i>
+        </button>
+        <h1 class="text-gradient">{{ selected_user().name }}</h1>
+      </div>
+      } @else if (isOpen) {
+      <div class="with-close">
+        <h1 class="text-gradient">Mensagens {{ selected_user().name }}</h1>
+        <button (click)="closeMessages()">
+          <i class="bi bi-x"></i>
+        </button>
+      </div>
+      } @else {
+      <button class="without-close" (click)="openMessages()">
+        <i class="bi bi-chat-dots"></i>
+        <h1 class="text-gradient">Mensagens</h1>
+      </button>
+      }
+    </div>
+    @if (selected_user().name) {
+    <div class="messages-card-body">
+      <app-user-chat [id]="selected_user().id"></app-user-chat>
+    </div>
+    } @else if (isOpen){
+    <div class="messages-card-body">
+      <div class="divider"></div>
+      <div class="input-search">
+        <form [formGroup]="formUser" (submit)="onSubmit()">
+          <input
+            formControlName="search"
+            type="text"
+            id="search"
+            placeholder="Pesquisar pessoas"
+          />
+          <div>
+            @if (formUser.get('search')?.touched &&
+            formUser.get('search')?.errors?.['required']) {
+            <div class="error">Digite um nome.</div>
+            } @else if (formUser.get('search')?.errors?.['minlength']) {
+            <div class="error">Digite mais de 3 caracteres.</div>
+            }
+          </div>
+          @if (list_search.length > 0) {
+          <button type="button" (click)="clearSearch()">
+            <i class="bi bi-x"></i>
+          </button>
+          } @else {
+          <button type="submit"><i class="bi bi-search"></i></button>
+          }
+        </form>
+      </div>
+      @if (list_search.length > 0) {
+      <div class="list-user">
+        @for (user of list_search; track user.id) {
+        <button (click)="selectUser(user)">
+          <app-user-message [user]="user"></app-user-message>
+        </button>
+        }
+      </div>
+      } @else {
+      <div>
+        @if (messages_users.length > 0) {
+        <div class="list-user">
+          @for (user of messages_users; track user.id) {
+          <button (click)="selectUser(user)">
+            <app-user-message [user]="user"></app-user-message>
+          </button>
+          }
+        </div>
+        }
+      </div>
+      }
+    </div>
+    }
+  </div>
+</div>
+}

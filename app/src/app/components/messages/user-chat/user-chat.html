@@ -1,0 +1,28 @@
+<div class="list-chat" #chatContainer>
+  @if (messages.length > 0) {
+  <div class="list-chat-body">
+    @for (message of messages; track message.id) {
+    <div [class.right]="message.user_id === logged_id">
+      <div>
+        <p>{{ message.message }}</p>
+        <span>{{ message.date | date : "HH:mm" }}</span>
+      </div>
+    </div>
+    }
+  </div>
+  }
+</div>
+
+<div class="input-chat">
+  <div class="input-search">
+    <form [formGroup]="formChat" (submit)="onSubmit()">
+      <input
+        formControlName="message"
+        type="text"
+        id="message"
+        placeholder="Mensagem"
+      />
+      <button type="submit"><i class="bi bi-send"></i></button>
+    </form>
+  </div>
+</div>

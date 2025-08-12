@@ -1,0 +1,13 @@
+.user-message {
+  margin: 8px 0;
+  &-data {
+    h1,
+    p {
+      width: 220px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-wrap: nowrap;
+      padding: 3px 8px;
+    }
+  }
+}

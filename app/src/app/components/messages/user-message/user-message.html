@@ -1,0 +1,15 @@
+@if (user()) {
+<div class="user-message row">
+  <div class="col auto">
+    <div class="user-photo-rounded medium">
+      <img [src]="img_url + user().id + '?date=' + now" alt="Perfil" />
+    </div>
+  </div>
+  <div class="user-message-data col">
+    <h1>{{ user().name }}</h1>
+    <p>
+      {{ user().message || "Nenhuma mensagem..." }}
+    </p>
+  </div>
+</div>
+}
