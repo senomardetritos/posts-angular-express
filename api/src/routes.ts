@@ -4,6 +4,7 @@ import { PostController } from './controllers/PostController';
 import { LikeController } from './controllers/LikeController';
 import { CommentController } from './controllers/CommentController';
 import { FriendController } from './controllers/FriendController';
+import { MessageController } from './controllers/MessageController';
 
 export class Routes {
 	constructor(router: Router) {
@@ -12,5 +13,6 @@ export class Routes {
 		new LikeController(router);
 		new CommentController(router);
 		new FriendController(router);
+		new MessageController(router);
 	}
 }
