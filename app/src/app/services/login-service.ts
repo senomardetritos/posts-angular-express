@@ -32,7 +32,7 @@ export class LoginService {
             this.tokenService.login(res);
           } else {
             // Limpa a sessão existente passando um objeto vazio para TokenService
-            this.tokenService.login({} as LoginResponseInterface);
+            this.tokenService.logout();
           }
         })
       );

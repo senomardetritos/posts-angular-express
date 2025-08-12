@@ -23,7 +23,7 @@ export class RegisterService {
           if (res.data) {
             this.tokenService.login(res);
           } else {
-            this.tokenService.login({} as LoginResponseInterface);
+            this.tokenService.logout();
           }
         })
       );

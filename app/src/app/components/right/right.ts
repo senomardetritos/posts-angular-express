@@ -24,17 +24,19 @@ export class Right implements OnInit {
 
   public ngOnInit(): void {
     this.token = this.tokenService.token;
-    this.tokenService.loginEvent$.subscribe((res) => {
-      this.token = res.data.token;
+    if (this.token) {
+      this.tokenService.loginEvent$.subscribe((res) => {
+        this.token = res.data.token;
+        this.loadUser();
+      });
+      this.tokenService.logoutEvent$.subscribe(() => {
+        this.token = "";
+      });
+      this.friendService.changeFollowEvent$.subscribe(() => {
+        this.loadUser();
+      });
       this.loadUser();
-    });
-    this.tokenService.logoutEvent$.subscribe(() => {
-      this.token = "";
-    });
-    this.friendService.changeFollowEvent$.subscribe(() => {
-      this.loadUser();
-    });
-    this.loadUser();
+    }
   }
 
   public loadUser() {

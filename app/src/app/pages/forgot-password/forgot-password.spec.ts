@@ -13,10 +13,11 @@ describe("ForgotPassword", () => {
   const mockSendEmail = {
     email: "teste@teste.com",
   };
-  // const mockForgot = {
-  //   email: "teste@teste.com",
-  //   otp: "123456",
-  // };
+  const mockForgot = {
+    email: "teste@teste.com",
+    otp: "123456",
+    password: "123456",
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -36,33 +37,33 @@ describe("ForgotPassword", () => {
     expect(component).toBeTruthy();
   });
 
-  it("Deveria chamar markAllAsTouched no onSubmit", () => {
+  it("Deveria chamar markAllAsTouched no onSubmitForgot", () => {
     const markAllAsTouchedSpy = jest.spyOn(
       component.formForgot,
       "markAllAsTouched"
     );
-    component.onSubmit();
+    component.onSubmitForgot();
     expect(markAllAsTouchedSpy).toHaveBeenCalled();
   });
 
-  it("Deveria chamar o forgotService quando onSubmit quando formForgot for válido", () => {
+  it("Deveria chamar o forgotService quando onSubmitForgot quando formForgot for válido", () => {
     const forgotServiceSpy = jest.spyOn(
       component["forgotService"],
       "sendEmail"
     );
     component.formForgot.setValue(mockSendEmail);
-    component.onSubmit();
+    component.onSubmitForgot();
     expect(forgotServiceSpy).toHaveBeenCalled();
   });
 
-  it("Deveria chamar o modalService.showAlert quando onSubmit quando formForgot for inválido", () => {
+  it("Deveria chamar o modalService.showAlert quando onSubmitForgot quando formForgot for inválido", () => {
     const showAlertSpy = jest.spyOn(component["modalService"], "showAlert");
     component.formForgot.setValue({ email: "" });
-    component.onSubmit();
+    component.onSubmitForgot();
     expect(showAlertSpy).toHaveBeenCalled();
   });
 
-  it("Deveria chamar o modalService.showAlert quando onSubmit quando resposta tiver erro", () => {
+  it("Deveria chamar o modalService.showAlert quando onSubmitForgot quando resposta tiver erro", () => {
     const forgotServiceSpy = jest.spyOn(
       component["forgotService"],
       "sendEmail"
@@ -71,11 +72,11 @@ describe("ForgotPassword", () => {
     const mockResult = { error: "Erro" } as unknown as LoginResponseInterface;
     forgotServiceSpy.mockReturnValue(of(mockResult));
     component.formForgot.setValue(mockSendEmail);
-    component.onSubmit();
+    component.onSubmitForgot();
     expect(showAlertSpy).toHaveBeenCalledWith(mockResult.error, "ERROR");
   });
 
-  it("Deveria setar o sentEmail = true quando onSubmit quando resposta tiver sucesso", () => {
+  it("Deveria setar o formChange email quando onSubmitForgot quando resposta tiver sucesso", () => {
     const forgotServiceSpy = jest.spyOn(
       component["forgotService"],
       "sendEmail"
@@ -85,7 +86,59 @@ describe("ForgotPassword", () => {
     } as unknown as LoginResponseInterface;
     forgotServiceSpy.mockReturnValue(of(mockResult));
     component.formForgot.setValue(mockSendEmail);
-    component.onSubmit();
-    expect(component.sentEmail).toBe(true);
+    component.onSubmitForgot();
+    expect(component.formChange.get("email")?.value).toBe(mockSendEmail.email);
+  });
+
+  it("Deveria chamar markAllAsTouched no onSubmitChange", () => {
+    const markAllAsTouchedSpy = jest.spyOn(
+      component.formChange,
+      "markAllAsTouched"
+    );
+    component.onSubmitChange();
+    expect(markAllAsTouchedSpy).toHaveBeenCalled();
+  });
+
+  it("Deveria chamar o forgotService quando onSubmitChange quando formChange for válido", () => {
+    const forgotServiceSpy = jest.spyOn(
+      component["forgotService"],
+      "changePassword"
+    );
+    component.formChange.setValue(mockForgot);
+    component.onSubmitChange();
+    expect(forgotServiceSpy).toHaveBeenCalled();
+  });
+
+  it("Deveria chamar o modalService.showAlert quando onSubmitChange quando formChange for inválido", () => {
+    const showAlertSpy = jest.spyOn(component["modalService"], "showAlert");
+    component.formChange.setValue({ email: "", otp: "", password: "" });
+    component.onSubmitChange();
+    expect(showAlertSpy).toHaveBeenCalled();
+  });
+
+  it("Deveria chamar o modalService.showAlert quando onSubmitChange quando resposta tiver erro", () => {
+    const forgotServiceSpy = jest.spyOn(
+      component["forgotService"],
+      "changePassword"
+    );
+    const showAlertSpy = jest.spyOn(component["modalService"], "showAlert");
+    const mockResult = { error: "Erro" } as unknown as LoginResponseInterface;
+    forgotServiceSpy.mockReturnValue(of(mockResult));
+    component.formChange.setValue(mockForgot);
+    component.onSubmitChange();
+    expect(showAlertSpy).toHaveBeenCalledWith(mockResult.error, "ERROR");
+  });
+
+  it("Deveria setar o router navigate quando onSubmitChange quando resposta tiver sucesso", () => {
+    const forgotServiceSpy = jest.spyOn(
+      component["forgotService"],
+      "changePassword"
+    );
+    const mockResult = {
+      data: mockForgot,
+    } as unknown as LoginResponseInterface;
+    forgotServiceSpy.mockReturnValue(of(mockResult));
+    component.formChange.setValue(mockForgot);
+    component.onSubmitChange();
   });
 });

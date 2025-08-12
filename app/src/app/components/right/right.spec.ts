@@ -6,10 +6,18 @@ import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { LoginResponseInterface } from "../../interfaces/users-interface";
 import { of } from "rxjs";
 import { FriendResponseInterface } from "../../interfaces/friend-interface";
+import { RouterModule } from "@angular/router";
 
 describe("Right", () => {
   let component: Right;
   let fixture: ComponentFixture<Right>;
+  const mockLogin = {
+    data: {
+      id: "1",
+      name: "Teste",
+      token: "123456",
+    },
+  } as LoginResponseInterface;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -17,7 +25,7 @@ describe("Right", () => {
         provideHttpClient(), // Provides HttpClient for your component/service
         provideHttpClientTesting(), // Provides HttpTestingController for mocking
       ],
-      imports: [Right],
+      imports: [Right, RouterModule.forRoot([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(Right);
@@ -39,6 +47,7 @@ describe("Right", () => {
     const data = { data: { token: "123" } };
     alertData.bind(data);
     component["tokenService"].loginEvent$.subscribe(alertData);
+    component["tokenService"].login(mockLogin);
     component.ngOnInit();
     component["tokenService"].loginEvent$.emit(data as LoginResponseInterface);
     expect(loginEventSpy).toHaveBeenCalledWith(alertData);
@@ -51,6 +60,7 @@ describe("Right", () => {
       component["tokenService"].logoutEvent$,
       "subscribe"
     );
+    component["tokenService"].login(mockLogin);
     component.ngOnInit();
     component["tokenService"].logoutEvent$.emit();
     expect(logoutEventSpy).toHaveBeenCalled();
@@ -63,6 +73,7 @@ describe("Right", () => {
       "subscribe"
     );
     const loadUserSpy = jest.spyOn(component, "loadUser");
+    component["tokenService"].login(mockLogin);
     component.ngOnInit();
     component["friendService"].changeFollowEvent$.emit();
     expect(loginEventSpy).toHaveBeenCalled();
