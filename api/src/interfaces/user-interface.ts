@@ -5,3 +5,10 @@ export interface UserInterface {
 	name: string;
 	date: Date;
 }
+
+export interface OTPInterface {
+	id: number;
+	user_id: number;
+	otp: number;
+	date: Date;
+}
