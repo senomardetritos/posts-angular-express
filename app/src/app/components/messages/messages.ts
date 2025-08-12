@@ -64,6 +64,8 @@ export class Messages implements OnInit {
         .subscribe((res) => {
           if (res && res.data) {
             this.list_search = res.data;
+          } else {
+            this.list_search = [];
           }
         });
     }

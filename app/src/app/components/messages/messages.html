@@ -4,7 +4,7 @@
     <div class="messages-card-header">
       @if (selected_user().name) {
       <div class="without-close">
-        <button (click)="backToMessages()">
+        <button class="chevron-icon" (click)="backToMessages()">
           <i class="bi bi-chevron-left"></i>
         </button>
         <h1 class="text-gradient">{{ selected_user().name }}</h1>
@@ -12,7 +12,7 @@
       } @else if (isOpen) {
       <div class="with-close">
         <h1 class="text-gradient">Mensagens {{ selected_user().name }}</h1>
-        <button (click)="closeMessages()">
+        <button class="x-icon" (click)="closeMessages()">
           <i class="bi bi-x"></i>
         </button>
       </div>

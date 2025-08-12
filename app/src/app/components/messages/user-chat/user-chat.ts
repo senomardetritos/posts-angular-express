@@ -43,15 +43,19 @@ export class UserChat implements OnInit, AfterViewChecked {
       this.messageService.getMessages(this.id().toString()).subscribe((res) => {
         if (res && res.data) {
           this.messages = res.data;
+        } else {
+          this.messages = [];
         }
       });
     }
   }
 
   public ngAfterViewChecked(): void {
-    if (this.chatContainerRef) {
+    if (this.messages.length > 0) {
       this.chatContainerRef.nativeElement.scrollTop =
         this.chatContainerRef.nativeElement.scrollHeight;
+    } else {
+      this.chatContainerRef.nativeElement.scrollTop = 0;
     }
   }
 
@@ -67,6 +71,8 @@ export class UserChat implements OnInit, AfterViewChecked {
         message: this.formChat.get("message")?.value,
         date: new Date(),
       });
+    } else {
+      this.formChat.get("message")?.markAsUntouched();
     }
   }
 
