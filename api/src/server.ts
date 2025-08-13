@@ -7,6 +7,7 @@ import dotenv from 'dotenv';
 import { DataBase } from './models/DataBase';
 import bodyParser from 'body-parser';
 import { RabbitController } from './controllers/RabbitController';
+import { WebSocketController } from './controllers/WebSocketController';
 
 dotenv.config({ path: '.env' });
 
@@ -38,6 +39,8 @@ new Routes(router);
 app.use(router);
 
 const APP_PORT = process.env.APP_PORT || 3000;
-app.listen(APP_PORT, () => `server running on port ${APP_PORT}`);
+const server = app.listen(APP_PORT, () => `server running on port ${APP_PORT}`);
+
+new WebSocketController(server);
 
 export default app;

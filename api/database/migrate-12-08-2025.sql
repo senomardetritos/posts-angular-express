@@ -61,3 +61,8 @@ ALTER TABLE `messages`
 ALTER TABLE `messages`
   ADD CONSTRAINT `messages_from_id` FOREIGN KEY (`from_id`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `messages_to_id` FOREIGN KEY (`to_id`) REFERENCES `users` (`id`);
+
+--
+-- Adicionando campo viewed
+--
+ALTER TABLE `messages` ADD `viewed` BOOLEAN NOT NULL DEFAULT FALSE AFTER `message`;
