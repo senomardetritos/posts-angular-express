@@ -34,6 +34,16 @@
           border: 0;
           cursor: pointer;
         }
+        i.bi-chat-dots {
+          position: relative;
+          .float-number {
+            top: -8px;
+            right: -8px;
+            width: 20px;
+            height: 20px;
+            padding: 3px;
+          }
+        }
       }
       i {
         font-size: 14pt;

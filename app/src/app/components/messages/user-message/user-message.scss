@@ -1,5 +1,16 @@
 .user-message {
   margin: 8px 0;
+  .col.auto {
+    position: relative;
+    .float-number {
+      z-index: 1;
+      padding: 4px;
+      top: 0px;
+      right: 0px;
+      width: 20px;
+      height: 20px;
+    }
+  }
   &-data {
     h1,
     p {

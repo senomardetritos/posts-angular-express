@@ -13,6 +13,7 @@ import {
 import { UserMessage } from "./user-message/user-message";
 import { UserChat } from "./user-chat/user-chat";
 import { TokenService } from "../../services/token-service";
+import { WebSocketService } from "../../services/web-socket-service";
 
 @Component({
   selector: "app-messages",
@@ -24,6 +25,7 @@ export class Messages implements OnInit {
   private formBuilder = inject(FormBuilder);
   private messageService = inject(MessageService);
   private tokenService = inject(TokenService);
+  private webSocketService = inject(WebSocketService);
 
   formUser!: FormGroup;
   isOpen = false;
@@ -32,6 +34,7 @@ export class Messages implements OnInit {
   messages_users: UserMessageInterface[] = [];
   messages: MessageInterface[] = [];
   selected_user = signal<UserMessageInterface>({} as UserMessageInterface);
+  new_messages = 0;
 
   public ngOnInit(): void {
     this.token = this.tokenService.token;
@@ -40,6 +43,12 @@ export class Messages implements OnInit {
     });
     if (this.token) {
       this.loadMessages();
+      this.webSocketService.messageEvent$.subscribe(() => {
+        this.new_messages = Object.keys(
+          this.messageService.getNewMessages()
+        ).length;
+        this.loadMessages();
+      });
     }
     this.tokenService.loginEvent$.subscribe((res) => {
       this.token = res.data.token;
@@ -47,6 +56,8 @@ export class Messages implements OnInit {
     });
     this.tokenService.logoutEvent$.subscribe(() => {
       this.token = "";
+      this.isOpen = false;
+      this.selected_user.update(() => ({} as UserMessageInterface));
     });
   }
 
@@ -85,10 +96,12 @@ export class Messages implements OnInit {
 
   public backToMessages(): void {
     this.selected_user.update(() => ({} as UserMessageInterface));
+    this.loadMessages();
   }
 
   public openMessages(): void {
     this.isOpen = true;
+    this.loadMessages();
   }
   public closeMessages(): void {
     this.isOpen = false;

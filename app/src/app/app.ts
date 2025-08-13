@@ -8,6 +8,10 @@ import { ModalService } from "./services/modal-service";
 import { Loading } from "./components/loading/loading";
 import { Right } from "./components/right/right";
 import { Messages } from "./components/messages/messages";
+import { TokenService } from "./services/token-service";
+import { WebSocketService } from "./services/web-socket-service";
+import { MessageService } from "./services/message-service";
+import { retry } from "rxjs";
 
 @Component({
   selector: "app-root",
@@ -22,6 +26,9 @@ export class App implements OnInit {
   typeAlert: string = AlertTypes.SUCCESS;
 
   private modalService = inject(ModalService);
+  private tokenService = inject(TokenService);
+  private webSocketService = inject(WebSocketService);
+  private messageService = inject(MessageService);
 
   public ngOnInit(): void {
     this.modalService.alertEvent$.subscribe((res) => {
@@ -29,6 +36,17 @@ export class App implements OnInit {
       this.messageAlert = res.message;
       this.typeAlert = res.type;
     });
+    if (this.tokenService.isLogged()) {
+      this.webSocketService.connect(this.tokenService.email);
+      localStorage.setItem("new_messages", "{}");
+      this.webSocketService
+        .getMessages()
+        .pipe(retry({ count: 1, delay: 1000 }))
+        .subscribe((res) => {
+          this.messageService.addNewMessage(res);
+          this.webSocketService.messageEvent$.emit(res);
+        });
+    }
   }
 
   public closeAlert(): void {

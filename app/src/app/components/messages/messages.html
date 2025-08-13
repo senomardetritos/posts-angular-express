@@ -18,14 +18,20 @@
       </div>
       } @else {
       <button class="without-close" (click)="openMessages()">
-        <i class="bi bi-chat-dots"></i>
+        <i class="bi bi-chat-dots">
+          @if (new_messages > 0) {
+          <div class="float-number">
+            {{ new_messages }}
+          </div>
+          }
+        </i>
         <h1 class="text-gradient">Mensagens</h1>
       </button>
       }
     </div>
     @if (selected_user().name) {
     <div class="messages-card-body">
-      <app-user-chat [id]="selected_user().id"></app-user-chat>
+      <app-user-chat [user]="selected_user()"></app-user-chat>
     </div>
     } @else if (isOpen){
     <div class="messages-card-body">

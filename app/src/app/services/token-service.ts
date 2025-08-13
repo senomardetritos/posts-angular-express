@@ -1,13 +1,18 @@
-import { EventEmitter, Injectable } from "@angular/core";
+import { EventEmitter, inject, Injectable } from "@angular/core";
 import {
   LoginResponseInterface,
   UserInterface,
 } from "../interfaces/users-interface";
+import { WebSocketService } from "./web-socket-service";
+import { retry } from "rxjs";
+import { MessageService } from "./message-service";
 
 @Injectable({
   providedIn: "root",
 })
 export class TokenService {
+  private webSocketService = inject(WebSocketService);
+  private messageService = inject(MessageService);
   public loginEvent$: EventEmitter<LoginResponseInterface>;
   public logoutEvent$: EventEmitter<null>;
   public photoUserEvent$: EventEmitter<null>;
@@ -19,6 +24,15 @@ export class TokenService {
   }
 
   public login(user: LoginResponseInterface): void {
+    this.webSocketService.connect(user.data.email);
+    localStorage.setItem("new_messages", "{}");
+    this.webSocketService
+      .getMessages()
+      .pipe(retry({ count: 1, delay: 1000 }))
+      .subscribe((res) => {
+        this.messageService.addNewMessage(res);
+        this.webSocketService.messageEvent$.emit(res);
+      });
     localStorage.setItem("id", user.data.id);
     localStorage.setItem("email", user.data.email);
     localStorage.setItem("name", user.data.name);
@@ -27,6 +41,7 @@ export class TokenService {
   }
 
   public logout(): void {
+    this.webSocketService.closeConnection();
     localStorage.removeItem("id");
     localStorage.removeItem("email");
     localStorage.removeItem("name");

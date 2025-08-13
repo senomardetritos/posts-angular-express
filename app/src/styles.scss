@@ -110,6 +110,7 @@ a:visited {
     position: relative;
     input {
       padding: 10px 12px;
+      padding-right: 30px;
       width: 100%;
       background: #f9f9f9;
       border: 1px solid #eeeeee;
@@ -194,4 +195,16 @@ a:visited {
     width: 100%;
     height: auto;
   }
+}
+.float-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--red-to-pink-to-purple-horizontal-gradient);
+  color: #ffffff;
+  position: absolute;
+  border-radius: 50%;
+  font-style: normal;
+  font-size: 8pt;
+  font-weight: 900;
 }

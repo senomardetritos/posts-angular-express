@@ -4,11 +4,16 @@
     <div class="user-photo-rounded medium">
       <img [src]="img_url + user().id + '?date=' + now" alt="Perfil" />
     </div>
+    @if (qtd_new_messages() > 0) {
+    <div class="float-number">
+      {{ qtd_new_messages() }}
+    </div>
+    }
   </div>
   <div class="user-message-data col">
     <h1>{{ user().name }}</h1>
     <p>
-      {{ user().message || "Nenhuma mensagem..." }}
+      {{ last_message() || user().message || "Nenhuma mensagem..." }}
     </p>
   </div>
 </div>
