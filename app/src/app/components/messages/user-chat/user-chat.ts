@@ -4,6 +4,7 @@ import {
   ElementRef,
   inject,
   input,
+  OnDestroy,
   OnInit,
   ViewChild,
 } from "@angular/core";
@@ -29,7 +30,7 @@ import { Subscription } from "rxjs";
   templateUrl: "./user-chat.html",
   styleUrl: "./user-chat.scss",
 })
-export class UserChat implements OnInit, AfterViewChecked {
+export class UserChat implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild("chatContainer") private chatContainerRef!: ElementRef;
   private formBuilder = inject(FormBuilder);
   private messageService = inject(MessageService);
@@ -60,7 +61,7 @@ export class UserChat implements OnInit, AfterViewChecked {
       this.messageEvent = this.webSocketService.messageEvent$.subscribe(
         (res) => {
           if (this.user().email == res.from) {
-            this.addMessage({
+            this.messages.push({
               id: 0,
               user_id: this.user().id,
               name: this.user().name,
@@ -73,6 +74,14 @@ export class UserChat implements OnInit, AfterViewChecked {
           }
         }
       );
+    }
+  }
+
+  public ngOnDestroy(): void {
+    if (this.messageEvent) {
+      this.messageEvent.unsubscribe();
+    } else {
+      console.log("unsubscribe");
     }
   }
 
@@ -99,25 +108,26 @@ export class UserChat implements OnInit, AfterViewChecked {
 
   public onSubmit(): void {
     if (this.formChat.valid) {
-      this.webSocketService.sendMessage({
-        from: this.tokenService.email,
-        to: this.user().email,
-        message: this.formChat.get("message")?.value,
-      });
-      this.addMessage({
-        id: 0,
-        user_id: parseInt(this.tokenService.id),
-        name: this.tokenService.name,
-        message: this.formChat.get("message")?.value,
-        date: new Date(),
-      });
+      this.addMessage(this.formChat.get("message")?.value);
     } else {
       this.formChat.get("message")?.markAsUntouched();
     }
   }
 
-  public addMessage(message: MessageInterface) {
-    this.messages.push(message);
+  public addMessage(message: string) {
+    this.webSocketService.sendMessage({
+      from: this.tokenService.email,
+      to: this.user().email,
+      message: message,
+    });
+
+    this.messages.push({
+      id: 0,
+      user_id: parseInt(this.tokenService.id),
+      name: this.tokenService.name,
+      message: message,
+      date: new Date(),
+    });
     this.formChat.reset();
   }
 }

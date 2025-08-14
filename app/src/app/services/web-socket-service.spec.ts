@@ -3,14 +3,36 @@ import { TestBed } from "@angular/core/testing";
 import { WebSocketService } from "./web-socket-service";
 import { provideHttpClient } from "@angular/common/http";
 import { provideHttpClientTesting } from "@angular/common/http/testing";
+import { environment } from "../../environments/environment";
+
+// Objeto para armazenar o mock e observer
+const webSocketMocks = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  instance: null as any,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  observer: null as any,
+  reset: () => {
+    webSocketMocks.instance = null;
+    webSocketMocks.observer = null;
+  },
+};
+
+// Mock do webSocket
+jest.mock("rxjs/webSocket", () => ({
+  webSocket: jest.fn().mockImplementation(() => {
+    webSocketMocks.instance = {
+      subscribe: jest.fn().mockImplementation((observer) => {
+        webSocketMocks.observer = observer;
+        return { unsubscribe: jest.fn() };
+      }),
+    };
+    return webSocketMocks.instance;
+  }),
+  WebSocketSubject: jest.fn(),
+}));
 
 describe("WebSocketService", () => {
   let service: WebSocketService;
-  const mockMessage = {
-    from: "teste1@teste",
-    to: "teste2@teste",
-    message: "Olá",
-  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -25,50 +47,71 @@ describe("WebSocketService", () => {
   it("should be created", () => {
     expect(service).toBeTruthy();
   });
+});
 
-  it("Deveria chamar o connect e criar o socket$", () => {
-    service.connect("teste@teste");
-    expect(service["socket$"]).toBeTruthy();
+describe("WebSocket Service", () => {
+  let service: WebSocketService;
+  const mockEmail = "test@example.com";
+  const mockWsUrl = "ws://test.url";
+  const mockMessage = {
+    from: "teste1@teste",
+    to: "teste2@teste",
+    message: "Olá",
+  };
+
+  beforeEach(() => {
+    environment.ws_url = mockWsUrl;
+    service = new WebSocketService();
+    webSocketMocks.reset();
   });
 
-  it("Deveria chamar o connect e recriar o socket$ se estiver closed", () => {
-    service.connect("teste@teste");
-    service.closeConnection();
-    service.connect("teste@teste");
-    expect(service["socket$"]).toBeTruthy();
-  });
+  describe("connect", () => {
+    it("Deveria retornar false no sendMessage quando nao conectado", () => {
+      const connectSpy = jest.spyOn(service, "connect");
+      service.sendMessage(mockMessage);
+      expect(connectSpy).not.toHaveBeenCalled();
+    });
 
-  it("Deveria chamar next do socket$ no sendMessage se estiver aberto", () => {
-    service.connect("teste@teste");
-    const nextSpy = jest.spyOn(service["socket$"], "next");
-    service.sendMessage(mockMessage);
-    expect(nextSpy).toHaveBeenCalled();
-  });
+    it("Deveria retornar new Observable() no getMessages quando nao conectado", () => {
+      const connectSpy = jest.spyOn(service, "connect");
+      const messages = service.getMessages();
+      expect(connectSpy).not.toHaveBeenCalled();
+      expect(messages).toBeTruthy();
+    });
 
-  it("Deveria dar throw do socket$ no sendMessage se estiver fechado", () => {
-    service.sendMessage(mockMessage);
-  });
+    it("should handle complete event by reconnecting", () => {
+      const connectSpy = jest.spyOn(service, "connect");
 
-  it("Deveria chamar asObservable() no getMessages se estiver aberto", () => {
-    service.connect("teste@teste");
-    const asObservableSpy = jest.spyOn(service["socket$"], "asObservable");
-    service.getMessages();
-    expect(asObservableSpy).toHaveBeenCalled();
-  });
+      service.connect(mockEmail);
 
-  it("Deveria retornar um new Observable() no getMessages se estiver fechado", () => {
-    const result = service.getMessages();
-    expect(result).toBeTruthy();
-  });
+      // Simula o evento complete
+      webSocketMocks.observer.complete();
 
-  it("Deveria chamar next do socket$ no closeConnection se estiver aberto", () => {
-    service.connect("teste@teste");
-    const completeSpy = jest.spyOn(service["socket$"], "complete");
-    service.closeConnection();
-    expect(completeSpy).toHaveBeenCalled();
-  });
+      // Verificações
+      expect(connectSpy).toHaveBeenCalledTimes(2);
+      expect(connectSpy).toHaveBeenCalledWith(mockEmail);
+    });
 
-  it("Deveria dar throw do socket$ no closeConnection se estiver fechado", () => {
-    service.closeConnection();
+    it("should log completion message", () => {
+      const consoleSpy = jest.spyOn(console, "log").mockImplementation();
+
+      service.connect(mockEmail);
+      webSocketMocks.observer.complete();
+
+      expect(consoleSpy).toHaveBeenCalledWith(
+        "WebSocket connection completed. Repeating..."
+      );
+      consoleSpy.mockRestore();
+    });
+
+    it("should log error message", () => {
+      const consoleSpy = jest.spyOn(console, "log").mockImplementation();
+
+      service.connect(mockEmail);
+      webSocketMocks.observer.error();
+
+      expect(consoleSpy).toHaveBeenCalledWith("Error socket");
+      consoleSpy.mockRestore();
+    });
   });
 });

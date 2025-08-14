@@ -11,7 +11,6 @@ import { Messages } from "./components/messages/messages";
 import { TokenService } from "./services/token-service";
 import { WebSocketService } from "./services/web-socket-service";
 import { MessageService } from "./services/message-service";
-import { retry } from "rxjs";
 
 @Component({
   selector: "app-root",
@@ -39,13 +38,10 @@ export class App implements OnInit {
     if (this.tokenService.isLogged()) {
       this.webSocketService.connect(this.tokenService.email);
       localStorage.setItem("new_messages", "{}");
-      this.webSocketService
-        .getMessages()
-        .pipe(retry({ count: 1, delay: 1000 }))
-        .subscribe((res) => {
-          this.messageService.addNewMessage(res);
-          this.webSocketService.messageEvent$.emit(res);
-        });
+      this.webSocketService.getMessages().subscribe((res) => {
+        this.messageService.addNewMessage(res);
+        this.webSocketService.messageEvent$.emit(res);
+      });
     } else {
       this.webSocketService.closeConnection();
     }

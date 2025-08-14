@@ -1,6 +1,6 @@
 import { EventEmitter, Injectable } from "@angular/core";
 import { webSocket, WebSocketSubject } from "rxjs/webSocket";
-import { Observable, retry } from "rxjs";
+import { Observable } from "rxjs";
 import { WebSocketMessageInteface } from "../interfaces/web-socket-inteface";
 import { environment } from "../../environments/environment";
 
@@ -10,11 +10,22 @@ import { environment } from "../../environments/environment";
 export class WebSocketService {
   private socket$!: WebSocketSubject<WebSocketMessageInteface>;
   public messageEvent$!: EventEmitter<WebSocketMessageInteface>;
+
   public connect(email: string): void {
-    if (!this.socket$ || this.socket$.closed) {
-      const url = `${environment.ws_url}?email=${email}`;
-      this.socket$ = webSocket(url);
-      this.socket$.pipe(retry({ count: 1, delay: 1000 }));
+    console.log("conectando com " + email);
+    const url = `${environment.ws_url}?email=${email}`;
+    this.socket$ = webSocket(url);
+    this.socket$.subscribe({
+      error: () => {
+        console.log("Error socket");
+        this.connect(email);
+      },
+      complete: () => {
+        console.log("WebSocket connection completed. Repeating...");
+        this.connect(email);
+      },
+    });
+    if (!this.messageEvent$) {
       this.messageEvent$ = new EventEmitter<WebSocketMessageInteface>();
     }
   }
@@ -22,7 +33,7 @@ export class WebSocketService {
     if (this.socket$) {
       this.socket$.next(message);
     } else {
-      console.log("Socket está fechado");
+      console.log("Desconectado");
     }
   }
   public getMessages(): Observable<WebSocketMessageInteface> {

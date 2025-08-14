@@ -46,7 +46,7 @@ export class ForgotPassword implements OnInit {
         } else {
           this.modalService.showAlert(
             "Email enviado com sucesso!",
-            AlertTypes.ERROR
+            AlertTypes.SUCCESS
           );
           this.formChange.setValue({
             email: this.formForgot.get("email")?.value,
