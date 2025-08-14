@@ -3,9 +3,9 @@ import { DataBase } from '../models/DataBase';
 import { UserMiddleware } from '../middlewares/UserMiddleware';
 import { UserInterface } from '../interfaces/user-interface';
 import { CommentInterface } from '../interfaces/comment-interface';
-import { RabbitController } from './RabbitController';
 import { PostInterface } from '../interfaces/post-interface';
 import { TemplateUtil } from '../utils/template-util';
+import { MailerController } from './MailerController';
 
 export class CommentController {
 	constructor(router: Router) {
@@ -35,7 +35,7 @@ export class CommentController {
 			const inserted = await DataBase.insert('comments', data);
 			if (inserted) {
 				const comments = await this.commentsWithUser(req.params.id);
-				RabbitController.sendObject('email', {
+				MailerController.sendEmail({
 					to: post_user.email,
 					subject: 'Nova comentário em sua postagem',
 					html: TemplateUtil.template('emails/received-comment.html', {

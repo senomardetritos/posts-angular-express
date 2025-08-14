@@ -3,7 +3,6 @@ import { DataBase } from '../models/DataBase';
 import { UserMiddleware } from '../middlewares/UserMiddleware';
 import { LikeInterface } from '../interfaces/like-interface';
 import { UserInterface } from '../interfaces/user-interface';
-import { RabbitController } from './RabbitController';
 import { MailerController } from './MailerController';
 import { TemplateUtil } from '../utils/template-util';
 import { PostInterface } from '../interfaces/post-interface';
@@ -39,7 +38,7 @@ export class LikeController {
 				if (deleted) {
 					const likes = await this.likesWithUser(req.params.id);
 					res.json({ data: likes });
-					RabbitController.sendObject('email', {
+					MailerController.sendEmail({
 						to: post_user.email,
 						subject: 'Perdeu uma curtida em sua postagem',
 						html: TemplateUtil.template('emails/lost-like.html', { title: post.title, likes: likes.length }),
@@ -52,7 +51,7 @@ export class LikeController {
 				if (inserted) {
 					const likes = await this.likesWithUser(req.params.id);
 					res.json({ data: likes });
-					RabbitController.sendObject('email', {
+					MailerController.sendEmail({
 						to: post_user.email,
 						subject: 'Nova Curtida em sua postagem',
 						html: TemplateUtil.template('emails/received-like.html', { title: post.title, likes: likes.length }),

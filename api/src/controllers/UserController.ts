@@ -7,8 +7,8 @@ import { readFileSync } from 'fs';
 import { MulterUtil } from '../utils/multer-util';
 import { SharpUtil } from '../utils/sharp-util';
 import otp from 'otp-generator';
-import { RabbitController } from './RabbitController';
 import { TemplateUtil } from '../utils/template-util';
+import { MailerController } from './MailerController';
 
 export class UserController {
 	constructor(router: Router) {
@@ -89,7 +89,7 @@ export class UserController {
 				const otp_number = otp.generate(6, { upperCaseAlphabets: false, lowerCaseAlphabets: false, specialChars: false });
 				const resData = { email: user[0].email, otp: otp_number };
 				DataBase.insert('otps', { user_id: user[0].id, otp: otp_number });
-				RabbitController.sendObject('email', {
+				MailerController.sendEmail({
 					to: user[0].email,
 					subject: 'Recuperação de senha',
 					html: TemplateUtil.template('emails/forgot-password.html', { user_name: user[0].name, otp_number }),

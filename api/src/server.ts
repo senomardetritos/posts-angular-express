@@ -6,7 +6,6 @@ import { Routes } from './routes';
 import dotenv from 'dotenv';
 import { DataBase } from './models/DataBase';
 import bodyParser from 'body-parser';
-import { RabbitController } from './controllers/RabbitController';
 import { WebSocketController } from './controllers/WebSocketController';
 
 dotenv.config({ path: '.env' });
@@ -18,7 +17,6 @@ const options: cors.CorsOptions = {
 };
 
 DataBase.loadDB();
-RabbitController.receive('email');
 
 app.use(cors(options));
 app.use(bodyParser.urlencoded({ extended: false }));
