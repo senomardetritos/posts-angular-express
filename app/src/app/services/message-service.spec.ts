@@ -17,6 +17,11 @@ describe("MessageService", () => {
   let httpTesting: HttpTestingController;
   let messagesResponse: MessagesResponseInterface;
   let usersMessageResponse: UsersMessageResponseInterface;
+  const mockMessage = {
+    from: "teste1@teste",
+    to: "teste2@teste",
+    message: "Olá",
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -33,6 +38,30 @@ describe("MessageService", () => {
 
   it("should be created", () => {
     expect(service).toBeTruthy();
+  });
+
+  it("Deveria criar no localStorage e adiocar mensages no addNewMessage", () => {
+    service.addNewMessage(mockMessage);
+    expect(localStorage.getItem("new_messages")).toBeTruthy();
+    service.addNewMessage(mockMessage);
+    const messages = service.getNewMessages();
+    expect(Object.keys(messages).length).toBe(1);
+  });
+
+  it("Deveria limpar no localStorage as mensages de um determinado email no clearNewMessages", () => {
+    service.addNewMessage(mockMessage);
+    expect(localStorage.getItem("new_messages")).toBeTruthy();
+    service.addNewMessage(mockMessage);
+    service.clearNewMessages("teste1@teste");
+    const messages = service.getNewMessages();
+    expect(Object.keys(messages["teste1@teste"]).length).toBe(0);
+  });
+
+  it("Deveria criar no localStorage as mensages vazias de um determinado email no clearNewMessages", () => {
+    localStorage.removeItem("new_messages");
+    service.clearNewMessages("teste1@teste");
+    const messages = service.getNewMessages();
+    expect(Object.keys(messages["teste1@teste"]).length).toBe(0);
   });
 
   it("Deveria chamar getMessages e retornar MessagesResponseInterface", () => {

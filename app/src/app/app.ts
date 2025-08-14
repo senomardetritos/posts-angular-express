@@ -46,6 +46,8 @@ export class App implements OnInit {
           this.messageService.addNewMessage(res);
           this.webSocketService.messageEvent$.emit(res);
         });
+    } else {
+      this.webSocketService.closeConnection();
     }
   }
 

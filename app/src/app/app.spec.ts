@@ -3,10 +3,21 @@ import { App } from "./app";
 import { provideHttpClient } from "@angular/common/http";
 import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { AlertInterface } from "./interfaces/modal-interface";
+import { LoginResponseInterface } from "./interfaces/users-interface";
+import { RouterModule } from "@angular/router";
+import { of } from "rxjs";
+import { WebSocketMessageInteface } from "./interfaces/web-socket-inteface";
 
 describe("App", () => {
   let app: App;
   let fixture: ComponentFixture<App>;
+  const mockLogin = {
+    data: {
+      id: "1",
+      email: "teste@teste",
+      token: "123456",
+    },
+  } as unknown as LoginResponseInterface;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -14,7 +25,7 @@ describe("App", () => {
         provideHttpClient(), // Provides HttpClient for your component/service
         provideHttpClientTesting(), // Provides HttpTestingController for mocking
       ],
-      imports: [App],
+      imports: [App, RouterModule.forRoot([])],
     }).compileComponents();
     fixture = TestBed.createComponent(App);
     app = fixture.componentInstance;
@@ -54,6 +65,33 @@ describe("App", () => {
     expect(app.showAlert).toBe(false);
     expect(app.messageAlert).toBe("");
     expect(app.typeAlert).toBe("ERROR");
+  });
+
+  it("Deveria chamar o webSocketService.connect com email no OnInit se tiver logado", () => {
+    const connectSpy = jest.spyOn(app["webSocketService"], "connect");
+    app["tokenService"].login(mockLogin);
+    app.ngOnInit();
+    expect(connectSpy).toHaveBeenCalled();
+  });
+
+  it("Deveria chamar webSocketService.getMessages no OnInit se tiver logado", () => {
+    const getMessagesSpy = jest.spyOn(app["webSocketService"], "getMessages");
+    const addNewMessageSpy = jest.spyOn(app["messageService"], "addNewMessage");
+    const messageEventSpy = jest.spyOn(
+      app["webSocketService"].messageEvent$,
+      "emit"
+    );
+    app["tokenService"].login(mockLogin);
+    const mockResult = {
+      from: "teste1@teste",
+      to: "teste2@teste",
+      message: "Olá",
+    } as WebSocketMessageInteface;
+    getMessagesSpy.mockReturnValue(of(mockResult));
+    app.ngOnInit();
+    expect(getMessagesSpy).toHaveBeenCalled();
+    expect(addNewMessageSpy).toHaveBeenCalledWith(mockResult);
+    expect(messageEventSpy).toHaveBeenCalledWith(mockResult);
   });
 
   it("Ao chamar closeAlert deveria setar showAlert com false", () => {

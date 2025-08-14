@@ -5,6 +5,8 @@ import { environment } from "../../../environments/environment";
 import { LoginResponseInterface } from "../../interfaces/users-interface";
 import { ActivationEnd, RouterModule } from "@angular/router";
 import { User } from "../../pages/user/user";
+import { provideHttpClient } from "@angular/common/http";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 
 describe("Header", () => {
   let component: Header;
@@ -12,6 +14,10 @@ describe("Header", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      providers: [
+        provideHttpClient(), // Provides HttpClient for your component/service
+        provideHttpClientTesting(), // Provides HttpTestingController for mocking
+      ],
       imports: [
         Header,
         RouterModule.forRoot([{ path: "home/:search", component: User }]),
@@ -42,7 +48,7 @@ describe("Header", () => {
   });
 
   it("Deveria subscrever loginEvent$ no ngOnInit", () => {
-    const alertEventSpy = jest.spyOn(
+    const loginEventSpy = jest.spyOn(
       component["tokenService"]["loginEvent$"],
       "subscribe"
     );
@@ -50,21 +56,21 @@ describe("Header", () => {
       expect(component.name).toBe(res.data.name);
       expect(component.token).toBe(res.data.token);
     });
-    expect(alertEventSpy).toHaveBeenCalled();
+    expect(loginEventSpy).toHaveBeenCalled();
   });
 
   it("Verificando função subscrever loginEvent$ no ngOnInit", () => {
-    const alertData = jest.fn();
+    const loginData = jest.fn();
     const data = { data: { name: "", token: "123" } };
-    alertData.bind(data);
+    loginData.bind(data);
     const loginEventSpy = jest.spyOn(
       component["tokenService"].loginEvent$,
       "subscribe"
     );
-    component["tokenService"].loginEvent$.subscribe(alertData);
-    expect(loginEventSpy).toHaveBeenCalledWith(alertData);
+    component["tokenService"].loginEvent$.subscribe(loginData);
+    expect(loginEventSpy).toHaveBeenCalledWith(loginData);
     component["tokenService"].loginEvent$.emit(data as LoginResponseInterface);
-    expect(alertData).toHaveBeenCalled();
+    expect(loginData).toHaveBeenCalled();
     expect(component.name).toBe(data.data.name);
     expect(component.token).toBe(data.data.token);
   });

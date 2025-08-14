@@ -2,6 +2,8 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { Menu } from "./menu";
 import { LoginResponseInterface } from "../../interfaces/users-interface";
+import { provideHttpClient } from "@angular/common/http";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 
 describe("Menu", () => {
   let component: Menu;
@@ -9,6 +11,10 @@ describe("Menu", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      providers: [
+        provideHttpClient(), // Provides HttpClient for your component/service
+        provideHttpClientTesting(), // Provides HttpTestingController for mocking
+      ],
       imports: [Menu],
     }).compileComponents();
 

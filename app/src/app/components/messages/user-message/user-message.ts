@@ -27,12 +27,17 @@ export class UserMessage implements OnInit {
       this.setQtdNewMessages();
     });
     this.setQtdNewMessages();
+    this.setLastMessages();
   }
 
   public setQtdNewMessages() {
     const messages = this.messageService.getNewMessages()[this.user().email];
     const qtd = messages?.length;
     this.qtd_new_messages.update(() => qtd);
+  }
+
+  public setLastMessages() {
+    const messages = this.messageService.getNewMessages()[this.user().email];
     const last_message = messages ? messages.reverse()[0] : "";
     messages?.reverse();
     this.last_message.update(() => last_message);

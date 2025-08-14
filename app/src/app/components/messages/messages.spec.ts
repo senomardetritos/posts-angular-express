@@ -32,6 +32,7 @@ describe("Messages", () => {
 
     fixture = TestBed.createComponent(Messages);
     component = fixture.componentInstance;
+    component["webSocketService"].connect("teste@teste");
     fixture.detectChanges();
   });
 
@@ -135,6 +136,8 @@ describe("Messages", () => {
     component.selected_user.update(
       () =>
         ({
+          id: 1,
+          email: "teste@teste",
           name: "Teste",
         } as UserMessageInterface)
     );

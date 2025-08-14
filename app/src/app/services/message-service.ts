@@ -46,7 +46,7 @@ export class MessageService {
     );
   }
 
-  public setViwedMessages(id: string): Observable<MessagesResponseInterface> {
+  public setViewedMessages(id: string): Observable<MessagesResponseInterface> {
     return this.http.post<MessagesResponseInterface>(
       `${environment.api_url}/messages/viewed/${id}`,
       { headers: { skip: "loading" } }

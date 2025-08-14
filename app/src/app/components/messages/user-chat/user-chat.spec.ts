@@ -8,6 +8,7 @@ import {
   MessageInterface,
   MessagesResponseInterface,
 } from "../../../interfaces/message-interface";
+import { WebSocketMessageInteface } from "../../../interfaces/web-socket-inteface";
 
 describe("UserChat", () => {
   let component: UserChat;
@@ -24,6 +25,7 @@ describe("UserChat", () => {
 
     fixture = TestBed.createComponent(UserChat);
     component = fixture.componentInstance;
+    component["webSocketService"].connect("teste@teste");
     fixture.detectChanges();
   });
 
@@ -38,7 +40,7 @@ describe("UserChat", () => {
     );
     const mockResult = { data: {} } as MessagesResponseInterface;
     getMessagesSpy.mockReturnValue(of(mockResult));
-    fixture.componentRef.setInput("id", "1");
+    fixture.componentRef.setInput("user", { id: 1 });
     component.ngOnInit();
     expect(getMessagesSpy).toHaveBeenCalled();
     expect(component.messages).toBe(mockResult.data);
@@ -51,9 +53,71 @@ describe("UserChat", () => {
     );
     const mockResult = { error: "Erro" } as MessagesResponseInterface;
     getMessagesSpy.mockReturnValue(of(mockResult));
-    fixture.componentRef.setInput("id", "1");
+    fixture.componentRef.setInput("user", { id: 1 });
     component.ngOnInit();
     expect(getMessagesSpy).toHaveBeenCalled();
+    expect(component.messages.length).toBe(0);
+  });
+
+  it("Deveria chamar webSocketService.messageEvent no ngOnInit se email for = from", () => {
+    const messageEventSpy = jest.spyOn(
+      component["webSocketService"]["messageEvent$"],
+      "subscribe"
+    );
+    fixture.componentRef.setInput("user", { id: 1, email: "teste@teste" });
+    const mockResult = { from: "teste@teste" };
+    const messageData = jest.fn();
+    messageData.bind(mockResult);
+    component["webSocketService"].messageEvent$.subscribe(messageData);
+    expect(messageEventSpy).toHaveBeenCalledWith(messageData);
+    component.ngOnInit();
+    component["webSocketService"].messageEvent$.emit(
+      mockResult as WebSocketMessageInteface
+    );
+    expect(messageData).toHaveBeenCalled();
+  });
+
+  it("Deveria chamar webSocketService.messageEvent no ngOnInit se email for != from", () => {
+    const messageEventSpy = jest.spyOn(
+      component["webSocketService"]["messageEvent$"],
+      "subscribe"
+    );
+    fixture.componentRef.setInput("user", { id: 1, email: "teste1@teste" });
+    const mockResult = { from: "teste2@teste" };
+    const messageData = jest.fn();
+    messageData.bind(mockResult);
+    component["webSocketService"].messageEvent$.subscribe(messageData);
+    expect(messageEventSpy).toHaveBeenCalledWith(messageData);
+    component.ngOnInit();
+    component["webSocketService"].messageEvent$.emit(
+      mockResult as WebSocketMessageInteface
+    );
+    expect(messageData).toHaveBeenCalled();
+  });
+
+  it("Deveria chamar messageService.setViewedMessages quando dados válidos", () => {
+    const setViewedMessagesSpy = jest.spyOn(
+      component["messageService"],
+      "setViewedMessages"
+    );
+    const mockResult = { data: [] } as unknown as MessagesResponseInterface;
+    setViewedMessagesSpy.mockReturnValue(of(mockResult));
+    fixture.componentRef.setInput("user", { id: 1 });
+    component.setViewedMessages();
+    expect(setViewedMessagesSpy).toHaveBeenCalled();
+    expect(component.messages.length).toBe(0);
+  });
+
+  it("Deveria chamar messageService.setViewedMessagesSpy quando dados inválidos", () => {
+    const setViewedMessagesSpy = jest.spyOn(
+      component["messageService"],
+      "setViewedMessages"
+    );
+    const mockResult = { error: "Erro" } as MessagesResponseInterface;
+    setViewedMessagesSpy.mockReturnValue(of(mockResult));
+    fixture.componentRef.setInput("user", { id: 1 });
+    component.setViewedMessages();
+    expect(setViewedMessagesSpy).toHaveBeenCalled();
     expect(component.messages.length).toBe(0);
   });
 

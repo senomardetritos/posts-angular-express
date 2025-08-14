@@ -4,7 +4,6 @@ import {
   ElementRef,
   inject,
   input,
-  OnDestroy,
   OnInit,
   ViewChild,
 } from "@angular/core";
@@ -30,7 +29,7 @@ import { Subscription } from "rxjs";
   templateUrl: "./user-chat.html",
   styleUrl: "./user-chat.scss",
 })
-export class UserChat implements OnInit, OnDestroy, AfterViewChecked {
+export class UserChat implements OnInit, AfterViewChecked {
   @ViewChild("chatContainer") private chatContainerRef!: ElementRef;
   private formBuilder = inject(FormBuilder);
   private messageService = inject(MessageService);
@@ -62,28 +61,24 @@ export class UserChat implements OnInit, OnDestroy, AfterViewChecked {
         (res) => {
           if (this.user().email == res.from) {
             this.addMessage({
-              id: 10,
+              id: 0,
               user_id: this.user().id,
               name: this.user().name,
               message: res.message,
               date: new Date(),
             });
             this.setViewedMessages();
+          } else {
+            console.log("nova mensagem recebida");
           }
         }
       );
     }
   }
 
-  public ngOnDestroy(): void {
-    console.log("OnDestroy");
-    this.messageEvent.unsubscribe();
-  }
-
   public setViewedMessages() {
-    console.log("setViewedMessages");
     this.messageService
-      .setViwedMessages(this.user().id.toString())
+      .setViewedMessages(this.user().id.toString())
       .subscribe((res) => {
         if (res && res.data) {
           this.messageService.clearNewMessages(this.user().email);
@@ -109,11 +104,8 @@ export class UserChat implements OnInit, OnDestroy, AfterViewChecked {
         to: this.user().email,
         message: this.formChat.get("message")?.value,
       });
-      const last_id =
-        this.messages.length > 0 ? this.messages.reverse()[0].id : 0;
-      this.messages.reverse();
       this.addMessage({
-        id: last_id + 1,
+        id: 0,
         user_id: parseInt(this.tokenService.id),
         name: this.tokenService.name,
         message: this.formChat.get("message")?.value,
