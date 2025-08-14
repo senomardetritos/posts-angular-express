@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { UserMessage } from "./user-message";
 import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { provideHttpClient } from "@angular/common/http";
-import { WebSocketMessageInteface } from "../../../interfaces/web-socket-inteface";
 
 describe("UserMessage", () => {
   let component: UserMessage;

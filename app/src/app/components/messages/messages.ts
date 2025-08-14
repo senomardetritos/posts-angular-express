@@ -44,9 +44,6 @@ export class Messages implements OnInit {
     if (this.token) {
       this.loadMessages();
       this.webSocketService.messageEvent$.subscribe(() => {
-        this.new_messages = Object.keys(
-          this.messageService.getNewMessages()
-        ).length;
         this.loadMessages();
       });
     }
@@ -65,6 +62,9 @@ export class Messages implements OnInit {
     this.messageService.getMessagesUsers().subscribe((res) => {
       this.messages_users = res.data;
     });
+    this.new_messages = Object.values<string[]>(
+      this.messageService.getNewMessages()
+    ).reduce((acc, item: string[]) => acc + item.length, 0);
   }
 
   public onSubmit(): void {
@@ -105,5 +105,6 @@ export class Messages implements OnInit {
   }
   public closeMessages(): void {
     this.isOpen = false;
+    this.loadMessages();
   }
 }
