@@ -12,7 +12,6 @@ export class WebSocketService {
   public messageEvent$!: EventEmitter<WebSocketMessageInteface>;
 
   public connect(email: string): void {
-    console.log("conectando com " + email);
     const url = `${environment.ws_url}?email=${email}`;
     this.socket$ = webSocket(url);
     this.socket$.subscribe({
