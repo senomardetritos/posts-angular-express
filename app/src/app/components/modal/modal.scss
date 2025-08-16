@@ -1,3 +1,5 @@
+@use "../../../scss/media-queries.scss" as mixins;
+
 .modal {
   position: fixed;
   background: transparent;
@@ -13,6 +15,9 @@
     padding: 24px;
     border-radius: 8px;
     box-shadow: 0px 0px 10px -5px #000000;
+    @include mixins.lt-sm {
+      margin: 16px;
+    }
   }
 }
 

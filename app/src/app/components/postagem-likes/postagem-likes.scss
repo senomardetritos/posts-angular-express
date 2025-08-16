@@ -1,3 +1,5 @@
+@use "../../../scss/media-queries.scss" as mixins;
+
 .likes {
   display: flex;
   flex-direction: row;
@@ -14,6 +16,9 @@
     &-header {
       max-width: 400px;
       min-width: 300px;
+      @include mixins.lt-sm {
+        min-width: auto;
+      }
       align-items: center;
       .right {
         align-items: end;

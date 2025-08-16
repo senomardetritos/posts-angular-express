@@ -1,3 +1,5 @@
+@use "../../../scss/media-queries.scss" as mixins;
+
 .comments {
   display: flex;
   flex-direction: row;
@@ -24,6 +26,9 @@
     &-form {
       max-width: 600px;
       min-width: 400px;
+      @include mixins.lt-sm {
+        min-width: auto;
+      }
       form {
         width: 100%;
         .form-control {
