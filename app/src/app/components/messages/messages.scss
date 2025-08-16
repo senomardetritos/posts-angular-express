@@ -66,7 +66,7 @@
       @include mixins.lt-sm {
         height: calc(100vh - 96px);
       }
-      .input-search .error {
+      .input-submit-icon .error {
         text-align: center;
         padding: 8px;
         color: var(--orange-red);

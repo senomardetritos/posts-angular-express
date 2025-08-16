@@ -20,6 +20,7 @@
             type="text"
             id="title"
             placeholder="Título da postagem"
+            autocomplete="off"
           />
           @if (formPostagem.get('title')?.touched &&
           formPostagem.get('title')?.errors?.['required']) {

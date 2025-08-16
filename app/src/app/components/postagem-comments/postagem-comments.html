@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="divider"></div>
-    <div class="row modal-form">
+    <div class="row modal-form input-submit-icon">
       <form [formGroup]="formComment" (submit)="onSubmit()">
         <div class="form-control">
           <input
@@ -22,6 +22,7 @@
             type="text"
             id="comment"
             placeholder="Digite um comentário"
+            autocomplete="off"
           />
           @if (formComment.get('comment')?.touched &&
           formComment.get('comment')?.errors?.['required']) {
@@ -30,12 +31,11 @@
           <div class="error">Comentário tem que ter mais de 6 caracteres.</div>
           }
         </div>
-        <div class="form-control">
-          <button type="submit">ENVIAR COMENTÁRIO</button>
-        </div>
+        <button type="submit"><i class="bi bi-send"></i></button>
       </form>
     </div>
     <div class="divider"></div>
+    @if (list_comments().length > 0) {
     <div class="modal-items">
       @for (comment of list_comments(); track comment.id) {
       <div class="row">
@@ -79,5 +79,12 @@
       <div class="divider"></div>
       }
     </div>
+    } @else {
+    <div class="modal-items">
+      <div class="col">
+        <p>Nenhuma comentário ainda...</p>
+      </div>
+    </div>
+    }
   </app-modal>
 </div>

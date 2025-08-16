@@ -1,12 +1,13 @@
 <div class="container page search-user">
   <div class="row">
-    <div class="col input-search">
+    <div class="col input-submit-icon">
       <form [formGroup]="formSearch" (submit)="onSubmit()">
         <input
           formControlName="search"
           type="text"
           id="search"
           placeholder="Pesquisar por nome ou email!"
+          autocomplete="off"
         />
         <button type="submit"><i class="bi bi-search"></i></button>
       </form>

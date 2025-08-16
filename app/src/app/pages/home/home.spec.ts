@@ -117,7 +117,7 @@ describe("Home quando existir param search", () => {
 
   it("Deveria chamar o onSubmit ao clicar no fazer submit no form", () => {
     const onSubmitSpy = jest.spyOn(component, "onSubmit");
-    const form = fixture.nativeElement.querySelector(".input-search form");
+    const form = fixture.nativeElement.querySelector(".input-submit-icon form");
     expect(form).toBeTruthy();
     form.dispatchEvent(new Event("submit"));
     expect(onSubmitSpy).toHaveBeenCalled();

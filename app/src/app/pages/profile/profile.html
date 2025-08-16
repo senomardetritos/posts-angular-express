@@ -14,6 +14,7 @@
           type="text"
           id="name"
           placeholder="Digite seu nome"
+          autocomplete="off"
         />
         @if (formProfile.get('name')?.touched &&
         formProfile.get('name')?.errors?.['required']) {
@@ -72,6 +73,7 @@
           type="password"
           id="password"
           placeholder="Digite sua senha"
+          autocomplete="off"
         />
         @if (formPassword.get('actual_password')?.touched &&
         formPassword.get('actual_password')?.errors?.['required']) {
@@ -88,6 +90,7 @@
           type="password"
           id="password"
           placeholder="Digite sua senha"
+          autocomplete="off"
         />
         @if (formPassword.get('new_password')?.touched &&
         formPassword.get('new_password')?.errors?.['required']) {

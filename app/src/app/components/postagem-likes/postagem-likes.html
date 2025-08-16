@@ -19,6 +19,7 @@
     </div>
     <div class="divider"></div>
     <div class="row modal-items">
+      @if(list_likes().length > 0) {
       <div class="col">
         @for(like of list_likes(); track like.id) {
         <div class="like-item">
@@ -48,6 +49,11 @@
         <div class="divider"></div>
         }
       </div>
+      } @else {
+      <div class="col">
+        <p>Nenhuma curtida ainda...</p>
+      </div>
+      }
     </div>
   </app-modal>
 </div>

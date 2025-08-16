@@ -84,8 +84,9 @@ export class PostagemComments implements OnInit {
               "Comentário enviado com sucesso",
               AlertTypes.SUCCESS
             );
-            this.formComment.get("comment")?.setValue("");
-            this.formComment.get("comment")?.markAsUntouched();
+            this.formComment.reset();
+            this.formComment.clearValidators();
+            this.formComment.updateValueAndValidity();
           } else {
             this.modalService.showAlert(
               res.error ?? "Erro ao enviar comentário",

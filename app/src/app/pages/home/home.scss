@@ -2,7 +2,7 @@
 
 .home {
   width: 100%;
-  .input-search {
+  .input-submit-icon {
     display: none;
     @include mixins.lt-sm {
       display: block;

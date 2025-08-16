@@ -55,6 +55,7 @@
             type="password"
             id="password"
             placeholder="Digite sua senha"
+            autocomplete="off"
           />
           @if (formRegister.get('password')?.touched &&
           formRegister.get('password')?.errors?.['required']) {

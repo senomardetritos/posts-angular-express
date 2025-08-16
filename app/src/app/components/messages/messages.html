@@ -36,19 +36,18 @@
     } @else if (isOpen){
     <div class="messages-card-body">
       <div class="divider"></div>
-      <div class="input-search">
+      <div class="input-submit-icon">
         <form [formGroup]="formUser" (submit)="onSubmit()">
           <input
             formControlName="search"
             type="text"
             id="search"
             placeholder="Pesquisar pessoas"
+            autocomplete="off"
           />
           <div>
             @if (formUser.get('search')?.touched &&
-            formUser.get('search')?.errors?.['required']) {
-            <div class="error">Digite um nome.</div>
-            } @else if (formUser.get('search')?.errors?.['minlength']) {
+            formUser.get('search')?.errors?.['minlength']) {
             <div class="error">Digite mais de 3 caracteres.</div>
             }
           </div>
