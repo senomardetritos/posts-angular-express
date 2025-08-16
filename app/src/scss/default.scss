@@ -1,0 +1,185 @@
+@use "./media-queries.scss" as mixins;
+
+a,
+a:visited {
+  color: var(--bright-blue);
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.text-gradient {
+  background-image: var(--red-to-pink-to-purple-horizontal-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.divider {
+  height: 1px;
+  width: 100%;
+  background: var(--red-to-pink-to-purple-horizontal-gradient);
+  margin: 12px 0;
+}
+
+.line-or {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  gap: 16px;
+  &-line {
+    width: 50%;
+  }
+  &-or {
+    font-weight: 600;
+  }
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.col.auto {
+  width: auto;
+}
+
+.container {
+  display: block;
+  width: 100%;
+}
+
+.container.page {
+  padding: 24px 36px;
+  // max-width: 800px;
+  margin-bottom: 90px;
+  @include mixins.md {
+    padding: 16px 24px;
+  }
+  @include mixins.sm {
+    padding: 24px 24px;
+  }
+  @include mixins.lt-sm {
+    padding: 16px 16px;
+  }
+}
+
+.input-search {
+  align-items: center;
+  justify-content: center;
+  form {
+    width: 100%;
+    position: relative;
+    input {
+      padding: 10px 12px;
+      padding-right: 30px;
+      width: 100%;
+      background: #f9f9f9;
+      border: 1px solid #eeeeee;
+      border-radius: 8px;
+      outline: none;
+    }
+    button {
+      position: absolute;
+      right: 0;
+      top: 0;
+      background: transparent;
+      border: 0;
+      padding: 10px;
+      cursor: pointer;
+    }
+  }
+}
+
+.form-control {
+  display: flex;
+  flex-direction: column;
+  margin: 16px 0;
+  width: 100%;
+  * {
+    display: flex;
+  }
+  label {
+    font-weight: 700;
+    font-size: 9pt;
+    cursor: pointer;
+  }
+  input,
+  select,
+  textarea {
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+    padding: 8px;
+    margin: 4px 0;
+    outline: none;
+    width: 100%;
+  }
+  button {
+    display: block;
+    border: 0;
+    border-radius: 36px;
+    padding: 8px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 11pt;
+    cursor: pointer;
+    background-image: var(--red-to-pink-to-purple-horizontal-gradient);
+    color: white;
+  }
+  button.secondary {
+    background-color: #eeeeee;
+    background-image: none;
+    color: var(--gray-700);
+  }
+  .error {
+    color: var(--orange-red);
+    font-size: 9pt;
+    padding: 4px 0;
+  }
+}
+
+.user-photo-rounded.small {
+  width: 36px;
+  height: 36px;
+}
+.user-photo-rounded.medium {
+  width: 48px;
+  height: 48px;
+}
+.user-photo-rounded.large {
+  width: 120px;
+  height: 120px;
+  @include mixins.lt-sm {
+    width: 76px;
+    height: 76px;
+  }
+}
+.user-photo-rounded {
+  border-radius: 50%;
+  overflow: hidden;
+  img {
+    width: 100%;
+    height: auto;
+  }
+}
+.float-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--red-to-pink-to-purple-horizontal-gradient);
+  color: #ffffff;
+  position: absolute;
+  border-radius: 50%;
+  font-style: normal;
+  font-size: 8pt;
+  font-weight: 900;
+}

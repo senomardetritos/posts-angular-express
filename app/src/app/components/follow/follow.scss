@@ -1,0 +1,35 @@
+@use "../../../scss/media-queries.scss" as mixins;
+
+.form-control {
+  margin: 0;
+  padding: 0;
+  button {
+    @include mixins.lt-sm {
+      background-color: transparent;
+      background-image: none;
+      width: 30px;
+      margin: 0;
+      padding: 0;
+    }
+    span {
+      display: block;
+      width: 140px;
+      @include mixins.lt-lg {
+        width: 120px;
+      }
+      @include mixins.lt-sm {
+        display: none;
+      }
+    }
+    i {
+      font-size: 18pt;
+      display: none;
+      @include mixins.lt-sm {
+        display: inline-block;
+      }
+    }
+  }
+  button.secondary i {
+    color: #bbbbbb;
+  }
+}

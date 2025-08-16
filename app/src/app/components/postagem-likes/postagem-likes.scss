@@ -12,7 +12,7 @@
   }
   .modal {
     &-header {
-      width: 400px;
+      max-width: 400px;
       align-items: center;
       .right {
         align-items: end;

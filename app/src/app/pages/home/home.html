@@ -1,5 +1,20 @@
 <div class="container page home">
   <div class="row">
+    <div class="col">
+      <div class="input-search">
+        <form [formGroup]="formSearch" (submit)="onSubmit()">
+          <input
+            formControlName="search"
+            type="text"
+            id="search"
+            placeholder="Digite algo para pesquisar!"
+          />
+          <button type="submit"><i class="bi bi-search"></i></button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="row">
     <div class="col home-body">
       <h1>
         <span class="text-gradient">Postagens</span>

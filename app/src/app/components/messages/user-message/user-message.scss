@@ -1,3 +1,5 @@
+@use "../../../../scss/media-queries.scss" as mixins;
+
 .user-message {
   margin: 8px 0;
   .col.auto {
@@ -19,6 +21,9 @@
       text-overflow: ellipsis;
       text-wrap: nowrap;
       padding: 3px 8px;
+      @include mixins.lt-sm {
+        width: calc(100vw - 80px);
+      }
     }
   }
 }

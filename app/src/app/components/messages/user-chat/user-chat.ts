@@ -60,7 +60,7 @@ export class UserChat implements OnInit, OnDestroy, AfterViewChecked {
         });
       this.messageEvent = this.webSocketService.messageEvent$.subscribe(
         (res) => {
-          if (this.user().email == res.from) {
+          if (res && res.from && this.user().email == res.from) {
             this.messages.push({
               id: 0,
               user_id: this.user().id,
@@ -94,6 +94,7 @@ export class UserChat implements OnInit, OnDestroy, AfterViewChecked {
         } else {
           this.messages = [];
         }
+        this.webSocketService.messageEvent$.emit();
       });
   }
 

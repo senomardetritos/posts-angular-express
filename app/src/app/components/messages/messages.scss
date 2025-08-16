@@ -1,12 +1,22 @@
+@use "../../../scss/media-queries.scss" as mixins;
+
 .messages {
   position: fixed;
   bottom: 24px;
   right: 24px;
+  @include mixins.lt-sm {
+    position: static;
+  }
   &-card {
     background-color: #ffffff;
     border: 1px solid #dddddd;
     border-radius: 20px;
     width: 300px;
+    @include mixins.lt-sm {
+      width: 100%;
+      border-radius: 0px;
+      border: 0;
+    }
     &-header {
       .with-close {
         display: flex;
@@ -53,6 +63,9 @@
       height: 420px;
       margin: -16px 0;
       padding: 0 16px;
+      @include mixins.lt-sm {
+        height: calc(100vh - 96px);
+      }
       .input-search .error {
         text-align: center;
         padding: 8px;

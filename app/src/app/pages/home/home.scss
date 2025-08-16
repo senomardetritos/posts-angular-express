@@ -1,5 +1,14 @@
+@use "../../../scss/media-queries.scss" as mixins;
+
 .home {
   width: 100%;
+  .input-search {
+    display: none;
+    @include mixins.lt-sm {
+      display: block;
+      margin-bottom: 16px;
+    }
+  }
   &-body {
     .no-posts {
       margin-bottom: 24px;
@@ -37,6 +46,18 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            @include mixins.lg {
+              width: calc(100vw - 820px);
+            }
+            @include mixins.md {
+              width: calc(100vw - 600px);
+            }
+            @include mixins.sm {
+              width: calc(100vw - 270px);
+            }
+            @include mixins.lt-sm {
+              width: calc(100vw - 120px);
+            }
           }
         }
         h1 {

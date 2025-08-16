@@ -1,27 +1,67 @@
+@use "../../../scss/media-queries.scss" as mixins;
+
 .header {
   padding: 16px;
   border-bottom: 1px solid #eeeeee;
   align-items: center;
-
+  gap: 150px;
+  @include mixins.md {
+    gap: 36px;
+  }
+  @include mixins.lt-md {
+    gap: 80px;
+  }
   &-left {
     flex-direction: row;
     gap: 8px;
     justify-content: start;
     align-items: center;
+    @include mixins.lt-sm {
+      width: 50%;
+    }
     &-logo {
       width: 80px;
       margin-top: 4px;
+      @include mixins.lt-md {
+        display: none;
+      }
     }
     svg {
       width: 60px;
       margin-top: 5px;
+      @include mixins.lt-md {
+        display: none;
+      }
     }
     h1 {
       font-size: medium;
     }
+    h1.plus {
+      @include mixins.lt-md {
+        display: none;
+      }
+    }
+  }
+  &-center {
+    align-items: center;
+    @include mixins.lt-sm {
+      display: none;
+    }
+    .input-search {
+      width: 100%;
+      @include mixins.md {
+        max-width: 400px;
+      }
+      @include mixins.lt-sm {
+        display: none;
+      }
+    }
   }
   &-right {
     align-items: end;
+    @include mixins.lt-sm {
+      width: 50%;
+    }
     .row {
       align-items: center;
       justify-content: end;
@@ -31,6 +71,28 @@
         font-size: 11pt;
         font-weight: 300;
         text-decoration: none;
+      }
+      .text-name {
+        text-wrap: nowrap;
+        @include mixins.lt-md {
+          display: none;
+        }
+      }
+      .text-other {
+        span {
+          display: block;
+          @include mixins.lt-sm {
+            display: none;
+          }
+        }
+        i {
+          display: none;
+          font-size: 16pt;
+          padding: 8px;
+          @include mixins.lt-sm {
+            display: block;
+          }
+        }
       }
     }
   }

@@ -1,23 +1,68 @@
 @if (token) {
 <div class="col">
   <div class="container menu">
-    <div class="row">
+    <div class="items">
       <div class="form-control">
         <button routerLink="/form-postagem">NOVA POSTAGEM</button>
       </div>
+      <div class="icon-new-post">
+        <button routerLink="/form-postagem">
+          <i class="bi bi-plus-circle-fill text-gradient"></i>
+        </button>
+      </div>
     </div>
     <div class="items">
-      <a routerLink="/home">Página Inicial</a>
+      <a routerLink="/home">
+        <i class="bi bi-house"></i>
+        <span>Página Inicial</span>
+      </a>
+    </div>
+    <h1>Postagens</h1>
+    <div class="items">
+      <a routerLink="/minhas-postagens">
+        <i class="bi bi-card-text"></i>
+        <span>Minhas Postagens</span>
+      </a>
     </div>
     <div class="items">
-      <h1>Postagens</h1>
-      <a routerLink="/minhas-postagens">Minhas Postagens</a>
+      <a routerLink="/search-user">
+        <i class="bi bi-person"></i>
+        <span>Pessoas</span>
+      </a>
     </div>
+    <div class="items chat">
+      <a href="#" (click)="showMessages()">
+        <i class="bi bi-chat-dots">
+          @if (new_messages > 0) {
+          <div class="float-number">
+            {{ new_messages }}
+          </div>
+          }
+        </i>
+        <span>Mensagens</span>
+      </a>
+    </div>
+    <h1>Configurações</h1>
     <div class="items">
-      <h1>Configurações</h1>
-      <a routerLink="/profile">Meu Perfil</a>
-      <a href="#" (click)="logout()">Sair</a>
+      <a routerLink="/profile">
+        <i class="bi bi-gear"></i>
+        <span>Meu Perfil</span>
+      </a>
+    </div>
+    <div class="items logout">
+      <a href="#" (click)="logout()">
+        <i class="bi bi-box-arrow-left"></i>
+        <span>Sair</span>
+      </a>
     </div>
   </div>
+</div>
+<div class="view-messages">
+  @if (isOpenMessage) {
+  <app-messages
+    [startOpen]="true"
+    (buttonClose)="closeMessages()"
+  ></app-messages>
+  }
 </div>
 }

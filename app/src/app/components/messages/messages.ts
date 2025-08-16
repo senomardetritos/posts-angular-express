@@ -1,4 +1,11 @@
-import { Component, inject, OnInit, signal } from "@angular/core";
+import {
+  Component,
+  inject,
+  input,
+  OnInit,
+  output,
+  signal,
+} from "@angular/core";
 import {
   FormBuilder,
   FormGroup,
@@ -28,7 +35,9 @@ export class Messages implements OnInit {
   private webSocketService = inject(WebSocketService);
 
   formUser!: FormGroup;
+  startOpen = input(false);
   isOpen = false;
+  buttonClose = output();
   token = "";
   list_search: UserMessageInterface[] = [];
   messages_users: UserMessageInterface[] = [];
@@ -56,6 +65,7 @@ export class Messages implements OnInit {
       this.isOpen = false;
       this.selected_user.update(() => ({} as UserMessageInterface));
     });
+    this.isOpen = this.startOpen();
   }
 
   public loadMessages(): void {
@@ -106,5 +116,6 @@ export class Messages implements OnInit {
   public closeMessages(): void {
     this.isOpen = false;
     this.loadMessages();
+    this.buttonClose.emit();
   }
 }

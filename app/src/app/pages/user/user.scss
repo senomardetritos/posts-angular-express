@@ -1,4 +1,7 @@
 .user {
+  > .row {
+    margin-top: 16px;
+  }
   .user-items {
     &-item {
       margin: 8px 0;

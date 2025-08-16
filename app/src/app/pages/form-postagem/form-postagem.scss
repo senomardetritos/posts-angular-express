@@ -1,3 +1,13 @@
 .form-postagem {
   width: 100%;
+  form {
+    width: 100%;
+    .form-control input,
+    .form-control textarea {
+      max-width: 600px;
+    }
+    .form-control button {
+      max-width: 250px;
+    }
+  }
 }

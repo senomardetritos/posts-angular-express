@@ -1,10 +1,10 @@
 @if (token) {
 <div class="container">
   <div class="row header">
-    <div class="col header-left">
+    <div class="col header-left auto">
       <h1>Postagens</h1>
       <app-logo class="header-left-logo"></app-logo>
-      <h1>+</h1>
+      <h1 class="plus">+</h1>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         class="express-logo"
@@ -17,18 +17,20 @@
         ></path>
       </svg>
     </div>
-    <div class="col input-search">
-      <form [formGroup]="formSearch" (submit)="onSubmit()">
-        <input
-          formControlName="search"
-          type="text"
-          id="search"
-          placeholder="Digite algo para pesquisar!"
-        />
-        <button type="submit"><i class="bi bi-search"></i></button>
-      </form>
+    <div class="col header-center">
+      <div class="input-search">
+        <form [formGroup]="formSearch" (submit)="onSubmit()">
+          <input
+            formControlName="search"
+            type="text"
+            id="search"
+            placeholder="Digite algo para pesquisar!"
+          />
+          <button type="submit"><i class="bi bi-search"></i></button>
+        </form>
+      </div>
     </div>
-    <div class="col header-right">
+    <div class="col header-right auto">
       <div class="row">
         <div class="col auto">
           <div
@@ -38,11 +40,16 @@
             <img [src]="img_url()" alt="Foto de Perfil" />
           </div>
         </div>
-        <div class="col auto">
+        <div class="col auto text-name">
           <a routerLink="/user/{{ id }}">{{ name }}</a>
         </div>
-        <div class="col auto">|</div>
-        <div class="col auto"><a href="#" (click)="logout()">SAIR</a></div>
+        <div class="col auto text-name">|</div>
+        <div class="col auto text-other">
+          <a href="#" (click)="logout()">
+            <i class="bi bi-box-arrow-left"></i>
+            <span>SAIR</span>
+          </a>
+        </div>
       </div>
     </div>
   </div>

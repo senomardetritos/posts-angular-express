@@ -1,8 +1,13 @@
+@use "../../../../scss/media-queries.scss" as mixins;
+
 .list-chat {
   display: block;
   height: 330px;
   overflow: scroll;
-  margin-bottom: 16px;
+  margin: 16px 0;
+  @include mixins.lt-sm {
+    height: calc(100vh - 198px);
+  }
   &-body {
     display: flex;
     flex-direction: column;

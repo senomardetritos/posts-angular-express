@@ -1,0 +1,7 @@
+@use "../scss/media-queries.scss" as mixins;
+
+.view-messages {
+  @include mixins.lt-sm {
+    display: none;
+  }
+}

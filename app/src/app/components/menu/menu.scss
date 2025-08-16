@@ -1,30 +1,159 @@
+@use "../../../scss/media-queries.scss" as mixins;
+
 .col {
   height: 100%;
 }
 .menu {
-  width: 300px;
+  width: 270px;
   padding: 0 24px;
   box-shadow: 0px 3px 8px -5px #000000;
   height: 100%;
   min-height: 100vh;
+  @include mixins.md {
+    width: 230px;
+  }
+  @include mixins.sm {
+    width: 74px;
+  }
+  @include mixins.lt-sm {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    box-shadow: 0px -3px 8px -5px #000000;
+    background-color: #ffffff;
+    width: 100%;
+    height: 70px;
+    min-height: 70px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    z-index: 200;
+  }
   .form-control {
     margin: 0;
     padding: 0;
     button {
-      margin-top: 24px;
-      margin-bottom: 12px;
+      margin: 16px 0;
+    }
+    @include mixins.lt-md {
+      display: none;
+    }
+  }
+  .icon-new-post {
+    margin-top: 24px;
+    display: none;
+    @include mixins.lt-md {
+      margin: 0px;
+      padding: 0px;
+      display: block;
+    }
+    button {
+      background-color: transparent;
+      border: 0;
+      cursor: pointer;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      padding: 0px;
+      i {
+        font-size: 28pt;
+        margin-left: -6px;
+        @include mixins.sm {
+          margin-top: 16px;
+        }
+        @include mixins.lt-sm {
+          font-size: 24pt;
+          padding: 8px;
+          margin-top: 8px;
+        }
+      }
+    }
+  }
+  h1 {
+    display: block;
+    padding: 8px 0;
+    @include mixins.sm {
+      display: none;
+    }
+    @include mixins.lt-sm {
+      display: none;
     }
   }
   .items {
     display: block;
-    padding: 12px 0;
+    padding: 8px 0;
+    @include mixins.sm {
+      padding: 8px 0;
+    }
+    @include mixins.lt-sm {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 0px;
+    }
     a {
       color: var(--gray-700);
-      display: block;
+      display: flex;
+      align-items: center;
+      gap: 12px;
       font-size: 11pt;
       font-weight: 300;
-      padding-top: 12px;
       text-decoration: none;
+      @include mixins.lt-sm {
+        padding: 8px;
+      }
+      i {
+        font-size: 16pt;
+        @include mixins.lt-md {
+          font-size: 18pt;
+        }
+      }
+      span {
+        display: inline-block;
+        @include mixins.sm {
+          display: none;
+        }
+        @include mixins.lt-sm {
+          display: none;
+        }
+      }
     }
+  }
+  .items.chat {
+    display: none;
+    @include mixins.lt-sm {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      padding: 0px;
+    }
+    .bi-chat-dots {
+      position: relative;
+      .float-number {
+        top: -8px;
+        right: -8px;
+        width: 20px;
+        height: 20px;
+        padding: 3px;
+      }
+    }
+  }
+  .items.logout {
+    display: block;
+    @include mixins.lt-sm {
+      display: none;
+    }
+  }
+}
+.view-messages {
+  display: none;
+  @include mixins.lt-sm {
+    display: block;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: calc(100vh - 120px);
+    z-index: 100;
   }
 }

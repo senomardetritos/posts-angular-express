@@ -1,7 +1,13 @@
 <div class="form-control">
   @if (follow) {
-  <button (click)="changeFollow()" class="secondary">NÃO SEGUIR</button>
+  <button (click)="changeFollow()" class="secondary">
+    <i class="bi bi-person-fill-dash"></i>
+    <span>NÃO SEGUIR</span>
+  </button>
   } @else {
-  <button (click)="changeFollow()">SEGUIR</button>
+  <button (click)="changeFollow()">
+    <i class="bi bi-person-fill-add text-gradient"></i>
+    <span>SEGUIR</span>
+  </button>
   }
 </div>
