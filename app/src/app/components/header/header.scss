@@ -8,36 +8,46 @@
   @include mixins.md {
     gap: 36px;
   }
-  @include mixins.lt-md {
+  @include mixins.sm {
     gap: 80px;
+  }
+  @include mixins.lt-sm {
+    gap: 10px;
   }
   &-left {
     flex-direction: row;
     gap: 8px;
     justify-content: start;
     align-items: center;
-    @include mixins.lt-sm {
+    @include mixins.sm {
       width: 50%;
+    }
+    @include mixins.lt-sm {
+      width: 70%;
+      gap: 4px;
     }
     &-logo {
       width: 80px;
       margin-top: 4px;
-      @include mixins.lt-md {
+      @include mixins.sm {
         display: none;
       }
     }
     svg {
       width: 60px;
       margin-top: 5px;
-      @include mixins.lt-md {
+      @include mixins.sm {
         display: none;
       }
     }
     h1 {
       font-size: medium;
+      @include mixins.lt-sm {
+        font-size: 4vw;
+      }
     }
     h1.plus {
-      @include mixins.lt-md {
+      @include mixins.sm {
         display: none;
       }
     }

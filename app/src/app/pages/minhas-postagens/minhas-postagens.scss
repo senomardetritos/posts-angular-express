@@ -1,3 +1,4 @@
+@use "../../../scss/media-queries.scss" as mixins;
 .postagens {
   width: 100%;
   &-body {
@@ -23,6 +24,13 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            width: calc(100% - 150px);
+            @include mixins.lt-sm {
+              overflow: unset;
+              text-overflow: unset;
+              white-space: wrap;
+              width: auto;
+            }
           }
         }
         .row .col.right {

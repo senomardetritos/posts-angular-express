@@ -1,23 +1,38 @@
+@use "../../../scss/media-queries.scss" as mixins;
+
 .login {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-
   &-card {
     display: flex;
     flex-direction: row;
     width: 600px;
     gap: 36px;
-
+    @include mixins.lt-sm {
+      flex-direction: column;
+      width: 100%;
+      padding: 36px;
+      gap: 24px;
+    }
     &-left {
       display: flex;
       flex-direction: column;
       width: 40%;
       align-items: center;
+      @include mixins.lt-sm {
+        width: 100%;
+        flex-direction: row;
+        gap: 12px;
+        justify-content: center;
+      }
       h1 {
         margin: 16px 0;
-        font-size: larger;
+        font-size: 24pt;
+        @include mixins.lt-sm {
+          font-size: 5vw;
+        }
       }
       &-logo {
         width: 150px;
@@ -31,6 +46,9 @@
       display: flex;
       flex-direction: column;
       width: 60%;
+      @include mixins.lt-sm {
+        width: 100%;
+      }
       h1 {
         font-size: larger;
       }
