@@ -110,10 +110,7 @@
       }
       span {
         display: inline-block;
-        @include mixins.sm {
-          display: none;
-        }
-        @include mixins.lt-sm {
+        @include mixins.lt-md {
           display: none;
         }
       }
@@ -126,6 +123,20 @@
       flex-direction: row;
       justify-content: space-around;
       padding: 0px;
+    }
+    button {
+      background-color: transparent;
+      border: 0;
+      cursor: pointer;
+      span {
+        display: inline-block;
+        @include mixins.lt-md {
+          display: none;
+        }
+      }
+      i {
+        font-size: 18pt;
+      }
     }
     .bi-chat-dots {
       position: relative;

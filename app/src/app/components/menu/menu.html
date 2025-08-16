@@ -3,35 +3,37 @@
   <div class="container menu">
     <div class="items">
       <div class="form-control">
-        <button routerLink="/form-postagem">NOVA POSTAGEM</button>
+        <button routerLink="/form-postagem" (click)="closeMessages()">
+          NOVA POSTAGEM
+        </button>
       </div>
       <div class="icon-new-post">
-        <button routerLink="/form-postagem">
+        <button routerLink="/form-postagem" (click)="closeMessages()">
           <i class="bi bi-plus-circle-fill text-gradient"></i>
         </button>
       </div>
     </div>
     <div class="items">
-      <a routerLink="/home">
+      <a routerLink="/home" (click)="closeMessages()">
         <i class="bi bi-house"></i>
         <span>Página Inicial</span>
       </a>
     </div>
     <h1>Postagens</h1>
     <div class="items">
-      <a routerLink="/minhas-postagens">
+      <a routerLink="/minhas-postagens" (click)="closeMessages()">
         <i class="bi bi-card-text"></i>
         <span>Minhas Postagens</span>
       </a>
     </div>
     <div class="items">
-      <a routerLink="/search-user">
+      <a routerLink="/search-user" (click)="closeMessages()">
         <i class="bi bi-person"></i>
         <span>Pessoas</span>
       </a>
     </div>
     <div class="items chat">
-      <a href="#" (click)="showMessages()">
+      <button (click)="showMessages()">
         <i class="bi bi-chat-dots">
           @if (new_messages > 0) {
           <div class="float-number">
@@ -40,11 +42,11 @@
           }
         </i>
         <span>Mensagens</span>
-      </a>
+      </button>
     </div>
     <h1>Configurações</h1>
     <div class="items">
-      <a routerLink="/profile">
+      <a routerLink="/profile" (click)="closeMessages()">
         <i class="bi bi-gear"></i>
         <span>Meu Perfil</span>
       </a>
