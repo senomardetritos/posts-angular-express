@@ -60,6 +60,7 @@
 <div class="view-messages">
   @if (isOpenMessage) {
   <app-messages
+    class="app-messages"
     [startOpen]="true"
     (buttonClose)="closeMessages()"
   ></app-messages>

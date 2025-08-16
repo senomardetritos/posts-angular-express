@@ -114,4 +114,12 @@ describe("Home quando existir param search", () => {
     });
     component.ngOnInit();
   });
+
+  it("Deveria chamar o onSubmit ao clicar no fazer submit no form", () => {
+    const onSubmitSpy = jest.spyOn(component, "onSubmit");
+    const form = fixture.nativeElement.querySelector(".input-search form");
+    expect(form).toBeTruthy();
+    form.dispatchEvent(new Event("submit"));
+    expect(onSubmitSpy).toHaveBeenCalled();
+  });
 });
