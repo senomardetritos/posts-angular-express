@@ -85,6 +85,8 @@ export class UserController {
 				const otps = (await DataBase.find('otps', 'user_id', `${user[0].id}`)) || ([] as OTPInterface[]);
 				if (otps && otps.length > 0) {
 					DataBase.delete('otps', otps[0].id);
+				} else {
+					console.log('OTP não existe');
 				}
 				const otp_number = otp.generate(6, { upperCaseAlphabets: false, lowerCaseAlphabets: false, specialChars: false });
 				const resData = { email: user[0].email, otp: otp_number };
@@ -147,12 +149,13 @@ export class UserController {
 			if (user.email == 'teste@email.com') {
 				res.json({ error: 'Usuário de teste não pode ser alterado' });
 				return;
-			}
-			const updated = await DataBase.update('users', user.id.toString(), req.body);
-			if (updated) {
-				res.json({ data: true });
 			} else {
-				res.json({ error: 'Erro ao atualizar perfil' });
+				const updated = await DataBase.update('users', user.id.toString(), req.body);
+				if (updated) {
+					res.json({ data: true });
+				} else {
+					res.json({ error: 'Erro ao atualizar perfil' });
+				}
 			}
 		});
 	}
@@ -160,11 +163,10 @@ export class UserController {
 	private async changePassword(router: Router) {
 		router.post('/users/change-password', async (req: Request, res: Response) => {
 			const user = (await DataBase.find('users', 'email', res.getHeader('email') as string)) || ([] as UserInterface[]);
-			if (user && user[0] && user[0].email) {
-				if (user[0].email == 'teste@email.com') {
-					res.json({ error: 'Usuário de teste não pode ser alterado' });
-					return;
-				}
+			if (user[0].email == 'teste@email.com') {
+				res.json({ error: 'Usuário de teste não pode ser alterado' });
+				return;
+			} else {
 				const privateKey = process.env.API_KEY || '';
 				const password = jwt.verify(user[0].password, privateKey);
 				if (password == req.body.actual_password) {
@@ -180,8 +182,6 @@ export class UserController {
 				} else {
 					res.json({ error: 'Senha atual incorreta' });
 				}
-			} else {
-				res.json({ error: 'Usuário não encontrado' });
 			}
 		});
 	}

@@ -3,9 +3,9 @@
 	"version": "1.0.0",
 	"main": "index.js",
 	"scripts": {
-		"test": "jest",
-		"start": "tsc-watch --onSuccess 'nodemon ./dist/server.js'",
-		"build": "tsc"
+		"test": "jest --detect-open-handles --coverage --verbose",
+		"start": "tsc-watch -p tsconfig.build.json --onSuccess 'nodemon ./dist/server.js'",
+		"build": "tsc -p tsconfig.build.json"
 	},
 	"keywords": [],
 	"author": "",

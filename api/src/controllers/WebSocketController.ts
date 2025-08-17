@@ -7,12 +7,13 @@ import { RowDataPacket } from 'mysql2';
 
 export class WebSocketController {
 	private static clients = new Set<WebSocketClientInteface>();
+	private static websocket: WebSocketServer;
 
-	constructor(server: Server) {
-		const wss = new WebSocketServer({
+	public static connect(server: Server) {
+		WebSocketController.websocket = new WebSocketServer({
 			server,
 		});
-		wss.on('connection', WebSocketController.onConnection);
+		WebSocketController.websocket.on('connection', WebSocketController.onConnection);
 		console.log(`App Web Socket Server is running!`);
 	}
 
@@ -67,5 +68,14 @@ export class WebSocketController {
 		ws.on('message', (data) => WebSocketController.onMessage(ws, data));
 		ws.on('error', (error) => WebSocketController.onError(ws, error));
 		console.log(`Conectou com email: ${email}`);
+	}
+
+	public static disconnect() {
+		WebSocketController.clients.forEach(async (client) => {
+			if (client && client.ws.readyState === client.ws.OPEN) {
+				client.ws.close();
+			}
+		});
+		WebSocketController.websocket.close();
 	}
 }

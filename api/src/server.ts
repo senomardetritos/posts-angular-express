@@ -39,6 +39,6 @@ app.use(router);
 const APP_PORT = process.env.APP_PORT || 3000;
 const server = app.listen(APP_PORT, () => `server running on port ${APP_PORT}`);
 
-new WebSocketController(server);
+WebSocketController.connect(server);
 
-export default app;
+export { app, server };
