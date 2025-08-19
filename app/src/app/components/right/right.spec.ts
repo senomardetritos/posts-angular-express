@@ -93,6 +93,7 @@ describe("Right", () => {
     expect(component.following).toBe(mockResult.data.following);
     expect(component.followers).toBe(mockResult.data.followers);
   });
+
   it("Deveria atualizar o following e followers quando chamar loadUser e não trazer resultado", () => {
     const friendServiceGetSpy = jest.spyOn(component["friendService"], "get");
     const mockResult = {} as unknown as FriendResponseInterface;

@@ -22,13 +22,13 @@ export class Menu implements OnInit {
 
   public ngOnInit(): void {
     this.token = this.tokenService.token;
+    this.tokenService.loginEvent$.subscribe((res) => {
+      this.token = res.data.token;
+    });
+    this.tokenService.logoutEvent$.subscribe(() => {
+      this.token = "";
+    });
     if (this.token) {
-      this.tokenService.loginEvent$.subscribe((res) => {
-        this.token = res.data.token;
-      });
-      this.tokenService.logoutEvent$.subscribe(() => {
-        this.token = "";
-      });
       this.loadMessages();
       this.webSocketService.messageEvent$.subscribe(() => {
         console.log("Menu event message");

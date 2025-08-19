@@ -14,7 +14,10 @@ import { Modal } from "../../modal/modal";
 export class ListUser {
   users = input<UserInterface[]>([]);
   title = input<string>("");
-  filter_users = computed(() => this.users()?.slice(0, 3));
+  limit = input(3);
+  filter_users = computed(() =>
+    this.limit() == -1 ? this.users() : this.users()?.slice(0, this.limit())
+  );
   see_more = computed(() => this.users()?.length > this.filter_users()?.length);
   img_url = `${environment.api_url}/user-photo/`;
   now = Date.now();

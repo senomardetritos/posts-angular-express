@@ -9,11 +9,19 @@
           placeholder="Pesquisar por nome ou email!"
           autocomplete="off"
         />
-        <button type="submit"><i class="bi bi-search"></i></button>
+        @if (formSearch.get('search')?.value) {
+        <button type="button" (click)="clearSearch()">
+          <i class="bi bi-x"></i>
+        </button>
+        } @else {
+        <button type="submit">
+          <i class="bi bi-search"></i>
+        </button>
+        }
       </form>
     </div>
   </div>
-  @if (friends) {
+  @if (friends && friends.length > 0) {
   <div>
     @for(friend of friends; track friend.user.id) {
     <div class="friend-item">
@@ -22,12 +30,40 @@
     <div class="divider"></div>
     }
   </div>
-  <diV>
-    @if (friends.length === 0) {
-    <div class="friend-item">
-      Nenhum resultado para: <b>{{ formSearch.get("search")?.value }}</b>
+  } @else {
+  <div class="friends">
+    <div class="row button-view">
+      <button class="col" (click)="changeShowFollowing(true)">
+        <h1><span [class.text-gradient]="showFollowing">Seguindo</span></h1>
+        <div [class.divider]="showFollowing"></div>
+      </button>
+      <button class="col" (click)="changeShowFollowing(false)">
+        <h1><span [class.text-gradient]="!showFollowing">Seguidores</span></h1>
+        <div [class.divider]="!showFollowing"></div>
+      </button>
     </div>
-    }
-  </diV>
+    <div class="row fried-list" [class.not-view]="!showFollowing">
+      <div class="col">
+        <h1><span class="text-gradient">Seguindo</span></h1>
+        <div class="divider"></div>
+        <app-list-user
+          [users]="following"
+          title="Seguindo"
+          [limit]="-1"
+        ></app-list-user>
+      </div>
+    </div>
+    <div class="row fried-list" [class.not-view]="showFollowing">
+      <div class="col">
+        <h1><span class="text-gradient">Seguidores</span></h1>
+        <div class="divider"></div>
+        <app-list-user
+          [users]="followers"
+          title="Seguidores"
+          [limit]="-1"
+        ></app-list-user>
+      </div>
+    </div>
+  </div>
   }
 </div>

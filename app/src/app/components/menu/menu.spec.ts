@@ -111,7 +111,14 @@ describe("Menu", () => {
 
   it("Verifica chamar showMessages ao clicar no icone", () => {
     const showMessagesSpy = jest.spyOn(component, "showMessages");
-    const iconMessage = fixture.nativeElement.querySelector(".items.chat a");
+    Object.defineProperty(window, "innerWidth", {
+      writable: true,
+      configurable: true,
+      value: 200,
+    });
+    fixture.detectChanges();
+    const iconMessage =
+      fixture.nativeElement.querySelector(".items.chat button");
     expect(iconMessage).toBeTruthy();
     iconMessage.dispatchEvent(new Event("click"));
     expect(showMessagesSpy).toHaveBeenCalled();

@@ -1,5 +1,44 @@
+@use "../../../scss/media-queries.scss" as mixins;
+
 .search-user {
   .friend-item {
     margin-top: 16px;
+  }
+}
+.friends {
+  display: flex;
+  gap: 32px;
+  margin-top: 24px;
+  @include mixins.lt-sm {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .button-view {
+    display: none;
+    gap: 32px;
+    @include mixins.lt-sm {
+      display: flex;
+    }
+    button {
+      background-color: transparent;
+      border: 0;
+      cursor: pointer;
+      h1 {
+        color: var(--gray-400);
+      }
+    }
+  }
+  .fried-list {
+    h1,
+    .divider {
+      @include mixins.lt-sm {
+        display: none;
+      }
+    }
+  }
+  .not-view {
+    @include mixins.lt-sm {
+      display: none;
+    }
   }
 }
