@@ -2,6 +2,14 @@
 
 Como parte do meu aprendizado em Angular, RxJS, TypeScript e testes com Jest, desenvolvi uma rede social completa para praticar conceitos avançados de front-end, back-end e banco de dados. O projeto simula as funcionalidades básicas de uma plataforma de postagens, com interações em tempo real via WebSocket.
 
+## Tecnologias Utilizadas
+
+-   Front-end: Angular (Componentes reativos com RxJS)
+-   Back-end: Node.js + Express (API RESTful)
+-   Banco de Dados: MySQL (Armazenamento de usuários e postagens)
+-   Testes: Jest (Unitários)
+-   Real-time: WebSocket (Chat)
+
 ## Funcionalidades Implementadas:
 
 ✅ Autenticação segura
@@ -30,7 +38,7 @@ Como parte do meu aprendizado em Angular, RxJS, TypeScript e testes com Jest, de
 
 ✅ Responsividade
 
--   Ajusta automaticamente para ser exibido corretamente em computador, tablet ou celular. 
+-   Ajusta automaticamente para ser exibido corretamente em computador, tablet ou celular.
 
 ## Demostração
 
