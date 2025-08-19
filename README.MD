@@ -40,6 +40,15 @@ Como parte do meu aprendizado em Angular, RxJS, TypeScript e testes com Jest, de
 
 -   Ajusta automaticamente para ser exibido corretamente em computador, tablet ou celular.
 
+## Desafios e Aprendizados
+
+-   Gestão de estado complexo com RxJS (observables para dados reativos)
+-   Testes robustos com Jest (100% de cobertura de código)
+-   Otimização de queries SQL para o feed de postagens
+-   Sincronização em tempo real entre clientes via WebSocket
+
 ## Demostração
 
-Acesse o projeto [Postagens Angular + Express](http://senomalabs.com/posts-angular-express).
+Disponível para demonstração [no meu portfólio](https://senomalabs.com)
+
+Acesse o projeto [Postagens Angular + Express](http://senomalabs.com/posts-angular-express)
