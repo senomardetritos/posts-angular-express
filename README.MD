@@ -1,4 +1,4 @@
-# Postagens Angular + Express.
+# Postagens Angular + Express
 
 Como parte do meu aprendizado em Angular, RxJS, TypeScript e testes com Jest, desenvolvi uma rede social completa para praticar conceitos avançados de front-end, back-end e banco de dados. O projeto simula as funcionalidades básicas de uma plataforma de postagens, com interações em tempo real via WebSocket.
 
@@ -28,4 +28,10 @@ Como parte do meu aprendizado em Angular, RxJS, TypeScript e testes com Jest, de
 -   WebSocket para mensagens instantâneas
 -   Notificações de novas mensagens
 
+✅ Responsividade
+
+-   Ajusta automaticamente para ser exibido corretamente em computador, tablet ou celular. 
+
 ## Demostração
+
+Acesse o projeto [Postagens Angular + Express](http://senomalabs.com/posts-angular-express).
