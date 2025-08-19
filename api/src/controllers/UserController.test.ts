@@ -4,6 +4,7 @@ import { WebSocketController } from './WebSocketController';
 import { DataBase } from '../models/DataBase';
 import 'jsonwebtoken';
 import { MailerController } from './MailerController';
+import { readFileSync } from 'fs';
 
 jest.mock('jsonwebtoken', () => ({
 	// Mocked functions or values for jsonwebtoken
@@ -34,7 +35,7 @@ describe('Testando Controller Usuário', () => {
 		const data = { email: 'teste@email.com', password: '123456' };
 		const findSpy = jest.spyOn(DataBase, 'find');
 		findSpy.mockImplementation((db_name, key, value) => {
-			return Promise.resolve(null);
+			return Promise.resolve([]);
 		});
 		const insertSpy = jest.spyOn(DataBase, 'insert');
 		insertSpy.mockImplementation((db_name, data_insert) => {
@@ -103,7 +104,7 @@ describe('Testando Controller Usuário', () => {
 		const data = { email: 'teste', password: '' };
 		const findSpy = jest.spyOn(DataBase, 'find');
 		findSpy.mockImplementation((db_name, key, value) => {
-			return Promise.resolve(null);
+			return Promise.resolve([]);
 		});
 		const response = await request(app).post('/login').set('content-type', 'application/json').send(data);
 		expect(response.status).toBe(200);
@@ -152,7 +153,7 @@ describe('Testando Controller Usuário', () => {
 		const data = { email: 'teste@email.com', password: '123456' };
 		const findSpy = jest.spyOn(DataBase, 'find');
 		findSpy.mockImplementation((db_name, key, value) => {
-			return Promise.resolve(null);
+			return Promise.resolve([]);
 		});
 		const response = await request(app).post('/send-email-forgot-password').set('content-type', 'application/json').send(data);
 		expect(response.status).toBe(200);
@@ -167,7 +168,7 @@ describe('Testando Controller Usuário', () => {
 			if (db_name == 'users') {
 				return Promise.resolve([{ ...data }]);
 			} else {
-				return Promise.resolve(null);
+				return Promise.resolve([]);
 			}
 		});
 		const response = await request(app).post('/send-email-forgot-password').set('content-type', 'application/json').send(data);
@@ -204,7 +205,7 @@ describe('Testando Controller Usuário', () => {
 		const data = { email: 'teste@email.com', password: '123456' };
 		const findSpy = jest.spyOn(DataBase, 'find');
 		findSpy.mockImplementation((db_name, key, value) => {
-			return Promise.resolve(null);
+			return Promise.resolve([]);
 		});
 		const response = await request(app).post('/change-forgot-password').set('content-type', 'application/json').send(data);
 		expect(response.status).toBe(200);
@@ -220,7 +221,7 @@ describe('Testando Controller Usuário', () => {
 		});
 		const whereSpy = jest.spyOn(DataBase, 'where');
 		whereSpy.mockImplementation((db_name, data_where) => {
-			return Promise.resolve(null);
+			return Promise.resolve([]);
 		});
 		const response = await request(app).post('/change-forgot-password').set('content-type', 'application/json').send(data);
 		expect(response.status).toBe(200);
@@ -312,7 +313,7 @@ describe('Testando Controller Usuário', () => {
 		const data = { email: 'testenovo@email.com', password: '123456' };
 		const findSpy = jest.spyOn(DataBase, 'find');
 		findSpy.mockImplementation((db_name, key, value) => {
-			return Promise.resolve(null);
+			return Promise.resolve([]);
 		});
 		const response = await request(app).post('/users/update').set(customHeaders).send(data);
 		expect(response.status).toBe(400);
@@ -378,5 +379,80 @@ describe('Testando Controller Usuário', () => {
 		expect(response.status).toBe(200);
 		expect(response.body).toHaveProperty('error');
 		expect(response.body.error).toBe('Senha atual incorreta');
+	});
+
+	it('Deveria fazer o upload da foto', async () => {
+		const data = { email: 'testenovo@email.com', photo: 'photo.jpg' };
+		const findSpy = jest.spyOn(DataBase, 'find');
+		findSpy.mockImplementation((db_name, key, value) => {
+			return Promise.resolve([{ id: 1, ...data }]);
+		});
+		const updateSpy = jest.spyOn(DataBase, 'update');
+		updateSpy.mockImplementation((db_name, key, data_update) => {
+			return Promise.resolve(true);
+		});
+		const buffer = readFileSync(`uploads/test.jpg`);
+		const response = await request(app).post('/users/upload').set(customHeaders).attach('photo', buffer, 'custom_file_name.jpg');
+		expect(response.status).toBe(200);
+		expect(response.body).toHaveProperty('data');
+		expect(response.body.data).toBe(true);
+	});
+
+	it('Não deveria atualizar a foto se email = teste@email.com', async () => {
+		const data = { email: 'teste@email.com' };
+		const findSpy = jest.spyOn(DataBase, 'find');
+		findSpy.mockImplementation((db_name, key, value) => {
+			return Promise.resolve([{ id: 1, ...data }]);
+		});
+		const response = await request(app).post('/users/upload').set(customHeaders).send(data);
+		expect(response.status).toBe(200);
+		expect(response.body).toHaveProperty('error');
+		expect(response.body.error).toBe('Usuário de teste não pode ser alterado');
+	});
+
+	it('Não deveria atualizar se o arquivo não for passado', async () => {
+		const data = { email: 'testenovo@email.com' };
+		const findSpy = jest.spyOn(DataBase, 'find');
+		findSpy.mockImplementation((db_name, key, value) => {
+			return Promise.resolve([{ id: 1, ...data }]);
+		});
+		const response = await request(app).post('/users/upload').set(customHeaders).send(data);
+		expect(response.status).toBe(200);
+		expect(response.body).toHaveProperty('error');
+		expect(response.body.error).toBe('Arquivo não passado para a requisição');
+	});
+
+	it('Deveria fazer o upload da foto', async () => {
+		const data = { email: 'testenovo@email.com', photo: 'photo.jpg' };
+		const findSpy = jest.spyOn(DataBase, 'find');
+		findSpy.mockImplementation((db_name, key, value) => {
+			return Promise.resolve([{ id: 1, ...data }]);
+		});
+		const buffer = readFileSync(`uploads/test.txt`);
+		const response = await request(app).post('/users/upload').set(customHeaders).attach('photo', buffer, 'custom_file_name.jpg');
+		expect(response.status).toBe(200);
+		expect(response.body).toHaveProperty('error');
+		expect(response.body.error.message).toBe('Input file contains unsupported image format');
+	});
+
+	it('Deveria trazer a foto do banco de dados', async () => {
+		const buffer = readFileSync(`uploads/test.jpg`);
+		const data = { email: 'testenovo@email.com', photo: buffer.toString() };
+		const getSpy = jest.spyOn(DataBase, 'get');
+		getSpy.mockImplementation((db_name, key) => {
+			return Promise.resolve({ id: 1, ...data });
+		});
+		const response = await request(app).get('/user-photo/1').set(customHeaders).send();
+		expect(response.status).toBe(200);
+	});
+
+	it('Deveria trazer no-photo-user quando não tiver no banco de dados', async () => {
+		const data = { email: 'testenovo@email.com', photo: '' };
+		const getSpy = jest.spyOn(DataBase, 'get');
+		getSpy.mockImplementation((db_name, key) => {
+			return Promise.resolve({ id: 1, ...data });
+		});
+		const response = await request(app).get('/user-photo/1').set(customHeaders).send();
+		expect(response.status).toBe(200);
 	});
 });

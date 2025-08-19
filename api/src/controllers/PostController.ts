@@ -18,10 +18,14 @@ export class PostController {
 	private async listPost(router: Router) {
 		router.get('/posts', async (req: Request, res: Response) => {
 			const user = (res.getHeader('user') || {}) as UserInterface;
-			const posts = await DataBase.find('posts', 'user_id', user.id.toString());
-			if (posts) {
-				res.json({ data: posts });
-			} else {
+			try {
+				const posts = await DataBase.find('posts', 'user_id', user.id.toString());
+				if (posts && posts.length > 0) {
+					res.json({ data: posts });
+				} else {
+					res.json({ data: [] });
+				}
+			} catch (e) {
 				res.json({ error: 'Erro ao listar post' });
 			}
 		});
@@ -29,11 +33,15 @@ export class PostController {
 
 	private async lastsPost(router: Router) {
 		router.get('/posts/lasts', async (req: Request, res: Response) => {
-			const posts = (await DataBase.last('posts', 10)) as PostInterface[];
-			const new_posts = await this.postsWithUser(posts);
-			if (new_posts) {
-				res.json({ data: new_posts });
-			} else {
+			try {
+				const posts = (await DataBase.last('posts', 10)) as PostInterface[];
+				if (posts && posts.length > 0) {
+					const new_posts = await this.postsWithUser(posts);
+					res.json({ data: new_posts });
+				} else {
+					res.json({ data: [] });
+				}
+			} catch (e) {
 				res.json({ error: 'Erro ao listar post' });
 			}
 		});
@@ -45,11 +53,15 @@ export class PostController {
 				title: req.params.search,
 				text: req.params.search,
 			};
-			const posts = (await DataBase.like('posts', data)) as PostInterface[];
-			const new_posts = await this.postsWithUser(posts);
-			if (new_posts) {
-				res.json({ data: new_posts });
-			} else {
+			try {
+				const posts = (await DataBase.like('posts', data)) as PostInterface[];
+				if (posts && posts.length > 0) {
+					const new_posts = await this.postsWithUser(posts);
+					res.json({ data: new_posts });
+				} else {
+					res.json({ data: [] });
+				}
+			} catch (e) {
 				res.json({ error: 'Erro ao listar post' });
 			}
 		});
@@ -59,7 +71,7 @@ export class PostController {
 		router.get('/posts/:id', async (req: Request, res: Response) => {
 			const post = (await DataBase.get('posts', req.params.id)) as PostInterface;
 			const user = (res.getHeader('user') || {}) as UserInterface;
-			if (post) {
+			if (post && post.user_id) {
 				if (post.user_id == user.id) {
 					res.json({ data: post });
 				} else {
@@ -90,7 +102,7 @@ export class PostController {
 		router.post('/posts/update/:id', async (req: Request, res: Response) => {
 			const post = (await DataBase.get('posts', req.params.id)) as PostInterface;
 			const user = (res.getHeader('user') || {}) as UserInterface;
-			if (post) {
+			if (post && post.user_id) {
 				if (post.user_id == user.id) {
 					delete req.body.id;
 					delete req.body.user_id;

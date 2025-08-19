@@ -26,7 +26,7 @@ export class UserController {
 
 	private async register(router: Router) {
 		router.post('/register', async (req: Request, res: Response) => {
-			const user = (await DataBase.find('users', 'email', `${req.body.email}`)) || ([] as UserInterface[]);
+			const user = await DataBase.find('users', 'email', `${req.body.email}`);
 			if (user && user[0] && user[0].email) {
 				res.json({ error: 'Usuário já cadastrado!' });
 			} else {
@@ -51,7 +51,7 @@ export class UserController {
 
 	private async login(router: Router) {
 		router.post('/login', async (req: Request, res: Response) => {
-			const user = (await DataBase.find('users', 'email', `${req.body.email}`)) || ([] as UserInterface[]);
+			const user = await DataBase.find('users', 'email', `${req.body.email}`);
 			if (user && user[0] && user[0].email) {
 				const privateKey = process.env.API_KEY || '';
 				try {
@@ -80,9 +80,9 @@ export class UserController {
 
 	private async sendForgotPassword(router: Router) {
 		router.post('/send-email-forgot-password', async (req: Request, res: Response) => {
-			const user = (await DataBase.find('users', 'email', `${req.body.email}`)) || ([] as UserInterface[]);
+			const user = await DataBase.find('users', 'email', `${req.body.email}`);
 			if (user && user[0] && user[0].email) {
-				const otps = (await DataBase.find('otps', 'user_id', `${user[0].id}`)) || ([] as OTPInterface[]);
+				const otps = await DataBase.find('otps', 'user_id', `${user[0].id}`);
 				if (otps && otps.length > 0) {
 					DataBase.delete('otps', otps[0].id);
 				} else {
@@ -105,9 +105,9 @@ export class UserController {
 
 	private async changeForgotPassword(router: Router) {
 		router.post('/change-forgot-password', async (req: Request, res: Response) => {
-			const user = (await DataBase.find('users', 'email', `${req.body.email}`)) || ([] as UserInterface[]);
+			const user = await DataBase.find('users', 'email', `${req.body.email}`);
 			if (user && user[0] && user[0].email) {
-				const otps = (await DataBase.where('otps', { user_id: user[0].id, otp: req.body.otp })) || ([] as OTPInterface[]);
+				const otps = await DataBase.where('otps', { user_id: user[0].id, otp: req.body.otp });
 				if (otps && otps.length > 0) {
 					DataBase.delete('otps', otps[0].id);
 					const privateKey = process.env.API_KEY || '';
@@ -162,7 +162,7 @@ export class UserController {
 
 	private async changePassword(router: Router) {
 		router.post('/users/change-password', async (req: Request, res: Response) => {
-			const user = (await DataBase.find('users', 'email', res.getHeader('email') as string)) || ([] as UserInterface[]);
+			const user = await DataBase.find('users', 'email', res.getHeader('email') as string);
 			if (user[0].email == 'teste@email.com') {
 				res.json({ error: 'Usuário de teste não pode ser alterado' });
 				return;
@@ -214,7 +214,7 @@ export class UserController {
 			const user = await DataBase.get('users', req.params.id);
 			if (user && user.photo && user.photo.toString().trim() != '') {
 				const imageData = user.photo;
-				const contentType = user.content_type || 'application/octet-stream'; // Default if not specified
+				const contentType = 'application/octet-stream'; // Default if not specified
 				res.setHeader('Content-Type', contentType);
 				res.send(imageData); // Send the buffer directly
 			} else {

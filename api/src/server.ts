@@ -25,13 +25,6 @@ app.use(express.json());
 
 const router = Router();
 
-router.get('/', (req: Request, res: Response) => {
-	res.json({
-		message: 'Hello world Typescript',
-		test_env: process.env.TEST_ENV,
-	});
-});
-
 new Routes(router);
 
 app.use(router);
@@ -41,4 +34,4 @@ const server = app.listen(APP_PORT, () => `server running on port ${APP_PORT}`);
 
 WebSocketController.connect(server);
 
-export { app, server };
+export { app, server, router };

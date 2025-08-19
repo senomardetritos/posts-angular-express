@@ -63,7 +63,7 @@ export class MessageController {
 				if (message.from_id == user.id) {
 					const userAux = await DataBase.get('users', message.to_id);
 					this.addUserMessage(messagesUsers, userAux, message);
-				} else if (message.to_id == user.id) {
+				} else {
 					const userAux = await DataBase.get('users', message.from_id);
 					this.addUserMessage(messagesUsers, userAux, message);
 				}
@@ -102,10 +102,14 @@ export class MessageController {
 				email: req.params.search,
 				name: req.params.search,
 			};
-			const users = (await DataBase.like('users', data)) as UserInterface[];
-			if (users) {
-				res.json({ data: users });
-			} else {
+			try {
+				const users = (await DataBase.like('users', data)) as UserInterface[];
+				if (users && users.length > 0) {
+					res.json({ data: users });
+				} else {
+					res.json({ data: [] });
+				}
+			} catch (e) {
 				res.json({ error: 'Erro ao pesquisar usuários' });
 			}
 		});

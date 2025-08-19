@@ -17,7 +17,7 @@ export class FriendController {
 	private async getFriend(router: Router) {
 		router.get('/friends/:id', async (req: Request, res: Response) => {
 			const friend = await this.getFriendData(req.params.id);
-			if (friend) {
+			if (friend && friend.user.id) {
 				res.json({ data: { ...friend } });
 			} else {
 				res.json({ error: 'Erro ao buscar friend' });
@@ -31,15 +31,19 @@ export class FriendController {
 				email: req.params.search,
 				name: req.params.search,
 			};
-			const users = (await DataBase.like('users', data)) as UserInterface[];
-			const friends: FriendInterface[] = [];
-			for (const user of users) {
-				const friend = await this.getFriendData(user.id.toString());
-				friends.push(friend);
-			}
-			if (friends) {
-				res.json({ data: friends });
-			} else {
+			try {
+				const users = (await DataBase.like('users', data)) as UserInterface[];
+				const friends: FriendInterface[] = [];
+				for (const user of users) {
+					const friend = await this.getFriendData(user.id.toString());
+					friends.push(friend);
+				}
+				if (friends && friends.length > 0) {
+					res.json({ data: friends });
+				} else {
+					res.json({ data: [] });
+				}
+			} catch (e) {
 				res.json({ error: 'Erro ao pesquisar friends' });
 			}
 		});

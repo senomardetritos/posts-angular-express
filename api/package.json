@@ -3,7 +3,7 @@
 	"version": "1.0.0",
 	"main": "index.js",
 	"scripts": {
-		"test": "jest --detect-open-handles --coverage --verbose",
+		"test": "jest --detect-open-handles --coverage",
 		"start": "tsc-watch -p tsconfig.build.json --onSuccess 'nodemon ./dist/server.js'",
 		"build": "tsc -p tsconfig.build.json"
 	},

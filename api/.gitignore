@@ -12,9 +12,6 @@ logs/
 # Upload files
 uploads/
 
-# coverage files
-coverage/
-
 # Build artifacts
 dist/
 build/

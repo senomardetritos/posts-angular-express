@@ -17,10 +17,14 @@ export class CommentController {
 
 	private async listComment(router: Router) {
 		router.get('/comments/:id', async (req: Request, res: Response) => {
-			const comments = await this.commentsWithUser(req.params.id);
-			if (comments) {
-				res.json({ data: comments });
-			} else {
+			try {
+				const comments = await this.commentsWithUser(req.params.id);
+				if (comments && comments.length > 0) {
+					res.json({ data: comments });
+				} else {
+					res.json({ data: [] });
+				}
+			} catch (e) {
 				res.json({ error: 'Erro ao listar Comentário' });
 			}
 		});
@@ -55,7 +59,7 @@ export class CommentController {
 		router.post('/comments/delete/:id', async (req: Request, res: Response) => {
 			const user = (res.getHeader('user') || {}) as UserInterface;
 			const comment = (await DataBase.get('comments', req.params.id)) as CommentInterface;
-			if (comment) {
+			if (comment && comment.user_id) {
 				if (comment.user_id == user.id.toString()) {
 					const deleted = await DataBase.delete('comments', req.params.id);
 					if (deleted) {

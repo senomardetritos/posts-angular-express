@@ -22,8 +22,7 @@ export class DataBase {
 			const rows = await this.db.query(sql, params);
 			return rows;
 		} catch (error) {
-			console.error(error);
-			return null;
+			return [];
 		}
 	}
 
@@ -32,8 +31,7 @@ export class DataBase {
 			const rows = await this.db.getall(`select * from ${db_name} where id = ?`, [key]);
 			return rows[0];
 		} catch (error) {
-			console.error(error);
-			return null;
+			return {};
 		}
 	}
 
@@ -42,8 +40,7 @@ export class DataBase {
 			const rows = await this.db.getall(`select * from ${db_name} where ${key} = ?`, [value]);
 			return rows;
 		} catch (error) {
-			console.error(error);
-			return null;
+			return [];
 		}
 	}
 
@@ -61,8 +58,7 @@ export class DataBase {
 			const rows = await this.db.getall(query.join(' '), params);
 			return rows;
 		} catch (error) {
-			console.error(error);
-			return null;
+			return [];
 		}
 	}
 
@@ -80,8 +76,7 @@ export class DataBase {
 			const rows = await this.db.getall(query.join(' '), params);
 			return rows;
 		} catch (error) {
-			console.error(error);
-			return null;
+			return [];
 		}
 	}
 
@@ -90,8 +85,7 @@ export class DataBase {
 			const rows = await this.db.getall(`select * from ${db_name} limit 0, ${limit}`);
 			return rows;
 		} catch (error) {
-			console.error(error);
-			return null;
+			return [];
 		}
 	}
 
@@ -100,8 +94,7 @@ export class DataBase {
 			const rows = await this.db.getall(`select * from ${db_name} order by id desc limit 0, ${limit}`);
 			return rows;
 		} catch (error) {
-			console.error(error);
-			return null;
+			return [];
 		}
 	}
 
@@ -110,8 +103,7 @@ export class DataBase {
 			const rows = await this.db.getall(`select * from ${db_name}`);
 			return rows;
 		} catch (error) {
-			console.error(error);
-			return null;
+			return [];
 		}
 	}
 
@@ -132,7 +124,6 @@ export class DataBase {
 			const id = await this.db.insert(query.join(' '), params);
 			return { id, ...data };
 		} catch (error) {
-			console.error(error);
 			return false;
 		}
 	}
@@ -153,7 +144,6 @@ export class DataBase {
 			await this.db.update(query.join(' '), params);
 			return data;
 		} catch (error) {
-			console.error(error);
 			return false;
 		}
 	}
@@ -168,7 +158,6 @@ export class DataBase {
 			await this.db.delete(query.join(' '), [key]);
 			return true;
 		} catch (error) {
-			console.error(error);
 			return false;
 		}
 	}

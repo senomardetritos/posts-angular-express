@@ -16,10 +16,14 @@ export class LikeController {
 
 	private async listLike(router: Router) {
 		router.get('/likes/:id', async (req: Request, res: Response) => {
-			const likes = await this.likesWithUser(req.params.id);
-			if (likes) {
-				res.json({ data: likes });
-			} else {
+			try {
+				const likes = await this.likesWithUser(req.params.id);
+				if (likes && likes.length > 0) {
+					res.json({ data: likes });
+				} else {
+					res.json({ data: [] });
+				}
+			} catch (e) {
 				res.json({ error: 'Erro ao listar likes' });
 			}
 		});
@@ -44,7 +48,7 @@ export class LikeController {
 						html: TemplateUtil.template('emails/lost-like.html', { title: post.title, likes: likes.length }),
 					});
 				} else {
-					res.json({ error: 'Erro ao criar like' });
+					res.json({ error: 'Erro ao deletar like' });
 				}
 			} else {
 				const inserted = await DataBase.insert('likes', data);

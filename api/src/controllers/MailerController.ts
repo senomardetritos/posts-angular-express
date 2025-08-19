@@ -8,7 +8,7 @@ export class MailerController {
 	public static sendEmail(mailOptions: MailOptionsInterface) {
 		const smtpOptions: SMTPTransport.Options = {
 			host: process.env.MAIL_HOST,
-			port: parseInt(process.env.MAIL_PORT ?? '587'),
+			port: parseInt(process.env.MAIL_PORT || '587'),
 			secure: true,
 			auth: {
 				user: process.env.MAIL_USER,
